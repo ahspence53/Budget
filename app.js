@@ -55,6 +55,11 @@ const editCategoryInput = document.getElementById("edit-category-name");
 const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
+
+/* ----- */
+  
+  const updateBanner = document.getElementById("update-banner");
+  
 /*==========--EVENT LISTENER FOR END TARGETED ===========*/
 document.addEventListener("click", e => {
   // 🚫 Ignore Refresh button clicks completely
@@ -89,20 +94,23 @@ document
     e.preventDefault();
     e.stopPropagation();
 
-    // 🔒 Never show again this session
+    // Hide banner immediately
+    if (!sessionStorage.getItem("updateDismissed")) {
+  updateBanner.classList.remove("hidden");
+}
+
+    // Prevent re-show this session
     sessionStorage.setItem("updateDismissed", "true");
 
-    // Hide banner NOW
-    updateBanner?.classList.add("hidden");
-    updateBanner.style.display = "none";
-
+    // Ask waiting SW to activate
     const reg = await navigator.serviceWorker.getRegistration();
     if (reg?.waiting) {
       reg.waiting.postMessage({ type: "SKIP_WAITING" });
     }
 
+    // Reload cleanly
     setTimeout(() => {
-      window.location.reload(true);
+      window.location.reload();
     }, 300);
   });
   
