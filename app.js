@@ -57,6 +57,8 @@ const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 /*==========--EVENT LISTENER FOR END TARGETED ===========*/
 document.addEventListener("click", e => {
+  // 🚫 Ignore Refresh button clicks completely
+  if (e.target.closest("[data-ignore-global-click]")) return;
   const el = e.target.closest(".tx-ends");
   if (!el) return;
 
@@ -123,6 +125,8 @@ if (!sessionStorage.getItem("updateDismissed")) {
 /* ========================*/
   /* ========= TX END MODAL CLOSE HANDLERS ========= */
 document.addEventListener("click", e => {
+  // 🚫 Ignore Refresh button clicks completely
+  if (e.target.closest("[data-ignore-global-click]")) return;
   // Close button
   if (e.target.matches("#tx-end-popup-close")) {
     const popup = document.getElementById("tx-end-popup");
@@ -1397,6 +1401,8 @@ const diaryPreview = document.getElementById("diary-preview");
 let previewOpenForIso = null;
 
 document.addEventListener("click", e => {
+  // 🚫 Ignore Refresh button clicks completely
+  if (e.target.closest("[data-ignore-global-click]")) return;
   // Ignore while ANY modal is open
   if (document.body.classList.contains("modal-open")) return;
   if (!diaryPreview) return;
