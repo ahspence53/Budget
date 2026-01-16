@@ -1,11 +1,6 @@
 
 
-// 🔒 Prevent update banner reappearing after refresh click
-if (sessionStorage.getItem("updateDismissed") === "true") {
-  document
-    .getElementById("update-banner")
-    ?.classList.add("hidden");
-}
+
 
 /* ================= DIARY HELPERS (GLOBAL) ======================= */
 /* test deployment */
@@ -65,16 +60,9 @@ const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 const APP_VERSION = "budgie-v20";
 /* ===================== */
-if (!sessionStorage.getItem("updateDismissed")) {
-  document
-    .getElementById("update-banner")
-    ?.classList.remove("hidden");
-}
 
-function showUpdateBanner() {
-  if (sessionStorage.getItem("updateDismissed") === "true") return;
-  updateBanner?.classList.remove("hidden");
-  updateBanner.style.display = "block";
+
+
 
 if (localStorage.getItem("dismissedVersion") === APP_VERSION) {
   document
