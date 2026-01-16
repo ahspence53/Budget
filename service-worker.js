@@ -1,4 +1,4 @@
-const CACHE_NAME = "budgie-v14";
+const CACHE_NAME = "budgie-v15";
 
 const ASSETS = [
   "./",
