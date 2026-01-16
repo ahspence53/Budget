@@ -129,7 +129,6 @@ document
       window.location.reload();
     }, 300);
   });
-  
 /* ========================*/
   /* ========= TX END MODAL CLOSE HANDLERS ========= */
 document.addEventListener("click", e => {
