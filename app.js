@@ -83,43 +83,21 @@ document.addEventListener("click", e => {
   document.body.classList.add("modal-open");
 });
   /* ============= */
-/*document
-  .getElementById("refresh-app-btn")
-  ?.addEventListener("click", async () => {*/
-  document
+document
   .getElementById("refresh-app-btn")
   ?.addEventListener("click", e => {
 
-    // 🛑 STOP form submit / bubbling
     e.preventDefault();
     e.stopPropagation();
-
-    alert("CLICK REGISTERED");
 
     document
       .getElementById("update-banner")
       ?.classList.add("hidden");
-  });
 
-    // 🔒 Never show banner again this session
     sessionStorage.setItem("updateDismissed", "true");
 
-if (!sessionStorage.getItem("updateDismissed")) {
-  document
-    .getElementById("update-banner")
-    ?.classList.remove("hidden");
-}
-
-    // 2️⃣ Activate new SW
-    const reg = await navigator.serviceWorker.getRegistration();
-    if (reg?.waiting) {
-      reg.waiting.postMessage({ type: "SKIP_WAITING" });
-    }
-
-    // 3️⃣ Reload cleanly
-    setTimeout(() => {
-      window.location.reload();
-    }, 300);
+    // TEMP: no reload, no SW
+    alert("Refresh acknowledged");
   });
   
 /* ========================*/
