@@ -1,5 +1,5 @@
 
-/* ================= DIARY HELPERS (GLOBAL) ========================= */
+/* ================= DIARY HELPERS (GLOBAL) ======================= */
 /* test deployment */
 
 
@@ -80,7 +80,27 @@ document.addEventListener("click", e => {
   popup.classList.remove("hidden");
   document.body.classList.add("modal-open");
 });
+  /* ============= */
+document
+  .getElementById("refresh-app-btn")
+  ?.addEventListener("click", async () => {
 
+    // 1️⃣ Hide banner immediately (critical for iOS)
+    document
+      .getElementById("update-banner")
+      ?.classList.add("hidden");
+
+    // 2️⃣ Activate new SW
+    const reg = await navigator.serviceWorker.getRegistration();
+    if (reg?.waiting) {
+      reg.waiting.postMessage({ type: "SKIP_WAITING" });
+    }
+
+    // 3️⃣ Hard reload after a short delay
+    setTimeout(() => {
+      window.location.reload();
+    }, 300);
+  });
   
 /* ========================*/
   /* ========= TX END MODAL CLOSE HANDLERS ========= */
@@ -745,6 +765,19 @@ window.renderProjectionTable = function () {
       const showNudge =
         (diffDays >= 0 && diffDays <= 7) ||
         (diffDays < 0 && diffDays >= -MAX_PAST_NUDGE_DAYS);
+
+      /* ========== ADDED PENSION HIGHLIGHT ============ */
+      // Pension highlight
+      if (tx.description.toLowerCase().includes("pension")) {
+        tr.classList.add("highlight-pension");
+      }
+      /* ========== ADDED SAVINGS HIGHLIGHT ============ */
+           // Savings highlight
+      if (tx.description.toLowerCase().includes("savings")) {
+        tr.classList.add("highlight-savings");
+      }
+
+      /* =============================================== */
 
       tr.innerHTML = `
         <td>
@@ -1483,7 +1516,53 @@ alert("Transactions imported successfully");
 
     reader.readAsText(file);
   });
+/* ================================================*/
+  document.getElementById("upcoming-diary-btn").addEventListener("click", () => {
+  const diary = JSON.parse(localStorage.getItem("diaryNotes") || "{}");
+  const list = document.getElementById("upcoming-diary-list");
 
+  list.innerHTML = "";
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const end = new Date(today);
+  end.setDate(end.getDate() + 14);
+
+  let found = false;
+
+  Object.keys(diary)
+    .sort()
+    .forEach(iso => {
+      const d = new Date(iso + "T12:00:00");
+      if (d >= today && d <= end) {
+        found = true;
+        list.innerHTML += `
+          <div class="upcoming-diary-item">
+            <strong>${d.toLocaleDateString("en-GB", {
+              weekday: "short",
+              day: "numeric",
+              month: "short"
+            })}</strong><br>
+            ${diary[iso]}
+          </div>
+        `;
+      }
+    });
+
+  if (!found) {
+    list.innerHTML = `<em>No diary entries in the next 14 days.</em>`;
+  }
+
+  document.getElementById("upcoming-diary-popup").classList.remove("hidden");
+  document.body.classList.add("modal-open");
+});
+
+document.getElementById("close-upcoming-diary").addEventListener("click", () => {
+  document.getElementById("upcoming-diary-popup").classList.add("hidden");
+  document.body.classList.remove("modal-open");
+});
+/* ================================================*/  
 /* ======== OFFLINE INDICATOR ========= */
   function updateOnlineStatus() {
   const el = document.getElementById("offline-indicator");

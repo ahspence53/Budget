@@ -456,11 +456,30 @@ tr.freq-4weekly {
 
 .highlight-pension {
   font-weight: bold;
-  background-color: #f0fdf4; /* Optional: light green tint to make it pop */
+  background-color: #f0fdf4; 
+  color: #f0300e;
+  /* Optional: light green tint to make it pop */
+}
+
+.highlight-savings {
+  font-weight: bold;
+  background-color: #ffffff;
+  color: #0000ff;
+  /* Optional: light green tint to make it pop */
 }
 
 /* This will apply to your 'Diary' button AND your 'Back' button */
 #diary-popup-btn, #back-btn {
+  padding: 10px 20px;
+  background-color: #4CAF50; /* A nice green */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: sans-serif;
+}
+
+#upcoming-diary-btn, #back-btn {
   padding: 10px 20px;
   background-color: #4CAF50; /* A nice green */
   color: white;
@@ -515,4 +534,33 @@ tr.freq-4weekly {
   font-style: italic;
 }
 
+.upcoming-diary-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
 
+
+#update-banner {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0077cc;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  z-index: 9999;
+}
+
+#update-banner button {
+  background: #fff;
+  color: #0077cc;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}

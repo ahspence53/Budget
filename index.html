@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Home Budget Tracker</title>
-<meta name="viewport" content="width=device-width, initial-scale=1"
-<!-- next line added by Alex -->
-<meta http-equiv="Cache-Control" content="no-cache">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Home Budget Tracker.</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Prevent aggressive caching during development -->
+  <meta http-equiv="Cache-Control" content="no-cache">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0077cc">
+
+  <link rel="stylesheet" href="styles.css">
 </head>
 <div id="diary-preview" class="diary-preview hidden"></div>
 <body>
@@ -42,6 +49,7 @@
     <button id="diary-popup-btn">🗓️ Diary Notes</button>
     <button id="help">Help</button>
     <button id="TopofApp">🔁 View Transactions ⬇️</button>
+    <button id="upcoming-diary-btn">🗓️ a. Upcomimg Diary</button>
   </div>
 
   <div class="import-box">
@@ -199,7 +207,6 @@ In the <b>24 Month Projection table </b>you can <b>Nudge</b> Expenses forward by
     
 </section>
 
-/* ------ addition -------*/
 <!-- ================= TX END DATE POPUP ================= -->
 <div id="tx-end-popup" class="popup hidden">
   <div class="popup-content">
@@ -209,10 +216,27 @@ In the <b>24 Month Projection table </b>you can <b>Nudge</b> Expenses forward by
   </div>
 </div>
 
-/* -------- */
+
+<div id="upcoming-diary-popup" class="modal hidden">
+  <div class="modal-content">
+    <h3>Upcoming diary entries (next 14 days)</h3>
+    <div id="upcoming-diary-list"></div>
+    <button id="close-upcoming-diary">Close</button>
+  </div>
+</div>
+
 
 <button id="back-to-top" class="floating-top">📅24 Month Projection ⬆️</button>
-
+  
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./service-worker.js");
+}
+</script>
+<div id="update-banner" class="hidden">
+  <span>🔄 A new version is available</span>
+  <button id="refresh-app-btn">Refresh</button>
+</div>
 <script src="app.js"></script>
 </body>
 </html>

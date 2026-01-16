@@ -1,26 +1,22 @@
-// Basic service worker for offline caching of app shell
-
-const CACHE_NAME = 'budgie-cache-v29';
+const CACHE_NAME = "budgie-v11";
 
 const ASSETS = [
-  './',
-  './index.html',
-  './styles.css',
-  './app.js',
-  './manifest.json'
+  "./",
+  "./index.html",
+  "./styles.css",
+  "./app.js",
+  "./manifest.json"
 ];
 
-// Install: cache app shell
-self.addEventListener('install', (e) => {
-  e.waitUntil(
+self.addEventListener("install", event => {
+  event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
   self.skipWaiting();
 });
 
-// Activate: clean old caches
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
+self.addEventListener("activate", event => {
+  event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
         keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
@@ -30,11 +26,14 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-// Fetch: cache-first, network fallback
-self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      return cached || fetch(e.request);
-    })
+self.addEventListener("message", event => {
+  if (event.data?.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(res => res || fetch(event.request))
   );
 });
