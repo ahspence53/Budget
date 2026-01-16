@@ -85,19 +85,29 @@ document.addEventListener("click", e => {
   /* ============= */
 document
   .getElementById("refresh-app-btn")
-  ?.addEventListener("click", e => {
+  ?.addEventListener("click", async e => {
 
     e.preventDefault();
     e.stopPropagation();
 
+    // Never show banner again this session
+    sessionStorage.setItem("updateDismissed", "true");
+
+    // Hide banner immediately (important for iOS)
     document
       .getElementById("update-banner")
       ?.classList.add("hidden");
 
-    sessionStorage.setItem("updateDismissed", "true");
+    // Ask waiting Service Worker to activate
+    const reg = await navigator.serviceWorker.getRegistration();
+    if (reg?.waiting) {
+      reg.waiting.postMessage({ type: "SKIP_WAITING" });
+    }
 
-    // TEMP: no reload, no SW
-    alert("Refresh acknowledged");
+    // Reload once the new SW takes control
+    setTimeout(() => {
+      window.location.reload();
+    }, 300);
   });
   
 /* ========================*/
