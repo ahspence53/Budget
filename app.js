@@ -85,6 +85,9 @@ document
   .getElementById("refresh-app-btn")
   ?.addEventListener("click", async () => {
 
+    // 🔒 Never show banner again this session
+    sessionStorage.setItem("updateDismissed", "true");
+
     // 1️⃣ Hide banner immediately (critical for iOS)
     document
       .getElementById("update-banner")
@@ -96,7 +99,7 @@ document
       reg.waiting.postMessage({ type: "SKIP_WAITING" });
     }
 
-    // 3️⃣ Hard reload after a short delay
+    // 3️⃣ Reload cleanly
     setTimeout(() => {
       window.location.reload();
     }, 300);
