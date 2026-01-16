@@ -90,28 +90,18 @@ document.addEventListener("click", e => {
   /* ============= */
 document
   .getElementById("refresh-app-btn")
-  ?.addEventListener("click", async e => {
+  ?.addEventListener("click", e => {
     e.preventDefault();
     e.stopPropagation();
 
-    // Hide banner immediately
-    if (!sessionStorage.getItem("updateDismissed")) {
-  updateBanner.classList.remove("hidden");
-}
+    const banner = document.getElementById("update-banner");
 
-    // Prevent re-show this session
-    sessionStorage.setItem("updateDismissed", "true");
+    console.log("CLICKED", banner);
 
-    // Ask waiting SW to activate
-    const reg = await navigator.serviceWorker.getRegistration();
-    if (reg?.waiting) {
-      reg.waiting.postMessage({ type: "SKIP_WAITING" });
-    }
+    banner.style.display = "none";
+    banner.classList.add("hidden");
 
-    // Reload cleanly
-    setTimeout(() => {
-      window.location.reload();
-    }, 300);
+    alert("Banner forced hidden");
   });
   
 /* ========================*/
