@@ -108,7 +108,7 @@ document.addEventListener("click", e => {
   /* ============= */
 document
   .getElementById("refresh-app-btn")
-  ?.addEventListener("click", async e => {
+  ?.addEventListener("click", e => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -127,6 +127,14 @@ document
     setTimeout(() => {
       window.location.reload();
     }, 300);
+    const banner = document.getElementById("update-banner");
+
+    console.log("CLICKED", banner);
+
+    banner.style.display = "none";
+    banner.classList.add("hidden");
+
+    alert("Banner forced hidden");
   });
   
 /* ========================*/
