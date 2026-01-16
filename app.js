@@ -1612,4 +1612,7 @@ renderProjectionTable();
 checkDiaryAlerts();
 setInterval(checkDiaryAlerts, 10 * 60 * 1000); // every 10 minutes
 });
-
+setTimeout(() => {
+  const banner = document.getElementById("update-banner");
+  console.log("BANNER STATE AFTER LOAD:", banner?.className);
+}, 1000);
