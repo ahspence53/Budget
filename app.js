@@ -62,6 +62,13 @@ const editCategoryInput = document.getElementById("edit-category-name");
 const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
+const APP_VERSION = "budgie-v12"; // MUST match CACHE_NAME
+/*. ------ */
+  if (localStorage.getItem("dismissedVersion") === APP_VERSION) {
+  document
+    .getElementById("update-banner")
+    ?.classList.add("hidden");
+}
 
 /* ----- */
   
@@ -105,6 +112,21 @@ document
     e.preventDefault();
     e.stopPropagation();
 
+    // Permanently dismiss for this version
+    localStorage.setItem("dismissedVersion", APP_VERSION);
+
+    document
+      .getElementById("update-banner")
+      ?.classList.add("hidden");
+
+    const reg = await navigator.serviceWorker.getRegistration();
+    if (reg?.waiting) {
+      reg.waiting.postMessage({ type: "SKIP_WAITING" });
+    }
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 300);
     const banner = document.getElementById("update-banner");
 
     console.log("CLICKED", banner);
