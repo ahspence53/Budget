@@ -81,9 +81,19 @@ document.addEventListener("click", e => {
   document.body.classList.add("modal-open");
 });
   /* ============= */
-document
+/*document
   .getElementById("refresh-app-btn")
-  ?.addEventListener("click", async () => {
+  ?.addEventListener("click", async () => {*/
+  document
+  .getElementById("refresh-app-btn")
+  ?.addEventListener("click", () => {
+
+    alert("CLICK REGISTERED");
+
+    document
+      .getElementById("update-banner")
+      ?.classList.add("hidden");
+  });
 
     // 🔒 Never show banner again this session
     sessionStorage.setItem("updateDismissed", "true");
