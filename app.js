@@ -1,4 +1,11 @@
 
+// 🔒 Prevent update banner reappearing after refresh click
+if (sessionStorage.getItem("updateDismissed") === "true") {
+  document
+    .getElementById("update-banner")
+    ?.classList.add("hidden");
+}
+
 /* ================= DIARY HELPERS (GLOBAL) ======================= */
 /* test deployment */
 
