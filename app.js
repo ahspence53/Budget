@@ -103,20 +103,22 @@ document
   .getElementById("refresh-app-btn")
   ?.addEventListener("click", async e => {
     e.preventDefault();
-    e.stopPropagation();
 
-    // Permanently dismiss for this version
+    // Remember dismissal for this version
     localStorage.setItem("dismissedVersion", APP_VERSION);
 
+    // Hide banner immediately
     document
       .getElementById("update-banner")
       ?.classList.add("hidden");
 
+    // Activate waiting SW if present
     const reg = await navigator.serviceWorker.getRegistration();
     if (reg?.waiting) {
       reg.waiting.postMessage({ type: "SKIP_WAITING" });
     }
 
+    // Reload cleanly
     setTimeout(() => {
       window.location.reload();
     }, 300);
