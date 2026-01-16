@@ -1,4 +1,11 @@
 
+// 🔒 Prevent update banner reappearing after refresh click
+if (sessionStorage.getItem("updateDismissed") === "true") {
+  document
+    .getElementById("update-banner")
+    ?.classList.add("hidden");
+}
+
 /* ================= DIARY HELPERS (GLOBAL) ======================= */
 /* test deployment */
 
@@ -58,7 +65,11 @@ const txEndDate = document.getElementById("tx-end-date");
 
 /* ----- */
   
-  const updateBanner = document.getElementById("update-banner");
+  if (!sessionStorage.getItem("updateDismissed")) {
+  document
+    .getElementById("update-banner")
+    ?.classList.remove("hidden");
+}
   
 /*==========--EVENT LISTENER FOR END TARGETED ===========*/
 document.addEventListener("click", e => {
