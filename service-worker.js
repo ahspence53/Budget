@@ -29,7 +29,7 @@ self.addEventListener("activate", event => {
 self.addEventListener("message", event => {
   if (event.data?.type === "SKIP_WAITING") {
     self.skipWaiting();
-  }
+  }t
 });
 
 self.addEventListener("fetch", event => {
@@ -37,3 +37,11 @@ self.addEventListener("fetch", event => {
     caches.match(event.request).then(res => res || fetch(event.request))
   );
 });
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.addEventListener("message", event => {
+    if (event.data?.type === "NEW_VERSION") {
+      showUpdateBanner();
+    }
+  });
+}
