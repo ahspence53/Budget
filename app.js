@@ -88,10 +88,11 @@ document
     // 🔒 Never show banner again this session
     sessionStorage.setItem("updateDismissed", "true");
 
-    // 1️⃣ Hide banner immediately (critical for iOS)
-    document
-      .getElementById("update-banner")
-      ?.classList.add("hidden");
+if (!sessionStorage.getItem("updateDismissed")) {
+  document
+    .getElementById("update-banner")
+    ?.classList.remove("hidden");
+}
 
     // 2️⃣ Activate new SW
     const reg = await navigator.serviceWorker.getRegistration();
