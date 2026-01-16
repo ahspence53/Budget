@@ -89,9 +89,12 @@ document
     e.preventDefault();
     e.stopPropagation();
 
-    document
-      .getElementById("update-banner")
-      ?.classList.add("hidden");
+    // 🔒 Never show again this session
+    sessionStorage.setItem("updateDismissed", "true");
+
+    // Hide banner NOW
+    updateBanner?.classList.add("hidden");
+    updateBanner.style.display = "none";
 
     const reg = await navigator.serviceWorker.getRegistration();
     if (reg?.waiting) {
@@ -99,7 +102,7 @@ document
     }
 
     setTimeout(() => {
-      window.location.reload();
+      window.location.reload(true);
     }, 300);
   });
   
