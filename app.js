@@ -65,7 +65,11 @@ const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 const APP_VERSION = "budgie-v20";
 /* ===================== */
-const updateBanner = document.getElementById("update-banner");
+if (!sessionStorage.getItem("updateDismissed")) {
+  document
+    .getElementById("update-banner")
+    ?.classList.remove("hidden");
+}
 
 function showUpdateBanner() {
   if (sessionStorage.getItem("updateDismissed") === "true") return;
