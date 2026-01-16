@@ -69,7 +69,7 @@ if (localStorage.getItem("dismissedVersion") === APP_VERSION) {
     .getElementById("update-banner")
     ?.classList.add("hidden");
 }
-}
+
 /* ================ */
 /*==========--EVENT LISTENER FOR END TARGETED ===========*/
 document.addEventListener("click", e => {
