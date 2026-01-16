@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Home Budget Tracker – Help and How To</title>
+
+  <!-- IMPORTANT: keeps links inside the modal -->
+  <base target="_self">
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      padding: 16px;
+    }
+
+    h1, h2 {
+      margin-top: 1.5em;
+    }
+
+    a {
+      color: #0b5ed7;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .index a {
+      display: block;
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Home Budget Tracker – Help</h1>
+<p><strong>Version 1.01</strong></p>
+
+<hr>
+
+<h2>Index</h2>
+<div class="index">
+  <a href="#overview">Overview</a>
+  <a href="#setup">How to set up manually</a>
+  <a href="#csv">How to import transactions via CSV</a>
+  <a href="#howdata">How Data is stored</a>
+  <a href="#edit">How to edit transactions</a>
+  <a href="#delete">How to delete transactions</a>
+  <a href="#salary-1">How to show Salary -1 balances</a>
+  <a href="#negative">Negative balances</a>
+  <a href="#sort">Sort transactions</a>
+  <a href="#diary">Diary</a>
+  <a href="#whatif">What if</a>
+  <a href="#release">Release Notes</a>
+</div>
+
+<hr>
+<pre class="oview">
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+
+
+<h2 id="diary">Diary</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+<b>Diary</b> allows you to enter notes against past, present and future dates to record
+information you feel is related to the relevant transaction.
+eg. You may want to note a future change where the transaction amount changes on a certain date.
+
+The records may be searched.
+
+<b>Future</b> transactions will flag up before they are due to allow you to make the necessary changes.
+
+The <b>Diary</b> may be backed up, and restored if required.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+
+<h2 id="release">Release Notes</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+<b>Release Notes</b> highlight functionality changes to the app.
+
+<b>Version 1.2</b> released 5th January 2026.
+Diary functionality finalised and added to the app.
+This uses a separate <b>notes.js</b> and <b>notes.html</b>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+
+
+
+<p><a href="#top">Return to index</a></p>
+<h2 id="whatif">Whatif</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+You can have a <b>What if </b>scenario and use the 24 Month Projection table to see
+the effect of adding either an expense or income.
+
+The most likely scenario would be adding an expense to see what the effect is on your
+future balances.
+
+<b>For example</b>
+You want to see the effect of saving <b>£100</b> per month for <b>Holidays</b>
+Add a transaction, enter <b>Holiday Savings</b> against the Description, enter <b>£100</b> 
+for the amount, select a date and Category for it and <b>Add Transaction</b>
+
+The 24 month projection is immediately updated.
+You can either scroll down the table to see the effect, or a quicker way is to look at
+<b>Negative balances</b> or <b>Salary -1 balances</b>
+
+Once you see the effect you can keep the transaction, or if the expense is too much
+either delete it or reduce the amount, depending on your circumstances or preference.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+
+
+
+
+<p><a href="#top">Return to index</a></p>
+
+</pre>
+<h2 id="sort">Sort transaction</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+In the <b>Transactions</b> table you can <b>Sort</b> the data in the 
+<b>Date, Description</b> and <b>Category</b> columns by clicking on the column.
+Click on the column once more will reverse the <b>sort</b> order.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+
+
+
+
+<p><a href="#top">Return to index</a></p>
+
+<h2 id="overview">Overview</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+🗓️ The "Day-Before-Payday" Metric
+The most critical number in any budget isn't your current balance -
+it’s your minimum balance.
+• What it does: The app automatically calculates and populates
+   a "trough" balance for the day before your next income arrives.
+• The Benefit: It tells you exactly how much "unallocated" cash 
+    you have, ensuring you never accidentally spend money that 
+    is already spoken for by upcoming bills.
+
+🖖 The "Nudge" System (Real-Time Reconciliation)
+Banking isn't a 24/7 reality, even in 2026. Weekends and Bank Holidays 
+shift when money actually moves.
+• What it does: A dedicated "Nudge" button allows you to shift future
+   transactions forward by 2–3 days with a single click.
+• The Benefit: This aligns your projection table perfectly with your 
+   bank's "cleared" balance, eliminating the confusion of "Weekend Lag."
+
+📒 Future-Proof Diary & Alerts
+Anticipate "Price Creep" before it hits your wallet.
+• What it does: The Diary system allows you to flag future price
+   increases or one-off changes to recurring subscriptions.
+• The Benefit: With built-in alerts, you get a "decision window" to cancel 
+   or switch services before the increased cost impacts your projection.
+
+🧪 "What-If" Stress Testing
+Test your financial resilience without touching your real data.
+• What it does: Easily inject temporary expenses or income changes 
+   to see how they ripple through your future balances.
+• The Benefit: See instantly if an unexpected £100 expense today creates 
+   a "negative balance popup" up to 24 months from now.
+
+🔒 Privacy-First / Zero-Cloud
+Your financial life belongs to you, not a server.
+• Architecture: Built using Web Local Storage, meaning 100%
+   of your data stays in your browser.
+• Portability: Use the JSON Export/Import to move your setup 
+   between devices or keep encrypted backups, ensuring you 
+   are never locked into a proprietary platform.
+
+🎈The App, relies on data from 3 sources to work;
+	A start date (usually the current date)
+	An opening balance (your bank balance on the start date)
+	A list of your monthly and 4-weekly transactions (if you have any)
+From these, it can be built in less than a minute.
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+<p><a href="#top">Return to index</a></p>
+
+<h2 id="setup">How to set up manually</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+First, enter a start date by clicking into <b>Start date</b> field and selecting a date from the date picker.
+Next, enter the <b>Opening Balance</b> of your bank account on that date, then click <b>Save.</b>
+The sequence is numbered <b>1, 2, 3, 4, 5 </b>for clarity.
+
+You should now add your <b>Categories</b>. eg. Household, Insurance, Savings etc. Enter your first Category in 
+the box below Start Date, then click <b>Add Category</b>. Add as many Categories as you need, 
+you can add more as required. 
+Now start adding your transactions by adding a calendar month's to ensure you 
+have all your data entered.
+
+In the box below Select Category, type in the <b>Description</b>, next the <b>Amount</b>, then select whether the 
+transaction is <b>Expense</b> or <b>Income</b>. 
+
+The next field allows to select the transaction <i>Period</i>
+normally either <b>Monthly</b> or, if it's relevant <b>4-Weekly</b>. 
+You can select <b>Irregular</b> for one off transactions. 
+
+The next field allows you to select the <b>Date</b> for the transaction - either the date for 
+<b>Monthly</b> transactions, or the <i>first</i> date <b>after</b> the <b>Start date</b> of a <b>4-weekly transaction</b>
+Next select the appropriate <b>Category</b> for the transaction. 
+
+Finally, click <b>Add Transaction</b>.
+The transaction will appear in the table below. 
+Add as many transactions as you require.
+
+As you add transactions, they will appear in the <b>24 Month Transaction</b>table.
+
+<b>Note!</b>
+<i>On first use, you should enter, starting from your <b> Start date</b> all of your <b>Monthly</b> transactions 
+for one calendar month. If you have <b>4-Weekly transactions</b> add the next date after the start date they 
+are due and ensure you enter all of this type.
+
+The system will calculate the transactions and populate the <b>24 Month Projection</b> table.
+
+If you do have <b>4-Weekly</b> transactions, once the date you enter initially has passed, the system will 
+alter the day of the month shown in the <b>transaction</b> table by adding 28 days to ensure 
+these <i>days</i> are always accurate</i>
+</pre>
+<p><a href="#top">Return to index</a></p>
+
+<h2 id="howdata">How Data is stored</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+When you enter a <b>start date</b> and <b>opening balance</b> then either load transactions
+manually or via CSV loader, the data is stored using <b>local storage</b>.
+<b>local storage</b> is a type of web storage that allows a website or web application to 
+store data directly in the user's browser. It acts like a small, private filing cabinet for 
+that specific website on your computer or tablet.
+
+• Persistent: Unlike Session storage (which disappears when you close the tab), data in local storage 
+stays there even if you close the browser or restart your device.  
+• Domain-Specific: Data saved by website-a.com cannot be read by website-b.com. 
+This ensures privacy and security between different apps.
+• It is also browser specific.
+• No Expiration: The data remains until the web app deletes it or you manually 
+clear your browser's cache/cookies
+• <b>Note!</b> If you do clear the browser cache for any reason, you can easily re-build
+you app by entering a relevant start date and opening balance and importing your transactions
+using CSV import - this takes less than a minute to do.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><a href="#top">Return to index</a></p>
+
+
+</pre>
+
+<h2 id="csv">How to import transactions via CSV</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+Building the system (app) using <b>Import transactions (csv)</b> is the quickest method of creating
+transactions so that the <b>24 Month Projection</b> can be populated.
+It relies on you creating a spreadsheet containing a row for each transaction. The spreadsheet
+should then be saved as a <b>CSV</b> file to a location on your Computer or Tablet that is readily
+accessible for any subsequent re-loads.
+The format of the spreadsheet is strict and <b>must</b> adhere to the following specification;
+
+The data should be in the format;
+Column A:Header text=<b>Date</b>, content - standard date format
+Column B:Header text=<b>Amount</b>, content - numeric
+Column C:Header text=<b>Income/Expense</b>, content - either the text <b>income</b> or <b>expense</b>
+Column D:Header text=<b>Category </b>, content - Text containing your chosen category
+Column E:Header text=<b>Description </b>, content - Text containing a description of the transaction.
+Column F:Header text=<b>Frequency </b>, content - either the text <b>Monthly</b> or <b>4-Weekly</b>
+<b>Note!</b> 
+The header row is case sensitive and <b>must</b> be as shown.
+The Income/Expense data is also case sensitive, lower case.
+The frequency is case sensitive and <b>must</b> be as shown.
+
+On the first build of the system, enter start date and opening balance, then click on 
+<b>choose file</b> next to <b>Import transactions CSV </b> then click <b>Import (replace existing)</b>
+The transactions will instantly load. If there are any errors and alert will inform you.
+Simply scroll to see all your transactions.
+
+<b>An example of loading data</b>
+If you have a start date of 12th Jan 2026 with an opening balance of <b>£x.yz</b>
+your spreadsheet should have, as it's initial transaction, one dated 12th Jan 2026 (if you have one then)
+<b>OR</b> one for the <b>NEXT</b> date after that. Then add your transactions in date order from then till
+<b>11th Feb 2026</b>. This gives you one month's worth of transactions to load into the app.
+
+
+
+
+
+
+
+</pre>
+
+
+
+<p><a href="#top">Return to index</a></p>
+
+<h2 id="edit">How to edit transactions</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+To <b>Edit</b> a transaction, navigate to Transaction table at top of app.
+Find the transaction to be edited and click <b>Edit</b>
+The date is loaded into the input boxes above the transaction table.
+Edit the data as required and click <b>Save</b>
+The changes will then be reflected within the transaction table.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+
+<p><a href="#top">Return to index</a></p>
+
+<h2 id="delete">How to delete transactions</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+To <b>Delete</b> a transaction, navigate to Transaction table at top of app.
+Find the transaction to be deleted and click <b>Delete</b>
+You will then be prompted to either carry on and <b>delete</b> it or <b>cancel</b>
+If you delete, the transaction will be removed from the <b>Transaction table</b>
+and from the <b>24 Month Projection</b> table.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+<p><a href="#top">Return to index</a></p>
+
+<h2 id="negative">Negative Balances</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+The <b>Negative Balances</b> button will display all dates in the <b>24 Month Projection</b>
+with balances less than zero in a popup display similar to the <b>Salary -1 day</b> popup.
+If there are <b>no</b> negative balances, an alert will display a message.
+if there are negative balances, they will be displayed. 
+You can click on any of these and it will take you to the transaction.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+<p><a href="#top">Return to index</a></p>
+<h2 id="salary-1">Salary-1</h2><p><a href="#top">Return to index</a></p>
+<pre class="oview">
+The <b>Salary -1 day balances</b> button, above 24 Month Projection table displays your account balance 
+on the day <b>before</b> each Salary. As this is the most <i>likely <i>time your account may  be
+<b>negative</b> this may be a useful feature.
+
+In the popup, scroll to see the various <b>balances</b>, if you do find a negative balance, click it
+and it will take you to the relevant transaction.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+<p><a href="#top">Return to index</a></p>
+
+</body>
+</html>

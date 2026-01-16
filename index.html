@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Home Budget Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"
+<!-- next line added by Alex -->
+<meta http-equiv="Cache-Control" content="no-cache">
+<link rel="stylesheet" href="styles.css">
+</head>
+<div id="diary-preview" class="diary-preview hidden"></div>
+<body>
+  <div id="offline-indicator" class="offline hidden">
+  Offline mode
+  </div>
+  <div id="floating-find" class="floating-find">
+  <input id="projection-find-input" placeholder="Find (text or date)">
+  <button id="projection-find-prev">◀</button>
+  <button id="projection-find-next">▶</button>
+  <span id="find-counter">0/0</span>
+</div>
+
+<header id="app-top" class="app-header">
+  <h1>Home Budget Tracker</h1>
+</header>
+
+<section class="config">
+  <label><strong>1. </strong>Start date:
+    <input type="date" id="start-date">
+  </label>
+  <label><strong>2. </strong>Opening balance:
+    <input type="number" id="opening-balance" step="0.01">
+  </label>
+  <strong>3. </strong><button id="save-config">Save</button>
+   
+  
+</section>
+  <section id="import-export">
+  <div class="action-button-row">
+    <button id="salary-popup-btn">Salary -1 day balances</button>
+    <button id="negative-popup-btn">Negative balances</button>
+    <button id="diary-popup-btn">🗓️ Diary Notes</button>
+    <button id="help">Help</button>
+    <button id="TopofApp">🔁 View Transactions ⬇️</button>
+  </div>
+
+  <div class="import-box">
+    <label>
+      Import transactions (CSV): <strong>4. </strong>
+      <input type="file" id="csv-import" accept=".csv">
+    </label>
+    <strong>5. </strong><button id="import-btn">Import (Replace existing)</button>
+    
+  </div>
+  
+
+
+In the <b>24 Month Projection table </b>you can <b>Nudge</b> Expenses forward by <b>1 day</b> at  a time if they fall at <b>Weekends</b> or <b>Bank Holidays</b>, or if it hasn't yet been debited.
+<hr style="border: none; height: 8px; background-color: #000000; margin: 15px 0;">
+<h2 style="background-color: #008000; color: #ffffff; padding: 10px;">
+  📅 24-Month Projection 
+  <span style="margin-left: 600px;">
+    Home Budget Tracker 
+    <span style="font-size: 0.6em; font-weight: normal;">Ver 3.02</span>
+  </span>
+</h2>
+
+
+
+
+
+<table id="projection-table">
+  <thead>
+    <tr>
+      <th>Date</th><th>Description</th><th>Income</th><th>Expense</th><th>Balance</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<div id="help-modal" class="modal hidden">
+  <div class="modal-content">
+    <button id="help-close" class="modal-close">Close</button>
+    <iframe
+      src="doc.html"
+      title="Help"
+      class="modal-frame">
+    </iframe>
+  </div>
+</div>
+
+<hr id="jump-here" style="border: none; height: 8px; background-color: #000000; margin: 100px 0;">
+    
+<section id="edit-category-section">
+<h3>Add and Edit Categories</h3>
+  <select id="edit-category-select"></select>
+  <input type="text" id="edit-category-name" placeholder="New category name">
+  <button id="rename-category">Rename Category</button>
+  <input id="new-category" placeholder="New category">
+  <button id="add-category">Add Category</button> 
+  
+</section>
+<h3>Add and Edit Transactions</h3>
+<section class="transactions">
+  <input id="tx-desc" placeholder="Description">
+  <input id="tx-amount" type="number" step="0.01" placeholder="Amount">
+  <select id="tx-type">
+    <option value="expense">Expense</option>
+    <option value="income">Income</option>
+  </select>
+  <select id="tx-frequency">
+    <option value="irregular">Irregular</option>
+    <option value="monthly">Monthly</option>
+    <option value="4-weekly">4-weekly</option>
+  </select>
+  <input id="tx-date" type="date" placeholder="Start date">
+  <input type="date" id="tx-end-date" placeholder="End date (optional)">
+  <select id="tx-category"></select>
+  <button id="add-transaction">ADD</button>
+</section>
+
+  
+<h2 style="background-color:  #0b5ed7; color: #ffffff; padding: 10px;">
+  🔁 Transactions
+</h2>
+
+<div class="frequency-legend">
+    <span>🔁 Monthly</span>
+    <span>📆 4-weekly</span>
+    <span style="font-weight: bold;"> You can SORT by - Date, Description or Category columns</span>
+    <button id="export-transactions">Export Transactions</button>
+    <button id="import-transactions-btn">Import Transactions</button>
+<input
+  type="file"
+  id="import-transactions"
+  accept=".json"
+  style="display:none"
+/>
+</div>
+
+
+
+
+<table id="transaction-table">
+  <thead>
+    <tr>
+      <th id="date-sort-header" style="cursor:pointer">
+        Date <span id="date-sort-indicator">▲</span>
+      </th>
+      <th id="description-sort-header" style="cursor:pointer">
+  Description <span id="description-sort-indicator"></span>
+</th>
+      <th>Type</th>
+      <th>Amount</th>
+      <th id="category-sort-header" style="cursor:pointer">
+        Category <span id="category-sort-indicator"></span>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+
+
+  
+
+    
+  
+    
+<div id="negative-popup" class="modal hidden">
+  <div class="modal-content">
+    <h3>Negative balances (24 months)</h3>
+
+    <table>
+      <tbody id="negative-popup-body"></tbody>
+    </table>
+
+    <button id="negative-popup-close">Close</button>
+  </div>
+</div>
+    
+<div id="salary-popup" class="modal hidden">
+  <div class="modal-content">
+    <h3>Balances the day before salary</h3>
+
+<table>
+  <tbody id="salary-popup-body"></tbody>
+</table>
+
+    <button id="salary-popup-close">Close</button>
+  </div>
+</div>
+
+  <div class="export-box">
+  <button id="export-projection-btn">
+    Export 24-month projection (CSV)
+  </button>
+</div>
+    
+</section>
+
+/* ------ addition -------*/
+<!-- ================= TX END DATE POPUP ================= -->
+<div id="tx-end-popup" class="popup hidden">
+  <div class="popup-content">
+    <h3>Transaction end</h3>
+    <p id="tx-end-popup-text"></p>
+    <button id="tx-end-popup-close">Close</button>
+  </div>
+</div>
+
+/* -------- */
+
+<button id="back-to-top" class="floating-top">📅24 Month Projection ⬆️</button>
+
+<script src="app.js"></script>
+</body>
+</html>
