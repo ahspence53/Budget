@@ -86,7 +86,11 @@ document.addEventListener("click", e => {
   ?.addEventListener("click", async () => {*/
   document
   .getElementById("refresh-app-btn")
-  ?.addEventListener("click", () => {
+  ?.addEventListener("click", e => {
+
+    // 🛑 STOP form submit / bubbling
+    e.preventDefault();
+    e.stopPropagation();
 
     alert("CLICK REGISTERED");
 
