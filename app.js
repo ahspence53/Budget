@@ -95,7 +95,9 @@ document
     e.stopPropagation();
 
     // Hide banner immediately
-    updateBanner.classList.add("hidden");
+    if (!sessionStorage.getItem("updateDismissed")) {
+  updateBanner.classList.remove("hidden");
+}
 
     // Prevent re-show this session
     sessionStorage.setItem("updateDismissed", "true");
