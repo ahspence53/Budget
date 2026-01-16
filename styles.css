@@ -525,7 +525,7 @@ tr.freq-4weekly {
 }
 
 .hidden {
-  display: none;
+  display: none; !important
 }
 .tx-ends {
   font-size: 0.75em;
