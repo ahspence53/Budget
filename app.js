@@ -1,11 +1,4 @@
 
-// 🔒 Prevent update banner reappearing after refresh click
-if (sessionStorage.getItem("updateDismissed") === "true") {
-  document
-    .getElementById("update-banner")
-    ?.classList.add("hidden");
-}
-
 /* ================= DIARY HELPERS (GLOBAL) ======================= */
 /* test deployment */
 
@@ -62,22 +55,15 @@ const editCategoryInput = document.getElementById("edit-category-name");
 const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
-const APP_VERSION = "budgie-v12"; 
-/*. ------ */
-  if (localStorage.getItem("dismissedVersion") === APP_VERSION) {
-  document
-    .getElementById("update-banner")
-    ?.classList.add("hidden");
-}
+/* ===================== */
+const updateBanner = document.getElementById("update-banner");
 
-/* ----- */
-  
-  if (!sessionStorage.getItem("updateDismissed")) {
-  document
-    .getElementById("update-banner")
-    ?.classList.remove("hidden");
+function showUpdateBanner() {
+  if (sessionStorage.getItem("updateDismissed") === "true") return;
+  updateBanner?.classList.remove("hidden");
+  updateBanner.style.display = "block";
 }
-  
+/* ================ */
 /*==========--EVENT LISTENER FOR END TARGETED ===========*/
 document.addEventListener("click", e => {
   // 🚫 Ignore Refresh button clicks completely
@@ -108,12 +94,9 @@ document.addEventListener("click", e => {
   /* ============= */
 document
   .getElementById("refresh-app-btn")
-  ?.addEventListener("click", e => {
+  ?.addEventListener("click", async e => {
     e.preventDefault();
     e.stopPropagation();
-
-    // Permanently dismiss for this version
-    localStorage.setItem("dismissedVersion", APP_VERSION);
 
     document
       .getElementById("update-banner")
@@ -127,14 +110,6 @@ document
     setTimeout(() => {
       window.location.reload();
     }, 300);
-    const banner = document.getElementById("update-banner");
-
-    console.log("CLICKED", banner);
-
-    banner.style.display = "none";
-    banner.classList.add("hidden");
-
-    alert("Banner forced hidden");
   });
   
 /* ========================*/
@@ -1635,7 +1610,4 @@ renderProjectionTable();
 checkDiaryAlerts();
 setInterval(checkDiaryAlerts, 10 * 60 * 1000); // every 10 minutes
 });
-setTimeout(() => {
-  const banner = document.getElementById("update-banner");
-  console.log("BANNER STATE AFTER LOAD:", banner?.className);
-}, 1000);
+
