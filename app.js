@@ -55,6 +55,11 @@ const editCategoryInput = document.getElementById("edit-category-name");
 const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
+
+/* ----- */
+  
+  const updateBanner = document.getElementById("update-banner");
+  
 /*==========--EVENT LISTENER FOR END TARGETED ===========*/
 document.addEventListener("click", e => {
   // 🚫 Ignore Refresh button clicks completely
