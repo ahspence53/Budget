@@ -86,25 +86,18 @@ document.addEventListener("click", e => {
 document
   .getElementById("refresh-app-btn")
   ?.addEventListener("click", async e => {
-
     e.preventDefault();
     e.stopPropagation();
 
-    // Never show banner again this session
-    sessionStorage.setItem("updateDismissed", "true");
-
-    // Hide banner immediately (important for iOS)
     document
       .getElementById("update-banner")
       ?.classList.add("hidden");
 
-    // Ask waiting Service Worker to activate
     const reg = await navigator.serviceWorker.getRegistration();
     if (reg?.waiting) {
       reg.waiting.postMessage({ type: "SKIP_WAITING" });
     }
 
-    // Reload once the new SW takes control
     setTimeout(() => {
       window.location.reload();
     }, 300);
