@@ -235,7 +235,9 @@ if ("serviceWorker" in navigator) {
 </script>
 <div id="update-banner" class="hidden">
   <span>🔄 A new version is available</span>
-  <button id="refresh-app-btn">Refresh</button>
+  <button id="refresh-app-btn" data-ignore-global-click="true" type="button">
+  Refresh
+</button>
 </div>
 <script src="app.js"></script>
 </body>
