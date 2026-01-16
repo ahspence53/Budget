@@ -569,6 +569,9 @@ function renderTransactionTable() {
     `;
 
     tr.querySelector(".edit-btn").onclick = () => {
+      /* ====== ADDED A JUMP ========= */
+      const topElement = document.getElementById("jump-here");
+      /* ============================= */
       txDesc.value = tx.description;
       txAmount.value = tx.amount;
       txType.value = tx.type;
