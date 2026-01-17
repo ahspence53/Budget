@@ -564,3 +564,7 @@ tr.freq-4weekly {
   font-weight: bold;
   cursor: pointer;
 }
+
+.hidden {
+  display: none !important;
+}
