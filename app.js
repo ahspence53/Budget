@@ -606,9 +606,6 @@ function renderTransactionTable() {
     `;
 
     tr.querySelector(".edit-btn").onclick = () => {
-      /* ====== ADDED A JUMP ========= */
-      const topElement = document.getElementById("description");
-      /* ============================= */
       txDesc.value = tx.description;
       txAmount.value = tx.amount;
       txType.value = tx.type;
@@ -619,11 +616,9 @@ function renderTransactionTable() {
 
       editingIndex = transactions.indexOf(tx);
       addTxButton.textContent = "Save Changes";
-      
-     document
-  .getElementById("transaction-form")
-  ?.scrollIntoView({ behavior: "smooth", block: "start" });
-      
+      document
+      .getElementById("transaction-form")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     tr.querySelector(".delete-btn").onclick = () => {
