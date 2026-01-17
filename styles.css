@@ -579,3 +579,7 @@ tr.freq-4weekly {
   z-index: 1;
   user-select: none;
 }
+
+#transaction-form {
+  scroll-margin-top: 90px;
+}
