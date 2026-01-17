@@ -98,6 +98,16 @@ document.addEventListener("click", e => {
   popup.classList.remove("hidden");
   document.body.classList.add("modal-open");
 });
+  /* ============ FINAL FIX? ========= */
+  const banner = document.getElementById("update-banner");
+const dismissed = localStorage.getItem("dismissedVersion");
+
+// SHOW banner only if version changed
+if (dismissed !== APP_VERSION) {
+  banner?.classList.remove("hidden");
+} else {
+  banner?.classList.add("hidden");
+}
   /* ============= */
 document
   .getElementById("refresh-app-btn")
