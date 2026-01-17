@@ -587,5 +587,5 @@ tr.freq-4weekly {
 .editing-field {
   font-weight: bold;
   background-color: #fff7cc;
-  border: 2px solid #f0b400;
+  /*border: 2px solid #f0b400;*/
 }
