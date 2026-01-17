@@ -63,6 +63,12 @@ const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 const APP_VERSION = "budgie-v12"; 
+
+const versionEl = document.getElementById("app-version");
+if (versionEl) {
+  versionEl.textContent = `Version: ${APP_VERSION}`;
+}
+  
 /*. ------ */
   if (localStorage.getItem("dismissedVersion") === APP_VERSION) {
   document
