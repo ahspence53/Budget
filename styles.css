@@ -583,3 +583,9 @@ tr.freq-4weekly {
 #transaction-form {
   scroll-margin-top: 120px;
 }
+
+.editing-field {
+  font-weight: bold;
+  background-color: #fff7cc;
+  border: 2px solid #f0b400;
+}
