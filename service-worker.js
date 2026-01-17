@@ -1,4 +1,4 @@
-const CACHE_NAME = "Budget V1.01";
+const CACHE_NAME = "Budgie V1.01";
 
 const ASSETS = [
   "./",
