@@ -58,7 +58,7 @@ const editCategoryInput = document.getElementById("edit-category-name");
 const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
-const APP_VERSION = "budgie-v20";
+const APP_VERSION = "budgie-v21";
 /* ===================== */
 
 
