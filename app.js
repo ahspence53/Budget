@@ -619,6 +619,11 @@ function renderTransactionTable() {
 
       editingIndex = transactions.indexOf(tx);
       addTxButton.textContent = "Save Changes";
+      
+     document
+  .getElementById("transaction-form")
+  ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      
     };
 
     tr.querySelector(".delete-btn").onclick = () => {
