@@ -606,20 +606,38 @@ function renderTransactionTable() {
     `;
 
     tr.querySelector(".edit-btn").onclick = () => {
-      txDesc.value = tx.description;
-      txAmount.value = tx.amount;
-      txType.value = tx.type;
-      txFrequency.value = tx.frequency;
-      txDate.value = tx.date;
-      txEndDate.value = tx.endDate || "";
-      txCategorySelect.value = tx.category;
 
-      editingIndex = transactions.indexOf(tx);
-      addTxButton.textContent = "Save Changes";
-      document
-      .getElementById("transaction-form")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
+  // clear previous edit highlighting
+  document
+    .querySelectorAll(".editing-field")
+    .forEach(el => el.classList.remove("editing-field"));
+
+  txDesc.value = tx.description;
+  txAmount.value = tx.amount;
+  txType.value = tx.type;
+  txFrequency.value = tx.frequency;
+  txDate.value = tx.date;
+  txEndDate.value = tx.endDate || "";
+  txCategorySelect.value = tx.category;
+
+  // highlight edited fields
+  [
+    txDesc,
+    txAmount,
+    txType,
+    txFrequency,
+    txDate,
+    txEndDate,
+    txCategorySelect
+  ].forEach(el => el.classList.add("editing-field"));
+
+  editingIndex = transactions.indexOf(tx);
+  addTxButton.textContent = "Save Changes";
+
+  document
+    .getElementById("transaction-form")
+    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+};
 
     tr.querySelector(".delete-btn").onclick = () => {
       if (!confirm(`Delete this transaction:\n"${tx.description}"?`)) return;
