@@ -32,7 +32,13 @@ textArea.value = getNotes()[dateInput.value] || "";
 function renderNotesList(filter = "") {
   notesList.innerHTML = "";
   const notes = getNotes();
+  /* -------  added ------- */
+const prettyDate = formatDiaryDate(date);
 
+  li.textContent =
+  prettyDate + (preview ? " — " + preview + "…" : "");
+  
+  /* ---------------------- */
   Object.keys(notes)
     .sort()
     .forEach(date => {
