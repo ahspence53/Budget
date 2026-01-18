@@ -560,7 +560,15 @@ function renderTransactionTable() {
       const diff = cA.localeCompare(cB);
       return transactionSortAscending ? diff : -diff;
     }
-
+    
+  // 🔹 Type sort
+    if (transactionSortMode === "type") {
+      const cA = (a.type|| "").toLowerCase();
+      const cB = (b.type || "").toLowerCase();
+      const diff = cA.localeCompare(cB);
+      return transactionSortAscending ? diff : -diff;
+    }
+    
     // 🔹 Date sort (day of month)
     const dayA = getEffectiveDayOfMonth(a);
     const dayB = getEffectiveDayOfMonth(b);
