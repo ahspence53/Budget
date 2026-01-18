@@ -32,12 +32,6 @@ textArea.value = getNotes()[dateInput.value] || "";
 function renderNotesList(filter = "") {
   notesList.innerHTML = "";
   const notes = getNotes();
-  /* -------  added ------- */
-
-
-  
-  
-  /* ---------------------- */
   Object.keys(notes)
     .sort()
     .forEach(date => {
