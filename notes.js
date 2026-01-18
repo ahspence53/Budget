@@ -35,6 +35,18 @@ function formatDiaryDate(isoDate) {
 
   return `${day}${suffix} ${month} ${year}`;
 }
+// -------- another helper
+function getDiaryAgeClass(isoDate) {
+  const today = new Date().toISOString().slice(0, 10);
+
+  const diffDays =
+    (new Date(today) - new Date(isoDate)) / (1000 * 60 * 60 * 24);
+
+  if (diffDays < 1) return "diary-today";
+  if (diffDays <= 7) return "diary-recent";
+  return "diary-old";
+}
+
 // const padded = original.padEnd(16);
 // ---------------- init date ----------------
 const params = new URLSearchParams(window.location.search);
@@ -63,6 +75,7 @@ function renderNotesList(filter = "") {
         .slice(0, 120);
 
       const li = document.createElement("li");
+li.classList.add(getDiaryAgeClass(date));
 
       li.innerHTML =
         `<span class="diary-date">${prettyDate}</span>` +
