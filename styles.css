@@ -596,3 +596,16 @@ e  color: #000000;
   font-weight: 600;
   color: #222;
 }
+
+.diary-today {
+  opacity: 1;
+  font-weight: 600;
+}
+
+.diary-recent {
+  opacity: 0.85;
+}
+
+.diary-old {
+  opacity: 0.55;
+}
