@@ -28,10 +28,10 @@ const today = new Date().toISOString().slice(0, 10);
 dateInput.value = preselectedDate || today;
 textArea.value = getNotes()[dateInput.value] || "";
 
-// ---------------- render list ----------------
 function renderNotesList(filter = "") {
   notesList.innerHTML = "";
   const notes = getNotes();
+
   Object.keys(notes)
     .sort()
     .forEach(date => {
@@ -40,14 +40,16 @@ function renderNotesList(filter = "") {
 
       if (filter && !text.toLowerCase().includes(filter)) return;
 
-      // 🔹 create short preview
+      // short preview
       const preview = text
         .replace(/\n+/g, " ")
         .trim()
         .slice(0, 120);
 
       const li = document.createElement("li");
-      prettyDate + (preview ? " — " + preview + "…" : "");
+      li.textContent =
+        prettyDate + (preview ? " — " + preview + "…" : "");
+
       li.style.cursor = "pointer";
       li.style.fontSize = "1.1rem";
 
