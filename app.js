@@ -826,7 +826,8 @@ window.renderProjectionTable = function () {
 
       /* ========== ADDED PENSION HIGHLIGHT ============ */
       // Pension highlight
-      if (tx.description.toLowerCase().includes("pension")) {
+      if (tx.description.toLowerCase().includes("pension")) ||
+        (tx.description.toLowerCase().includes("salary")) {
         tr.classList.add("highlight-pension");
       }
       /* ========== ADDED SAVINGS HIGHLIGHT ============ */
