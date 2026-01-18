@@ -62,9 +62,10 @@ function renderNotesList(filter = "") {
         .trim()
         .slice(0, 120);
 
+      const prettydate = prettydate.padend(16);
       const li = document.createElement("li");
       li.textContent =
-        prettyDate.padend(16) + (preview ? " — " + preview + "…" : "");
+        prettyDate + (preview ? " — " + preview + "…" : "");
 
       li.style.cursor = "pointer";
       li.style.fontSize = "1.1rem";
