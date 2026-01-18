@@ -36,11 +36,20 @@ function renderNotesList(filter = "") {
   Object.keys(notes)
     .sort()
     .forEach(date => {
-      const text = notes[date];
+      const text = notes[date] || "";
+
       if (filter && !text.toLowerCase().includes(filter)) return;
 
+      // 🔹 create short preview
+      const preview = text
+        .replace(/\n+/g, " ")
+        .trim()
+        .slice(0, 40);
+
       const li = document.createElement("li");
-      li.textContent = date;
+      li.textContent =
+        date + (preview ? " — " + preview + "…" : "");
+
       li.style.cursor = "pointer";
       li.style.fontSize = "1.1rem";
 
