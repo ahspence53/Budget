@@ -546,6 +546,7 @@ function renderTransactionTable() {
       if (typeSortIndicator) typeSortIndicator.textContent = "";
       renderTransactionTable();
     };
+  }
 
 // ---- Type sort handler (bind once)
   if (typeSortHeader && !typeSortHeader.dataset.bound) {
