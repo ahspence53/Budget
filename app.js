@@ -488,6 +488,8 @@ function renderTransactionTable() {
   const dateSortIndicator = document.getElementById("date-sort-indicator");
   const categorySortHeader = document.getElementById("category-sort-header");
   const categorySortIndicator = document.getElementById("category-sort-indicator");
+  const typeSortHeader = document.getElementById("type-sort-header");
+  const typeSortIndicator = document.getElementById("type-sort-indicator");
   const descriptionSortHeader =
     document.getElementById("description-sort-header");
   const descriptionSortIndicator =
@@ -505,6 +507,7 @@ function renderTransactionTable() {
 
       if (categorySortIndicator) categorySortIndicator.textContent = "";
       if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
+      if (typeSortIndicator) typeSortIndicator.textContent = "";
       renderTransactionTable();
     };
   }
