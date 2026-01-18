@@ -574,7 +574,7 @@ tr.freq-4weekly {
   top: 60px;
   right: 10px;
   font-size: 11px;
-  color: #000000;
+e  color: #000000;
   opacity: 0.7;
   z-index: 1;
   user-select: none;
@@ -588,4 +588,11 @@ tr.freq-4weekly {
   font-weight: bold;
   background-color: #fff7cc;
   /*border: 2px solid #f0b400;*/
+}
+
+.diary-date {
+  display: inline-block;
+  width: 160px;
+  font-weight: 600;
+  color: #222;
 }
