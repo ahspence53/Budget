@@ -153,7 +153,7 @@ document.getElementById("export-csv").onclick = () => {
 };
 
 document.getElementById("backup-notes").onclick = () => {
-  download(`diary-backup`${currentdate}.json`, JSON.stringify(getNotes(), null, 2));
+  download(`diary-backup${currentdate}.json`, JSON.stringify(getNotes(), null, 2));
 };
 
 document.getElementById("restore-notes").addEventListener("change", e => {
