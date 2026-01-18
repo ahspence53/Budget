@@ -488,17 +488,11 @@ function renderTransactionTable() {
   const dateSortIndicator = document.getElementById("date-sort-indicator");
   const categorySortHeader = document.getElementById("category-sort-header");
   const categorySortIndicator = document.getElementById("category-sort-indicator");
-  const typeSortHeader = document.getElementById("type-sort-header");
-  const typeSortIndicator = document.getElementById("type-sort-indicator");
   const descriptionSortHeader =
     document.getElementById("description-sort-header");
   const descriptionSortIndicator =
     document.getElementById("description-sort-indicator");
-  const typeSortHeader =
-    document.getElementById("type-sort-header");
- const typeSortIndicator =
-   documenr.getElemwntById("type-sort-indicator");
-   
+
   // ---- Date sort handler (bind once)
   if (dateSortHeader && !dateSortHeader.dataset.bound) {
     dateSortHeader.dataset.bound = "true";
@@ -511,7 +505,6 @@ function renderTransactionTable() {
 
       if (categorySortIndicator) categorySortIndicator.textContent = "";
       if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
-      if (typeSortIndicator) typeSortIndicator.textContent = "";
       renderTransactionTable();
     };
   }
@@ -528,7 +521,6 @@ function renderTransactionTable() {
 
       if (dateSortIndicator) dateSortIndicator.textContent = "";
       if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
-      if (typeSortIndicator) typeSortIndicator.textContent = "";
       renderTransactionTable();
     };
   }
@@ -545,27 +537,8 @@ function renderTransactionTable() {
 
       if (dateSortIndicator) dateSortIndicator.textContent = "";
       if (categorySortIndicator) categorySortIndicator.textContent = "";
-      if (typeSortIndicator) typeSortIndicator.textContent = "";
       renderTransactionTable();
     };
-  }
-
-// ---- Type sort handler (bind once)
-  if (typeSortHeader && !typeSortHeader.dataset.bound) {
-    typeSortHeader.dataset.bound = "true";
-    typeSortHeader.onclick = () => {
-      transactionSortMode = "type";
-      transactionSortAscending = !transactionSortAscending;
-
-      typeSortIndicator.textContent =
-        transactionSortAscending ? "▲" : "▼";
-
-      if (dateSortIndicator) dateSortIndicator.textContent = "";
-      if (categorySortIndicator) categorySortIndicator.textContent = "";
-      if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
-      renderTransactionTable();
-    };
-    
   }
 
   transactionTableBody.innerHTML = "";
@@ -587,15 +560,7 @@ function renderTransactionTable() {
       const diff = cA.localeCompare(cB);
       return transactionSortAscending ? diff : -diff;
     }
-    
-  // 🔹 Type sort
-    if (transactionSortMode === "type") {
-      const cA = (a.type|| "").toLowerCase();
-      const cB = (b.type || "").toLowerCase();
-      const diff = cA.localeCompare(cB);
-      return transactionSortAscending ? diff : -diff;
-    }
-    
+
     // 🔹 Date sort (day of month)
     const dayA = getEffectiveDayOfMonth(a);
     const dayB = getEffectiveDayOfMonth(b);
