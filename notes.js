@@ -19,6 +19,22 @@ function getNotes() {
 function saveNotes(notes) {
   localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
 }
+// ----- helper
+function formatDiaryDate(isoDate) {
+  const d = new Date(isoDate);
+  if (isNaN(d)) return isoDate;
+
+  const day = d.getDate();
+  const month = d.toLocaleString("en-GB", { month: "short" });
+  const year = d.getFullYear();
+
+  const suffix =
+    day % 10 === 1 && day !== 11 ? "st" :
+    day % 10 === 2 && day !== 12 ? "nd" :
+    day % 10 === 3 && day !== 13 ? "rd" : "th";
+
+  return `${day}${suffix} ${month} ${year}`;
+}
 
 // ---------------- init date ----------------
 const params = new URLSearchParams(window.location.search);
