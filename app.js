@@ -494,6 +494,8 @@ function renderTransactionTable() {
     document.getElementById("description-sort-header");
   const descriptionSortIndicator =
     document.getElementById("description-sort-indicator");
+  const typeSortHeader =
+    document.getElementById("type-sort-indicator");
 
   // ---- Date sort handler (bind once)
   if (dateSortHeader && !dateSortHeader.dataset.bound) {
@@ -524,6 +526,7 @@ function renderTransactionTable() {
 
       if (dateSortIndicator) dateSortIndicator.textContent = "";
       if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
+      if (typeSortIndicator) typeSortIndicator.textContent = "";
       renderTransactionTable();
     };
   }
@@ -540,8 +543,26 @@ function renderTransactionTable() {
 
       if (dateSortIndicator) dateSortIndicator.textContent = "";
       if (categorySortIndicator) categorySortIndicator.textContent = "";
+      if (typeSortIndicator) typeSortIndicator.textContent = "";
       renderTransactionTable();
     };
+
+// ---- Type sort handler (bind once)
+  if (typeSortHeader && !typeSortHeader.dataset.bound) {
+    typeSortHeader.dataset.bound = "true";
+    typeSortHeader.onclick = () => {
+      transactionSortMode = "type";
+      transactionSortAscending = !transactionSortAscending;
+
+      typeSortIndicator.textContent =
+        transactionSortAscending ? "▲" : "▼";
+
+      if (dateSortIndicator) dateSortIndicator.textContent = "";
+      if (categorySortIndicator) categorySortIndicator.textContent = "";
+      if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
+      renderTransactionTable();
+    };
+    
   }
 
   transactionTableBody.innerHTML = "";
