@@ -7,6 +7,9 @@ const clearBtn  = document.getElementById("clear-note");
 const deleteBtn = document.getElementById("delete-note");
 const notesList = document.getElementById("notes-list");
 const searchInput = document.getElementById("search-notes");
+const currentDate = new Date().toISOString().split('T')[0];
+
+
 
 // ---------------- storage helpers ----------------
 function getNotes() {
@@ -150,7 +153,7 @@ document.getElementById("export-csv").onclick = () => {
 };
 
 document.getElementById("backup-notes").onclick = () => {
-  download("diary-backup.json", JSON.stringify(getNotes(), null, 2));
+  download("diary-backup`${currentdate}`.json", JSON.stringify(getNotes(), null, 2));
 };
 
 document.getElementById("restore-notes").addEventListener("change", e => {
