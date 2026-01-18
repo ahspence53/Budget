@@ -1370,12 +1370,15 @@ function renderSalaryRows() {
 salaryClose.onclick = () => {
   salaryPopup.classList.add("hidden");
   document.body.classList.remove("modal-open");
-};
+  /* ------ alex ------ */
+  salarySortKey === "date";
+}
 
 salaryPopup.addEventListener("click", e => {
   if (e.target === salaryPopup) {
     salaryPopup.classList.add("hidden");
     document.body.classList.remove("modal-open");
+    salarySortKey === "date";
   }
 });
 /* ========== NUDGE ========== */
