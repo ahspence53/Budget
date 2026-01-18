@@ -1327,7 +1327,8 @@ function renderSalaryRows() {
 
   salaryRows.sort((a, b) => {
     const val =
-      salarySortKey === "balance"
+      /*salarySortKey === "balance"*/
+      salarySortKey === "date"
         ? a.balance - b.balance
         : a.date - b.date;
 
