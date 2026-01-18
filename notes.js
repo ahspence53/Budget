@@ -44,7 +44,7 @@ function renderNotesList(filter = "") {
       const preview = text
         .replace(/\n+/g, " ")
         .trim()
-        .slice(0, 40);
+        .slice(0, 120);
 
       const li = document.createElement("li");
       li.textContent =
