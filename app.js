@@ -495,8 +495,10 @@ function renderTransactionTable() {
   const descriptionSortIndicator =
     document.getElementById("description-sort-indicator");
   const typeSortHeader =
-    document.getElementById("type-sort-indicator");
-
+    document.getElementById("type-sort-header");
+ const typeSortIndicator =
+   documenr.getElemwntById("type-sort-indicator");
+   
   // ---- Date sort handler (bind once)
   if (dateSortHeader && !dateSortHeader.dataset.bound) {
     dateSortHeader.dataset.bound = "true";
