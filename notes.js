@@ -33,16 +33,16 @@ function renderNotesList(filter = "") {
   notesList.innerHTML = "";
   const notes = getNotes();
   /* -------  added ------- */
-const prettyDate = formatDiaryDate(date);
 
-  li.textContent =
-  prettyDate + (preview ? " — " + preview + "…" : "");
+
+  
   
   /* ---------------------- */
   Object.keys(notes)
     .sort()
     .forEach(date => {
       const text = notes[date] || "";
+      const prettyDate = formatDiaryDate(date);
 
       if (filter && !text.toLowerCase().includes(filter)) return;
 
@@ -53,9 +53,7 @@ const prettyDate = formatDiaryDate(date);
         .slice(0, 120);
 
       const li = document.createElement("li");
-      li.textContent =
-        date + (preview ? " — " + preview + "…" : "");
-
+      prettyDate + (preview ? " — " + preview + "…" : "");
       li.style.cursor = "pointer";
       li.style.fontSize = "1.1rem";
 
