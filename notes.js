@@ -35,7 +35,7 @@ function formatDiaryDate(isoDate) {
 
   return `${day}${suffix} ${month} ${year}`;
 }
-
+// const padded = original.padEnd(16);
 // ---------------- init date ----------------
 const params = new URLSearchParams(window.location.search);
 const preselectedDate = params.get("date");
@@ -64,7 +64,7 @@ function renderNotesList(filter = "") {
 
       const li = document.createElement("li");
       li.textContent =
-        prettyDate + (preview ? " — " + preview + "…" : "");
+        prettyDate.padend(16) + (preview ? " — " + preview + "…" : "");
 
       li.style.cursor = "pointer";
       li.style.fontSize = "1.1rem";
