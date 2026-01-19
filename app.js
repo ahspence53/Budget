@@ -534,7 +534,7 @@ function renderTransactionTable() {
   }
 
   transactionTableBody.innerHTML = "";
-
+  transactions.forEach((tx, i) => tx.__index = i);
   const sorted = [...transactions].sort((a, b) => {
 
     if (transactionSortMode === "description") {
