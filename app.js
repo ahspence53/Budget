@@ -157,7 +157,14 @@ document.addEventListener("click", e => {
     document.body.classList.remove("modal-open");
   }
 });
-
+/* -------- helper funcfion for popups salary -1 and negative balances -------- */
+  function getTransactionsSortedByDate() {
+  return [...transactions].sort((a, b) => {
+    const dA = new Date(a.date);
+    const dB = new Date(b.date);
+    return dA - dB;
+  });
+}
 /* ----------Diary button ----------------------- */
 const diaryBtn = document.getElementById("diary-popup-btn");
 
@@ -1191,7 +1198,7 @@ negativeBtn.onclick = () => {
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     const iso = toISO(d);
 
-    transactions.forEach(tx => {
+    getTransactionsSortedByDate().forEach(...)
       const id = txId(tx);
       const natural = occursOn(tx, iso);
       const nudgedAway = nudges[`${id}|${iso}`];
@@ -1328,7 +1335,10 @@ salaryBtn.onclick = () => {
   /* ---------- COLLECT SALARY -1 DATES ---------- */
   const salaryMinusOne = new Set();
 
-  transactions.forEach(tx => {
+  const orderedTx = getTransactionsSortedByDate();
+
+orderedTx.forEach(tx => {
+  // existing salary -1 logic
     if (tx.type === "income") {
       const start = new Date(tx.date);
       const end = new Date(start);
@@ -1354,7 +1364,10 @@ salaryBtn.onclick = () => {
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     const iso = toISO(d);
 
-    transactions.forEach(tx => {
+  const orderedTx = getTransactionsSortedByDate();
+
+orderedTx.forEach(tx => {
+  // existing salary -1 logic
       const id = txId(tx);
       const natural = occursOn(tx, iso);
       const nudgedAway = nudges[`${id}|${iso}`];
