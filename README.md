@@ -1,6 +1,6 @@
 Title: Home Budget Tracker
 
-Pre-requisites: This is meant as a PWA app
+Pre-requisites: This is meant is a PWA.
 
 Installation: Add shortcut to desktop, windows, linux or ios
 
