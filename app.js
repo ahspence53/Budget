@@ -1198,18 +1198,18 @@ negativeBtn.onclick = () => {
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     const iso = toISO(d);
 
-    getTransactionsSortedByDate().forEach(...)
-      const id = txId(tx);
-      const natural = occursOn(tx, iso);
-      const nudgedAway = nudges[`${id}|${iso}`];
-      const nudgedHere = Object.entries(nudges).some(
-        ([key, target]) => key.startsWith(id + "|") && target === iso
-      );
+    getTransactionsSortedByDate().forEach(tx => {
+  const id = txId(tx);
+  const natural = occursOn(tx, iso);
+  const nudgedAway = nudges[`${id}|${iso}`];
+  const nudgedHere = Object.entries(nudges).some(
+    ([key, target]) => key.startsWith(id + "|") && target === iso
+  );
 
-      if ((natural && !nudgedAway) || (!natural && nudgedHere)) {
-        balance += tx.type === "income" ? tx.amount : -tx.amount;
-      }
-    });
+  if ((natural && !nudgedAway) || (!natural && nudgedHere)) {
+    balance += tx.type === "income" ? tx.amount : -tx.amount;
+  }
+});
 
     if (balance < 0) {
       foundAny = true;
