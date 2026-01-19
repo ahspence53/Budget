@@ -535,40 +535,39 @@ function renderTransactionTable() {
 
   transactionTableBody.innerHTML = "";
 
-  /* 🔒 Capture stable indices BEFORE sorting */
-  transactions.forEach((tx, i) => tx.__index = i);
+  /* 🔒 Pair each transaction with its original index */
+  const indexed = transactions.map((tx, index) => ({ tx, index }));
 
-  const sorted = [...transactions].sort((a, b) => {
+  const sorted = indexed.sort((a, b) => {
 
     if (transactionSortMode === "description") {
-      const dA = (a.description || "").toLowerCase();
-      const dB = (b.description || "").toLowerCase();
+      const dA = (a.tx.description || "").toLowerCase();
+      const dB = (b.tx.description || "").toLowerCase();
       const diff = dA.localeCompare(dB);
       return transactionSortAscending ? diff : -diff;
     }
 
     if (transactionSortMode === "category") {
-      const cA = (a.category || "").toLowerCase();
-      const cB = (b.category || "").toLowerCase();
+      const cA = (a.tx.category || "").toLowerCase();
+      const cB = (b.tx.category || "").toLowerCase();
       const diff = cA.localeCompare(cB);
       return transactionSortAscending ? diff : -diff;
     }
 
-    const dayA = getEffectiveDayOfMonth(a);
-    const dayB = getEffectiveDayOfMonth(b);
+    const dayA = getEffectiveDayOfMonth(a.tx);
+    const dayB = getEffectiveDayOfMonth(b.tx);
 
     if (dayA !== dayB) {
       return transactionSortAscending ? dayA - dayB : dayB - dayA;
     }
 
-    const cA = (a.category || "").toLowerCase();
-    const cB = (b.category || "").toLowerCase();
+    const cA = (a.tx.category || "").toLowerCase();
+    const cB = (b.tx.category || "").toLowerCase();
     return cA.localeCompare(cB);
   });
 
-  sorted.forEach(tx => {
+  sorted.forEach(({ tx, index }) => {
     const tr = document.createElement("tr");
-    const index = tx.__index;
 
     /* ========== INLINE EDIT MODE ========== */
     if (inlineEditIndex === index) {
