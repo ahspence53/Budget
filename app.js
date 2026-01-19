@@ -519,9 +519,11 @@ function renderTransactionTable() {
   const indexed = transactions.map((tx, index) => ({ tx, index }));
 
   indexed.forEach(({ tx, index }) => {
+    
     const tr = document.createElement("tr");
 
     if (inlineEditIndex === index) {
+      tr.classList.add("inline-editing");
 tr.classList.add("inline-editing");
       tr.innerHTML = `
         <td>${tx.date}</td>
