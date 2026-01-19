@@ -565,7 +565,7 @@ function renderTransactionTable() {
 
   sorted.forEach(tx => {
     const tr = document.createElement("tr");
-    const index = transactions.indexOf(tx);
+    const index = tx.__index;
 
     /* ========== INLINE EDIT MODE ========== */
     if (inlineEditIndex === index) {
