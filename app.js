@@ -595,9 +595,10 @@ tr.classList.add("inline-editing");
       `;
 
       tr.querySelector(".edit-btn").onclick = () => {
-        inlineEditIndex = index;
-        renderTransactionTable();
-      };
+  inlineEditIndex = index;
+  renderTransactionTable();
+  attachInlineEditKeys(index);
+};
 
       tr.querySelector(".delete-btn").onclick = () => {
         if (!confirm(`Delete "${tx.description}"?`)) return;
