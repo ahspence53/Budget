@@ -609,3 +609,9 @@ tr.freq-4weekly {
 .diary-old {
   opacity: 0.55;
 }
+
+table input,
+table select {
+  width: 100%;
+  box-sizing: border-box;
+}

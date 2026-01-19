@@ -33,6 +33,7 @@ let nudges = JSON.parse(localStorage.getItem("nudges")) || {};
 let scrollBeforeHelp = 0;
 let transactionSortAscending = true;
 let transactionSortMode = "date"; // "date" or "category"
+let inlineEditIndex = null;
   
 /* ================= DOM ================ */
 const txCategorySelect = document.getElementById("tx-category");
@@ -499,10 +500,7 @@ function renderTransactionTable() {
     dateSortHeader.onclick = () => {
       transactionSortMode = "date";
       transactionSortAscending = !transactionSortAscending;
-
-      dateSortIndicator.textContent =
-        transactionSortAscending ? "▲" : "▼";
-
+      dateSortIndicator.textContent = transactionSortAscending ? "▲" : "▼";
       if (categorySortIndicator) categorySortIndicator.textContent = "";
       if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
       renderTransactionTable();
@@ -515,10 +513,7 @@ function renderTransactionTable() {
     categorySortHeader.onclick = () => {
       transactionSortMode = "category";
       transactionSortAscending = !transactionSortAscending;
-
-      categorySortIndicator.textContent =
-        transactionSortAscending ? "▲" : "▼";
-
+      categorySortIndicator.textContent = transactionSortAscending ? "▲" : "▼";
       if (dateSortIndicator) dateSortIndicator.textContent = "";
       if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
       renderTransactionTable();
@@ -531,10 +526,7 @@ function renderTransactionTable() {
     descriptionSortHeader.onclick = () => {
       transactionSortMode = "description";
       transactionSortAscending = !transactionSortAscending;
-
-      descriptionSortIndicator.textContent =
-        transactionSortAscending ? "▲" : "▼";
-
+      descriptionSortIndicator.textContent = transactionSortAscending ? "▲" : "▼";
       if (dateSortIndicator) dateSortIndicator.textContent = "";
       if (categorySortIndicator) categorySortIndicator.textContent = "";
       renderTransactionTable();
@@ -545,7 +537,6 @@ function renderTransactionTable() {
 
   const sorted = [...transactions].sort((a, b) => {
 
-    // 🔹 Description sort
     if (transactionSortMode === "description") {
       const dA = (a.description || "").toLowerCase();
       const dB = (b.description || "").toLowerCase();
@@ -553,7 +544,6 @@ function renderTransactionTable() {
       return transactionSortAscending ? diff : -diff;
     }
 
-    // 🔹 Category sort
     if (transactionSortMode === "category") {
       const cA = (a.category || "").toLowerCase();
       const cB = (b.category || "").toLowerCase();
@@ -561,7 +551,6 @@ function renderTransactionTable() {
       return transactionSortAscending ? diff : -diff;
     }
 
-    // 🔹 Date sort (day of month)
     const dayA = getEffectiveDayOfMonth(a);
     const dayB = getEffectiveDayOfMonth(b);
 
@@ -576,77 +565,93 @@ function renderTransactionTable() {
 
   sorted.forEach(tx => {
     const tr = document.createElement("tr");
+    const index = transactions.indexOf(tx);
 
-    tr.innerHTML = `
-      <td>
-        <div class="tx-date-cell">
-          <span class="tx-date-text">${getDisplayedTransactionDate(tx)}</span>
-          <span class="tx-date-icon">
-            ${tx.frequency === "monthly" ? "🔁" : ""}
-            ${tx.frequency === "4-weekly" ? "📆" : ""}
-          </span>
-        </div>
-      </td>
+    /* ========== INLINE EDIT MODE ========== */
+    if (inlineEditIndex === index) {
 
-      <td>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span>${tx.description}</span>
-          ${tx.endDate ? `<span title="Ends on ${formatDate(tx.endDate)}">🎯</span>` : ""}
-        </div>
-      </td>
+      tr.innerHTML = `
+        <td>${getDisplayedTransactionDate(tx)}</td>
+        <td><input id="ie-desc" value="${tx.description}"></td>
+        <td>
+          <select id="ie-type">
+            <option value="expense" ${tx.type === "expense" ? "selected" : ""}>expense</option>
+            <option value="income" ${tx.type === "income" ? "selected" : ""}>income</option>
+          </select>
+        </td>
+        <td><input type="number" step="0.01" id="ie-amount" value="${tx.amount}"></td>
+        <td>
+          <select id="ie-category">
+            ${renderCategoryOptions(tx.category)}
+          </select>
+        </td>
+        <td>
+          <button class="save-btn">Save</button>
+          <button class="cancel-btn">Cancel</button>
+        </td>
+      `;
 
-      <td>${tx.type}</td>
-      <td>${tx.amount.toFixed(2)}</td>
-      <td>${tx.category}</td>
+      tr.querySelector(".save-btn").onclick = () => {
+        tx.description = document.getElementById("ie-desc").value;
+        tx.type = document.getElementById("ie-type").value;
+        tx.amount = parseFloat(document.getElementById("ie-amount").value) || 0;
+        tx.category = document.getElementById("ie-category").value;
 
-      <td>
-        <button class="edit-btn">Edit</button>
-        <button class="delete-btn">Delete</button>
-      </td>
-    `;
+        saveTransactions();
+        inlineEditIndex = null;
+        renderTransactionTable();
+        renderProjectionTable();
+      };
 
-    tr.querySelector(".edit-btn").onclick = () => {
+      tr.querySelector(".cancel-btn").onclick = () => {
+        inlineEditIndex = null;
+        renderTransactionTable();
+      };
 
-  // clear previous edit highlighting
-  document
-    .querySelectorAll(".editing-field")
-    .forEach(el => el.classList.remove("editing-field"));
+    } else {
 
-  txDesc.value = tx.description;
-  txAmount.value = tx.amount;
-  txType.value = tx.type;
-  txFrequency.value = tx.frequency;
-  txDate.value = tx.date;
-  txEndDate.value = tx.endDate || "";
-  txCategorySelect.value = tx.category;
+      /* ========== NORMAL ROW ========== */
+      tr.innerHTML = `
+        <td>
+          <div class="tx-date-cell">
+            <span class="tx-date-text">${getDisplayedTransactionDate(tx)}</span>
+            <span class="tx-date-icon">
+              ${tx.frequency === "monthly" ? "🔁" : ""}
+              ${tx.frequency === "4-weekly" ? "📆" : ""}
+            </span>
+          </div>
+        </td>
 
-  // highlight edited fields
-  [
-    txDesc,
-    txAmount,
-    txType,
-    txFrequency,
-    txDate,
-    txEndDate,
-    txCategorySelect
-  ].forEach(el => el.classList.add("editing-field"));
+        <td>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span>${tx.description}</span>
+            ${tx.endDate ? `<span title="Ends on ${formatDate(tx.endDate)}">🎯</span>` : ""}
+          </div>
+        </td>
 
-  editingIndex = transactions.indexOf(tx);
-  addTxButton.textContent = "Save Changes";
+        <td>${tx.type}</td>
+        <td>${tx.amount.toFixed(2)}</td>
+        <td>${tx.category}</td>
 
-  document
-    .getElementById("transaction-form")
-    ?.scrollIntoView({ behavior: "smooth", block: "start" });
-};
+        <td>
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </td>
+      `;
 
-    tr.querySelector(".delete-btn").onclick = () => {
-      if (!confirm(`Delete this transaction:\n"${tx.description}"?`)) return;
+      tr.querySelector(".edit-btn").onclick = () => {
+        inlineEditIndex = index;
+        renderTransactionTable();
+      };
 
-      transactions.splice(transactions.indexOf(tx), 1);
-      saveTransactions();
-      renderTransactionTable();
-      renderProjectionTable();
-    };
+      tr.querySelector(".delete-btn").onclick = () => {
+        if (!confirm(`Delete this transaction:\n"${tx.description}"?`)) return;
+        transactions.splice(index, 1);
+        saveTransactions();
+        renderTransactionTable();
+        renderProjectionTable();
+      };
+    }
 
     if (tx.type === "expense") tr.classList.add("expense-row");
     if (tx.frequency === "4-weekly") tr.classList.add("freq-4weekly");
