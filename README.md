@@ -4,11 +4,11 @@
 
 Title: Home Budget Tracker
 
-Pre-requisites: This is meant is a PWA.
+Pre-requisites: This is a Progressive Web App
 
 Installation: Add shortcut to desktop, windows, linux or ios
 
-Usage: 
+Usage: See Help within app.
 
 License: Free to use.
 
