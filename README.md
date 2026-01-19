@@ -1,3 +1,7 @@
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+
+
 Title: Home Budget Tracker
 
 Pre-requisites: This is meant is a PWA.
@@ -53,4 +57,8 @@ Your financial life belongs to you, not a server.
 	An opening balance (your bank balance on the start date)
 	A list of your monthly and 4-weekly transactions (if you have any)
 From these, it can be built in less than a minute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
