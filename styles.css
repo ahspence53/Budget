@@ -573,9 +573,9 @@ tr.freq-4weekly {
   position: fixed;
   top: 60px;
   right: 10px;
-  font-size: 20px;
+  font-size: 12px;
   color: #000000;
-  opacity: 1.0;
+  opacity: 0.7;
   z-index: 1;
   user-select: none;
 }
