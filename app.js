@@ -482,98 +482,28 @@ addTxButton.onclick = () => {
   txEndDate.value = "";   // ← ADD THIS
   txCategorySelect.value = "";
 };
-/* ================= TRANSACTION TABLE ================= */
+/* =========== inline edit helper ======== */
+  function buildCategoryOptions(selected) {
+  return categories
+    .map(
+      c =>
+        `<option value="${c}" ${c === selected ? "selected" : ""}>${c}</option>`
+    )
+    .join("");
+}
 function renderTransactionTable() {
-
-  const dateSortHeader = document.getElementById("date-sort-header");
-  const dateSortIndicator = document.getElementById("date-sort-indicator");
-  const categorySortHeader = document.getElementById("category-sort-header");
-  const categorySortIndicator = document.getElementById("category-sort-indicator");
-  const descriptionSortHeader =
-    document.getElementById("description-sort-header");
-  const descriptionSortIndicator =
-    document.getElementById("description-sort-indicator");
-
-  // ---- Date sort handler (bind once)
-  if (dateSortHeader && !dateSortHeader.dataset.bound) {
-    dateSortHeader.dataset.bound = "true";
-    dateSortHeader.onclick = () => {
-      transactionSortMode = "date";
-      transactionSortAscending = !transactionSortAscending;
-      dateSortIndicator.textContent = transactionSortAscending ? "▲" : "▼";
-      if (categorySortIndicator) categorySortIndicator.textContent = "";
-      if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
-      renderTransactionTable();
-    };
-  }
-
-  // ---- Category sort handler (bind once)
-  if (categorySortHeader && !categorySortHeader.dataset.bound) {
-    categorySortHeader.dataset.bound = "true";
-    categorySortHeader.onclick = () => {
-      transactionSortMode = "category";
-      transactionSortAscending = !transactionSortAscending;
-      categorySortIndicator.textContent = transactionSortAscending ? "▲" : "▼";
-      if (dateSortIndicator) dateSortIndicator.textContent = "";
-      if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
-      renderTransactionTable();
-    };
-  }
-
-  // ---- Description sort handler (bind once)
-  if (descriptionSortHeader && !descriptionSortHeader.dataset.bound) {
-    descriptionSortHeader.dataset.bound = "true";
-    descriptionSortHeader.onclick = () => {
-      transactionSortMode = "description";
-      transactionSortAscending = !transactionSortAscending;
-      descriptionSortIndicator.textContent = transactionSortAscending ? "▲" : "▼";
-      if (dateSortIndicator) dateSortIndicator.textContent = "";
-      if (categorySortIndicator) categorySortIndicator.textContent = "";
-      renderTransactionTable();
-    };
-  }
 
   transactionTableBody.innerHTML = "";
 
-  /* 🔒 Pair each transaction with its original index */
   const indexed = transactions.map((tx, index) => ({ tx, index }));
 
-  const sorted = indexed.sort((a, b) => {
-
-    if (transactionSortMode === "description") {
-      const dA = (a.tx.description || "").toLowerCase();
-      const dB = (b.tx.description || "").toLowerCase();
-      const diff = dA.localeCompare(dB);
-      return transactionSortAscending ? diff : -diff;
-    }
-
-    if (transactionSortMode === "category") {
-      const cA = (a.tx.category || "").toLowerCase();
-      const cB = (b.tx.category || "").toLowerCase();
-      const diff = cA.localeCompare(cB);
-      return transactionSortAscending ? diff : -diff;
-    }
-
-    const dayA = getEffectiveDayOfMonth(a.tx);
-    const dayB = getEffectiveDayOfMonth(b.tx);
-
-    if (dayA !== dayB) {
-      return transactionSortAscending ? dayA - dayB : dayB - dayA;
-    }
-
-    const cA = (a.tx.category || "").toLowerCase();
-    const cB = (b.tx.category || "").toLowerCase();
-    return cA.localeCompare(cB);
-  });
-
-  sorted.forEach(({ tx, index }) => {
+  indexed.forEach(({ tx, index }) => {
     const tr = document.createElement("tr");
 
-    /* ========== INLINE EDIT MODE ========== */
     if (inlineEditIndex === index) {
 
       tr.innerHTML = `
-        <td>${getDisplayedTransactionDate(tx)}</td>
+        <td>${tx.date}</td>
 
         <td>
           <input id="ie-desc-${index}" value="${tx.description}">
@@ -592,7 +522,7 @@ function renderTransactionTable() {
 
         <td>
           <select id="ie-category-${index}">
-            ${renderCategoryOptions(tx.category)}
+            ${buildCategoryOptions(tx.category)}
           </select>
         </td>
 
@@ -630,25 +560,9 @@ function renderTransactionTable() {
 
     } else {
 
-      /* ========== NORMAL ROW ========== */
       tr.innerHTML = `
-        <td>
-          <div class="tx-date-cell">
-            <span class="tx-date-text">${getDisplayedTransactionDate(tx)}</span>
-            <span class="tx-date-icon">
-              ${tx.frequency === "monthly" ? "🔁" : ""}
-              ${tx.frequency === "4-weekly" ? "📆" : ""}
-            </span>
-          </div>
-        </td>
-
-        <td>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span>${tx.description}</span>
-            ${tx.endDate ? `<span title="Ends on ${formatDate(tx.endDate)}">🎯</span>` : ""}
-          </div>
-        </td>
-
+        <td>${tx.date}</td>
+        <td>${tx.description}</td>
         <td>${tx.type}</td>
         <td>${tx.amount.toFixed(2)}</td>
         <td>${tx.category}</td>
@@ -665,16 +579,13 @@ function renderTransactionTable() {
       };
 
       tr.querySelector(".delete-btn").onclick = () => {
-        if (!confirm(`Delete this transaction:\n"${tx.description}"?`)) return;
+        if (!confirm(`Delete "${tx.description}"?`)) return;
         transactions.splice(index, 1);
         saveTransactions();
         renderTransactionTable();
         renderProjectionTable();
       };
     }
-
-    if (tx.type === "expense") tr.classList.add("expense-row");
-    if (tx.frequency === "4-weekly") tr.classList.add("freq-4weekly");
 
     transactionTableBody.appendChild(tr);
   });
