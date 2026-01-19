@@ -502,7 +502,7 @@ function renderTransactionTable() {
     const tr = document.createElement("tr");
 
     if (inlineEditIndex === index) {
-
+tr.classList.add("inline-editing");
       tr.innerHTML = `
         <td>${tx.date}</td>
 
