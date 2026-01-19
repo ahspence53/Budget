@@ -512,53 +512,117 @@ addTxButton.onclick = () => {
   });
 }
 /* ================ Render Transacfions ============= */
+/* ================ Render Transactions ============= */
 function renderTransactionTable() {
+
+  /* ---------- SORT HEADER BINDINGS ---------- */
+
+  const dateSortHeader = document.getElementById("date-sort-header");
+  const dateSortIndicator = document.getElementById("date-sort-indicator");
+  const categorySortHeader = document.getElementById("category-sort-header");
+  const categorySortIndicator = document.getElementById("category-sort-indicator");
+  const descriptionSortHeader =
+    document.getElementById("description-sort-header");
+  const descriptionSortIndicator =
+    document.getElementById("description-sort-indicator");
+
+  // ---- Date sort
+  if (dateSortHeader && !dateSortHeader.dataset.bound) {
+    dateSortHeader.dataset.bound = "true";
+    dateSortHeader.onclick = () => {
+      transactionSortMode = "date";
+      transactionSortAscending = !transactionSortAscending;
+      dateSortIndicator.textContent =
+        transactionSortAscending ? "▲" : "▼";
+      if (categorySortIndicator) categorySortIndicator.textContent = "";
+      if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
+      renderTransactionTable();
+    };
+  }
+
+  // ---- Description sort
+  if (descriptionSortHeader && !descriptionSortHeader.dataset.bound) {
+    descriptionSortHeader.dataset.bound = "true";
+    descriptionSortHeader.onclick = () => {
+      transactionSortMode = "description";
+      transactionSortAscending = !transactionSortAscending;
+      descriptionSortIndicator.textContent =
+        transactionSortAscending ? "▲" : "▼";
+      if (dateSortIndicator) dateSortIndicator.textContent = "";
+      if (categorySortIndicator) categorySortIndicator.textContent = "";
+      renderTransactionTable();
+    };
+  }
+
+  // ---- Category sort
+  if (categorySortHeader && !categorySortHeader.dataset.bound) {
+    categorySortHeader.dataset.bound = "true";
+    categorySortHeader.onclick = () => {
+      transactionSortMode = "category";
+      transactionSortAscending = !transactionSortAscending;
+      categorySortIndicator.textContent =
+        transactionSortAscending ? "▲" : "▼";
+      if (dateSortIndicator) dateSortIndicator.textContent = "";
+      if (descriptionSortIndicator) descriptionSortIndicator.textContent = "";
+      renderTransactionTable();
+    };
+  }
+
+  /* ---------- TABLE BODY ---------- */
 
   transactionTableBody.innerHTML = "";
 
+  /* ---------- BUILD SORTED VIEW (Safari-safe) ---------- */
+
   const indexed = transactions
-  .map((tx, index) => ({ tx, index }))
-  .sort((a, b) => {
+    .map((tx, index) => ({ tx, index }))
+    .sort((a, b) => {
 
-    // 🔹 Description sort
-    if (transactionSortMode === "description") {
-      const dA = (a.tx.description || "").toLowerCase();
-      const dB = (b.tx.description || "").toLowerCase();
-      const diff = dA.localeCompare(dB);
-      return transactionSortAscending ? diff : -diff;
-    }
+      // Description
+      if (transactionSortMode === "description") {
+        const dA = (a.tx.description || "").toLowerCase();
+        const dB = (b.tx.description || "").toLowerCase();
+        const diff = dA.localeCompare(dB);
+        return transactionSortAscending ? diff : -diff;
+      }
 
-    // 🔹 Category sort
-    if (transactionSortMode === "category") {
+      // Category
+      if (transactionSortMode === "category") {
+        const cA = (a.tx.category || "").toLowerCase();
+        const cB = (b.tx.category || "").toLowerCase();
+        const diff = cA.localeCompare(cB);
+        return transactionSortAscending ? diff : -diff;
+      }
+
+      // Date (effective day-of-month logic)
+      const dayA = getEffectiveDayOfMonth(a.tx);
+      const dayB = getEffectiveDayOfMonth(b.tx);
+
+      if (dayA !== dayB) {
+        return transactionSortAscending ? dayA - dayB : dayB - dayA;
+      }
+
+      // Tie-breaker
       const cA = (a.tx.category || "").toLowerCase();
       const cB = (b.tx.category || "").toLowerCase();
-      const diff = cA.localeCompare(cB);
-      return transactionSortAscending ? diff : -diff;
-    }
+      return cA.localeCompare(cB);
+    });
 
-    // 🔹 Date sort (day-of-month logic you already use)
-    const dayA = getEffectiveDayOfMonth(a.tx);
-    const dayB = getEffectiveDayOfMonth(b.tx);
-
-    if (dayA !== dayB) {
-      return transactionSortAscending ? dayA - dayB : dayB - dayA;
-    }
-
-    // tie-breaker
-    const cA = (a.tx.category || "").toLowerCase();
-    const cB = (b.tx.category || "").toLowerCase();
-    return cA.localeCompare(cB);
-  });
+  /* ---------- RENDER ROWS ---------- */
 
   indexed.forEach(({ tx, index }) => {
-    
+
     const tr = document.createElement("tr");
 
+    /* ===== INLINE EDIT MODE ===== */
     if (inlineEditIndex === index) {
+
       tr.classList.add("inline-editing");
-tr.classList.add("inline-editing");
+
       tr.innerHTML = `
-        <td>${tx.date}</td>
+        <td>
+          <input type="date" id="ie-date-${index}" value="${tx.date}">
+        </td>
 
         <td>
           <input id="ie-desc-${index}" value="${tx.description}">
@@ -588,17 +652,16 @@ tr.classList.add("inline-editing");
       `;
 
       tr.querySelector(".save-btn").onclick = () => {
+        tx.date =
+          document.getElementById(`ie-date-${index}`).value;
         tx.description =
           document.getElementById(`ie-desc-${index}`).value;
-
         tx.type =
           document.getElementById(`ie-type-${index}`).value;
-
         tx.amount =
           parseFloat(
             document.getElementById(`ie-amount-${index}`).value
           ) || 0;
-
         tx.category =
           document.getElementById(`ie-category-${index}`).value;
 
@@ -615,18 +678,21 @@ tr.classList.add("inline-editing");
 
     } else {
 
+      /* ===== NORMAL VIEW MODE ===== */
+
       tr.innerHTML = `
         <td>
-  <div class="tx-date-cell">
-    <span class="tx-date-text">
-      ${getDisplayedTransactionDate(tx)}
-    </span>
-    <span class="tx-date-icon">
-      ${tx.frequency === "monthly" ? "🔁" : ""}
-      ${tx.frequency === "4-weekly" ? "📆" : ""}
-    </span>
-  </div>
-</td>
+          <div class="tx-date-cell">
+            <span class="tx-date-text">
+              ${getDisplayedTransactionDate(tx)}
+            </span>
+            <span class="tx-date-icon">
+              ${tx.frequency === "monthly" ? "🔁" : ""}
+              ${tx.frequency === "4-weekly" ? "📆" : ""}
+            </span>
+          </div>
+        </td>
+
         <td>${tx.description}</td>
         <td>${tx.type}</td>
         <td>${tx.amount.toFixed(2)}</td>
@@ -639,10 +705,10 @@ tr.classList.add("inline-editing");
       `;
 
       tr.querySelector(".edit-btn").onclick = () => {
-  inlineEditIndex = index;
-  renderTransactionTable();
-  attachInlineEditKeys(index);
-};
+        inlineEditIndex = index;
+        renderTransactionTable();
+        attachInlineEditKeys(index);
+      };
 
       tr.querySelector(".delete-btn").onclick = () => {
         if (!confirm(`Delete "${tx.description}"?`)) return;
@@ -652,6 +718,9 @@ tr.classList.add("inline-editing");
         renderProjectionTable();
       };
     }
+
+    if (tx.type === "expense") tr.classList.add("expense-row");
+    if (tx.frequency === "4-weekly") tr.classList.add("freq-4weekly");
 
     transactionTableBody.appendChild(tr);
   });
