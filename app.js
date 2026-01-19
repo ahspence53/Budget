@@ -491,6 +491,7 @@ addTxButton.onclick = () => {
     )
     .join("");
 }
+/* ================ Render Transacfions ============= */
 function renderTransactionTable() {
 
   transactionTableBody.innerHTML = "";
