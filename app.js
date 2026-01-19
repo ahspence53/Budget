@@ -534,7 +534,10 @@ function renderTransactionTable() {
   }
 
   transactionTableBody.innerHTML = "";
+
+  /* 🔒 Capture stable indices BEFORE sorting */
   transactions.forEach((tx, i) => tx.__index = i);
+
   const sorted = [...transactions].sort((a, b) => {
 
     if (transactionSortMode === "description") {
@@ -572,19 +575,28 @@ function renderTransactionTable() {
 
       tr.innerHTML = `
         <td>${getDisplayedTransactionDate(tx)}</td>
-        <td><input id="ie-desc" value="${tx.description}"></td>
+
         <td>
-          <select id="ie-type">
+          <input id="ie-desc-${index}" value="${tx.description}">
+        </td>
+
+        <td>
+          <select id="ie-type-${index}">
             <option value="expense" ${tx.type === "expense" ? "selected" : ""}>expense</option>
             <option value="income" ${tx.type === "income" ? "selected" : ""}>income</option>
           </select>
         </td>
-        <td><input type="number" step="0.01" id="ie-amount" value="${tx.amount}"></td>
+
         <td>
-          <select id="ie-category">
+          <input type="number" step="0.01" id="ie-amount-${index}" value="${tx.amount}">
+        </td>
+
+        <td>
+          <select id="ie-category-${index}">
             ${renderCategoryOptions(tx.category)}
           </select>
         </td>
+
         <td>
           <button class="save-btn">Save</button>
           <button class="cancel-btn">Cancel</button>
@@ -592,10 +604,19 @@ function renderTransactionTable() {
       `;
 
       tr.querySelector(".save-btn").onclick = () => {
-        tx.description = document.getElementById("ie-desc").value;
-        tx.type = document.getElementById("ie-type").value;
-        tx.amount = parseFloat(document.getElementById("ie-amount").value) || 0;
-        tx.category = document.getElementById("ie-category").value;
+        tx.description =
+          document.getElementById(`ie-desc-${index}`).value;
+
+        tx.type =
+          document.getElementById(`ie-type-${index}`).value;
+
+        tx.amount =
+          parseFloat(
+            document.getElementById(`ie-amount-${index}`).value
+          ) || 0;
+
+        tx.category =
+          document.getElementById(`ie-category-${index}`).value;
 
         saveTransactions();
         inlineEditIndex = null;
