@@ -615,3 +615,7 @@ table select {
   width: 100%;
   box-sizing: border-box;
 }
+
+tr.inline-editing {
+  background-color: rgba(0, 0, 0, 0.04); /* subtle, works light/dark */
+}
