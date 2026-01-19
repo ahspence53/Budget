@@ -491,6 +491,26 @@ addTxButton.onclick = () => {
     )
     .join("");
 }
+/* =====- helper ====== */
+  function attachInlineEditKeys(index) {
+  document.addEventListener("keydown", function handler(e) {
+
+    if (inlineEditIndex !== index) {
+      document.removeEventListener("keydown", handler);
+      return;
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.querySelector(".save-btn")?.click();
+    }
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      document.querySelector(".cancel-btn")?.click();
+    }
+  });
+}
 /* ================ Render Transacfions ============= */
 function renderTransactionTable() {
 
