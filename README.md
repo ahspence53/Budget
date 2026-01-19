@@ -1,3 +1,14 @@
+Title: Home Budget Tracker
+
+Pre-requisites: This is meant as a PWA app
+
+Installation: Add shortcut to desktop, windows, linux or ios
+
+Usage: 
+
+License: Free to use.
+
+
 🗓️ The "Day-Before-Payday" Metric
 The most critical number in any budget isn't your current balance -
 it’s your minimum balance.
