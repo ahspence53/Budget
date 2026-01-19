@@ -1328,8 +1328,8 @@ function renderSalaryRows() {
 
   salaryRows.sort((a, b) => {
     const val =
-      /*salarySortKey === "balance"*/
-      salarySortKey === "date"
+      salarySortKey === "balance"
+      
         ? a.balance - b.balance
         : a.date - b.date;
 
@@ -1371,15 +1371,14 @@ function renderSalaryRows() {
 salaryClose.onclick = () => {
   salaryPopup.classList.add("hidden");
   document.body.classList.remove("modal-open");
-  /* ------ alex ------ */
-  salarySortKey === "date";
+
 }
 
 salaryPopup.addEventListener("click", e => {
   if (e.target === salaryPopup) {
     salaryPopup.classList.add("hidden");
     document.body.classList.remove("modal-open");
-    salarySortKey === "date";
+    
   }
 });
 /* ========== NUDGE ========== */
