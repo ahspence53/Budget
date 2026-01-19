@@ -516,7 +516,39 @@ function renderTransactionTable() {
 
   transactionTableBody.innerHTML = "";
 
-  const indexed = transactions.map((tx, index) => ({ tx, index }));
+  const indexed = transactions
+  .map((tx, index) => ({ tx, index }))
+  .sort((a, b) => {
+
+    // 🔹 Description sort
+    if (transactionSortMode === "description") {
+      const dA = (a.tx.description || "").toLowerCase();
+      const dB = (b.tx.description || "").toLowerCase();
+      const diff = dA.localeCompare(dB);
+      return transactionSortAscending ? diff : -diff;
+    }
+
+    // 🔹 Category sort
+    if (transactionSortMode === "category") {
+      const cA = (a.tx.category || "").toLowerCase();
+      const cB = (b.tx.category || "").toLowerCase();
+      const diff = cA.localeCompare(cB);
+      return transactionSortAscending ? diff : -diff;
+    }
+
+    // 🔹 Date sort (day-of-month logic you already use)
+    const dayA = getEffectiveDayOfMonth(a.tx);
+    const dayB = getEffectiveDayOfMonth(b.tx);
+
+    if (dayA !== dayB) {
+      return transactionSortAscending ? dayA - dayB : dayB - dayA;
+    }
+
+    // tie-breaker
+    const cA = (a.tx.category || "").toLowerCase();
+    const cB = (b.tx.category || "").toLowerCase();
+    return cA.localeCompare(cB);
+  });
 
   indexed.forEach(({ tx, index }) => {
     
