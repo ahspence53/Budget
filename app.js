@@ -584,7 +584,17 @@ tr.classList.add("inline-editing");
     } else {
 
       tr.innerHTML = `
-        <td>${tx.date}</td>
+        <td>
+  <div class="tx-date-cell">
+    <span class="tx-date-text">
+      ${getDisplayedTransactionDate(tx)}
+    </span>
+    <span class="tx-date-icon">
+      ${tx.frequency === "monthly" ? "🔁" : ""}
+      ${tx.frequency === "4-weekly" ? "📆" : ""}
+    </span>
+  </div>
+</td>
         <td>${tx.description}</td>
         <td>${tx.type}</td>
         <td>${tx.amount.toFixed(2)}</td>
