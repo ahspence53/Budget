@@ -1043,7 +1043,7 @@ document.getElementById("TopofApp")?.addEventListener("click", () => {
 });
   
 //* ================== MENU BUTTON =========== */
-document.getElementById("Menu")?.addEventListener("click", () => {
+document.getElementById("menucategory")?.addEventListener("click", () => {
   scrollWithOffset("jump-here", -40);
 });
 
