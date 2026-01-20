@@ -1011,39 +1011,30 @@ findInput.oninput=collectMatches;
 findNext.onclick=()=>{if(matches.length){findIdx=(findIdx+1)%matches.length;showMatch();updateCounter();}};
 findPrev.onclick=()=>{if(matches.length){findIdx=(findIdx-1+matches.length)%matches.length;showMatch();updateCounter();}};
 
-/* ================= TOP ================= */
-document.getElementById("back-to-top").onclick = () => {
-  const topElement = document.getElementById("app-top");
+/* ========== 24 MONTH PROJECTION (TOP) ========== */
+document.getElementById("back-to-top")?.addEventListener("click", () => {
+  document.getElementById("app-top")?.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
+
   
-  if (topElement) {
-    topElement.scrollIntoView({ 
-      behavior: "smooth", 
-      block: "start" 
-    });
-  }
-};
 /* ============== VIEW TRANSACTIONS =========== */
-document.getElementById("topofapp").onclick = () => {
-  const topElement = document.getElementById("tohere");
+document.getElementById("TopofApp")?.addEventListener("click", () => {
+  document.getElementById("tohere")?.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
   
-  if (topElement) {
-    topElement.scrollIntoView({ 
-      behavior: "smooth", 
-      block: "start" 
-    });
-  }
-};
-/* ================== MENU BUTTON =========== */
-document.getElementById("Menu").onclick = () => {
-  const topElement = document.getElementById("jump-here");
-  
-  if (topElement) {
-    topElement.scrollIntoView({ 
-      behavior: "smooth", 
-      block: "start" 
-    });
-  }
-};
+//* ================== MENU BUTTON =========== */
+document.getElementById("Menu")?.addEventListener("click", () => {
+  document.getElementById("jump-here")?.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
 
   
   const floatingFind = document.getElementById("floating-find");
