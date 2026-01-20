@@ -1023,7 +1023,7 @@ document.getElementById("back-to-top").onclick = () => {
   }
 };
 /* ============== VIEW TRANSACTIONS =========== */
-document.getElementById("TopofApp").onclick = () => {
+document.getElementById("tohere").onclick = () => {
   const topElement = document.getElementById("jump-here");
   
   if (topElement) {
