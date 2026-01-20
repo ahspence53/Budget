@@ -262,6 +262,15 @@ table button {
   font-family: sans-serif;
 }
 
+#menu {
+  background-color: #0B5ED70F; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: sans-serif;
+}
+
 #TopofApp{
   background-color: #0b5ed7; 
   color: white;
