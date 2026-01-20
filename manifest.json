@@ -1,6 +1,6 @@
 {
   "name": "Home Budget Tracker",
-  "short_name": "Budgie",
+  "short_name": "Budget",
   "description": "Personal budget and 24-month cashflow projection",
   "start_url": "./",
   "display": "standalone",
