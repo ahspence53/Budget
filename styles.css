@@ -619,3 +619,13 @@ table select {
 tr.inline-editing {
   background-color: #FFFCD3;
 }
+
+.jump-highlight {
+  animation: flash 0.8s ease;
+}
+
+@keyframes flash {
+  from { background-color: rgba(11, 94, 215, 0.15); }
+  to   { background-color: transparent; }
+}
+
