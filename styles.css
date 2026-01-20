@@ -632,3 +632,9 @@ tr.inline-editing {
 #bottom-spacer {
   height: 60vh; /* enough room to allow scrolling */
 }
+#edit-category-section {
+  background: rgba(11, 94, 215, 0.06); /* soft blue wash */
+  padding: 24px 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
