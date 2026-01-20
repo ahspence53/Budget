@@ -1039,12 +1039,12 @@ document.getElementById("back-to-top")?.addEventListener("click", () => {
   
 /* ============== VIEW TRANSACTIONS =========== */
 document.getElementById("TopofApp")?.addEventListener("click", () => {
-  scrollWithOffset("tohere", -20);
+  scrollWithOffset("tohere", -80);
 });
   
 //* ================== MENU BUTTON =========== */
 document.getElementById("Menu")?.addEventListener("click", () => {
-  scrollWithOffset("jump-here", -60);
+  scrollWithOffset("jump-here", -500);
 });
 
   
