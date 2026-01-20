@@ -1033,6 +1033,18 @@ document.getElementById("TopofApp").onclick = () => {
     });
   }
 };
+/* ================== MENU BUTTON =========== */
+document.getElementById("Menu").onclick = () => {
+  const topElement = document.getElementById("jump-here");
+  
+  if (topElement) {
+    topElement.scrollIntoView({ 
+      behavior: "smooth", 
+      block: "start" 
+    });
+  }
+};
+
   
   const floatingFind = document.getElementById("floating-find");
 
