@@ -91,45 +91,7 @@ In the <b>24 Month Projection table </b>you can <b>Nudge</b> Expenses forward by
   </div>
 </div>
 
-<hr id="jump-here" style="border: none; height: 8px; background-color: #000000; margin: 100px 0;">
-    
-<section id="edit-category-section">
-<h3>Add and Edit Categories</h3>
-  <select id="edit-category-select"></select>
-  <input type="text" id="edit-category-name" placeholder="New category name">
-  <button id="rename-category">Rename Category</button>
-  <input id="new-category" placeholder="New category">
-  <button id="add-category">Add Category</button> 
-  
-</section>
-<h3>Add and Edit Transactions</h3>
-<section class="transactions" id="transaction-form">
-  <input id="tx-desc" placeholder="Description">
-  <input id="tx-amount" type="number" step="0.01" placeholder="Amount">
-  <select id="tx-type">
-    <option value="expense">Expense</option>
-    <option value="income">Income</option>
-  </select>
-  <select id="tx-frequency">
-    <option value="irregular">Irregular</option>
-    <option value="monthly">Monthly</option>
-    <option value="4-weekly">4-weekly</option>
-  </select>
-  <input id="tx-date" type="date" placeholder="Start date">
-  <input type="date" id="tx-end-date" placeholder="End date (optional)">
-  <select id="tx-category"></select>
-  <button id="add-transaction">ADD</button>
 
-  <div class="import-box">
-    <label>
-      Import transactions - CSV
-      <input type="file" id="csv-import" accept=".csv">
-    </label>
-    <button id="import-btn">Import CSV (Replace existing)</button>
-    
-  </div>
-  
-</section>
 
   
 <h2 style="background-color:  #0b5ed7; color: #ffffff; padding: 10px;">
@@ -174,7 +136,45 @@ In the <b>24 Month Projection table </b>you can <b>Nudge</b> Expenses forward by
 </table>
 
 
+<hr id="jump-here" style="border: none; height: 8px; background-color: #000000; margin: 100px 0;">
+    
+<section id="edit-category-section">
+<h3>Add and Edit Categories</h3>
+  <select id="edit-category-select"></select>
+  <input type="text" id="edit-category-name" placeholder="New category name">
+  <button id="rename-category">Rename Category</button>
+  <input id="new-category" placeholder="New category">
+  <button id="add-category">Add Category</button> 
+  
+</section>
+<h3>Add and Edit Transactions</h3>
+<section class="transactions" id="transaction-form">
+  <input id="tx-desc" placeholder="Description">
+  <input id="tx-amount" type="number" step="0.01" placeholder="Amount">
+  <select id="tx-type">
+    <option value="expense">Expense</option>
+    <option value="income">Income</option>
+  </select>
+  <select id="tx-frequency">
+    <option value="irregular">Irregular</option>
+    <option value="monthly">Monthly</option>
+    <option value="4-weekly">4-weekly</option>
+  </select>
+  <input id="tx-date" type="date" placeholder="Start date">
+  <input type="date" id="tx-end-date" placeholder="End date (optional)">
+  <select id="tx-category"></select>
+  <button id="add-transaction">ADD</button>
 
+  <div class="import-box">
+    <label>
+      Import transactions - CSV
+      <input type="file" id="csv-import" accept=".csv">
+    </label>
+    <button id="import-btn">Import CSV (Replace existing)</button>
+    
+  </div>
+  
+</section>
   
 
     
