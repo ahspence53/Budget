@@ -75,7 +75,22 @@ if (localStorage.getItem("dismissedVersion") === APP_VERSION) {
     ?.classList.add("hidden");
 }
 
-/* ================ */
+/* ===================================================== */
+function scrollWithOffset(targetId, offset = 0) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+
+  const y =
+    el.getBoundingClientRect().top +
+    window.pageYOffset +
+    offset;
+
+  window.scrollTo({
+    top: y,
+    behavior: "smooth"
+  });
+}
+   
 /*==========--EVENT LISTENER FOR END TARGETED ===========*/
 document.addEventListener("click", e => {
   // 🚫 Ignore Refresh button clicks completely
@@ -1013,27 +1028,19 @@ findPrev.onclick=()=>{if(matches.length){findIdx=(findIdx-1+matches.length)%matc
 
 /* ========== 24 MONTH PROJECTION (TOP) ========== */
 document.getElementById("back-to-top")?.addEventListener("click", () => {
-  document.getElementById("app-top")?.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  scrollWithOffset("app-top", 0);
 });
-
+/*. ------ */
+  
   
 /* ============== VIEW TRANSACTIONS =========== */
 document.getElementById("TopofApp")?.addEventListener("click", () => {
-  document.getElementById("tohere")?.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  scrollWithOffset("tohere", -20);
 });
   
 //* ================== MENU BUTTON =========== */
 document.getElementById("Menu")?.addEventListener("click", () => {
-  document.getElementById("jump-here")?.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  scrollWithOffset("jump-here", -60);
 });
 
   
