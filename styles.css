@@ -655,8 +655,8 @@ tr.inline-editing {
 }
 
 .section-label {
-  background-color: rgba(11, 94, 215, 0.12); /* soft blue */
-  color: #0b5ed7;                           /* readable foreground */
+  background-color: #0377fc;
+  color: #ffffff;                       
   padding: 8px 14px;
   border-radius: 8px;
   font-weight: 600;
