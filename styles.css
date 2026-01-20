@@ -629,3 +629,6 @@ tr.inline-editing {
   to   { background-color: transparent; }
 }
 
+#bottom-spacer {
+  height: 60vh; /* enough room to allow scrolling */
+}
