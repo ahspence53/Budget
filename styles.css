@@ -653,3 +653,12 @@ tr.inline-editing {
 #manage-section {
   border-top: 1px solid rgba(0,0,0,0.08);
 }
+
+.section-label {
+  background-color: rgba(11, 94, 215, 0.12); /* soft blue */
+  color: #0b5ed7;                           /* readable foreground */
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin: 0 0 14px 0;
+}
