@@ -89,6 +89,10 @@ function scrollWithOffset(targetId, offset = 0) {
     top: y,
     behavior: "smooth"
   });
+
+  // ✨ subtle visual confirmation
+  el.classList.add("jump-highlight");
+  setTimeout(() => el.classList.remove("jump-highlight"), 800);
 }
    
 /*==========--EVENT LISTENER FOR END TARGETED ===========*/
