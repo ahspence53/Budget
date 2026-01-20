@@ -632,16 +632,15 @@ tr.inline-editing {
 #bottom-spacer {
   height: 60vh; /* enough room to allow scrolling */
 }
-#edit-category-section {
-  background: rgba(11, 94, 215, 0.06); /* soft blue wash */
-  padding: 24px 20px;
-  border-radius: 12px;
-  margin-top: 20px;
-}
+
 
 #manage-section {
   background: rgba(11, 94, 215, 0.06);
   padding: 28px 22px;
   border-radius: 14px;
   margin-top: 30px;
+}
+
+#manage-section {
+  border-top: 1px solid rgba(0,0,0,0.08);
 }
