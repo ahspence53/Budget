@@ -666,3 +666,7 @@ tr.inline-editing {
   opacity: 0.7;
   white-space: nowrap;
 }
+
+tr.inline-editing input[type="date"] {
+  width: 100%;
+}
