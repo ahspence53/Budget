@@ -719,7 +719,16 @@ function renderTransactionTable() {
           </div>
         </td>
 
-        <td>${tx.description}</td>
+        <td>
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <span>${tx.description}</span>
+    ${
+      tx.endDate
+        ? `<span class="tx-target" title="Ends on ${formatDate(tx.endDate)}">🎯</span>`
+        : ""
+    }
+  </div>
+</td>
         <td>${tx.type}</td>
         <td>${tx.amount.toFixed(2)}</td>
         <td>${tx.category}</td>
