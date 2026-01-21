@@ -263,7 +263,7 @@ table button {
 }
 
 #menucategory {
-  background-color: #ef42f5;
+  background-color: mediumseagreen;
   color: white;
   border: none;
   border-radius: 5px;
@@ -653,7 +653,7 @@ tr.inline-editing {
 }
 
 .section-label {
-  background-color: #32a6a8
+  background-color: mediumseagreen;
   color: #ffffff;                       
   padding: 8px 14px;
   border-radius: 8px;
