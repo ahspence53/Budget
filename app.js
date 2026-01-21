@@ -713,9 +713,16 @@ function renderTransactionTable() {
               ${getDisplayedTransactionDate(tx)}
             </span>
             <span class="tx-date-icon">
-              ${tx.frequency === "monthly" ? "🔁" : ""}
-              ${tx.frequency === "4-weekly" ? "📆" : ""}
-            </span>
+  ${
+    tx.endDate
+      ? "🎯"
+      : tx.frequency === "monthly"
+        ? "🔁"
+        : tx.frequency === "4-weekly"
+          ? "📆"
+          : ""
+  }
+</span>
           </div>
         </td>
 
