@@ -670,3 +670,11 @@ tr.inline-editing {
 tr.inline-editing input[type="date"] {
   width: 100%;
 }
+
+h3 .helper-text {
+  font-size: 0.75em;
+  font-weight: normal;
+  color: #666;
+  margin-left: 8px;
+  white-space: nowrap;
+}
