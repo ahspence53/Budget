@@ -660,3 +660,9 @@ tr.inline-editing {
   font-weight: 600;
   margin: 0 0 14px 0;
 }
+
+.tx-target {
+  font-size: 0.85em;
+  opacity: 0.7;
+  white-space: nowrap;
+}
