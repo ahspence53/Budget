@@ -646,9 +646,20 @@ function renderTransactionTable() {
       tr.classList.add("inline-editing");
 
       tr.innerHTML = `
-        <td>
-          <input type="date" id="ie-date-${index}" value="${tx.date}">
-        </td>
+   <td>
+  <input type="date" id="ie-date-${index}" value="${tx.date}">
+  ${
+    tx.endDate
+      ? `<input
+           type="date"
+           id="ie-enddate-${index}"
+           value="${tx.endDate}"
+           title="End date"
+           style="margin-top:4px;"
+         >`
+      : ""
+  }
+</td>
 
         <td>
           <input id="ie-desc-${index}" value="${tx.description}">
