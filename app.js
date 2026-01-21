@@ -1044,7 +1044,7 @@ document.getElementById("TopofApp")?.addEventListener("click", () => {
   
 //* ================== MENU BUTTON =========== */
 document.getElementById("menucategory")?.addEventListener("click", () => {
-  scrollWithOffset("jump-here", -40);
+  scrollWithOffset("jump-here", -80);
 });
 
   
