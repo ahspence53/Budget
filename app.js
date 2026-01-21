@@ -691,6 +691,8 @@ function renderTransactionTable() {
       tr.querySelector(".save-btn").onclick = () => {
         tx.date =
           document.getElementById(`ie-date-${index}`).value;
+        tx.endDate =
+          document.getElementById(`ie-enddate-${index}`)?.value || null;
         tx.description =
           document.getElementById(`ie-desc-${index}`).value;
         tx.type =
