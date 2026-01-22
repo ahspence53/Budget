@@ -67,13 +67,16 @@ if (versionEl) {
   versionEl.textContent = `Version: ${APP_VERSION}`;
 }
 /* ===================== */
-  document.querySelectorAll(".tx-filter").forEach(el => {
+document.querySelectorAll(".tx-filter").forEach(el => {
   el.addEventListener("click", () => {
     const mode = el.dataset.filter;
 
-    // Toggle off if clicked again
-    transactionFilterMode =
-      transactionFilterMode === mode ? null : mode;
+    if (mode === "all") {
+      transactionFilterMode = null;
+    } else {
+      transactionFilterMode =
+        transactionFilterMode === mode ? null : mode;
+    }
 
     renderTransactionTable();
     updateFilterUI();
@@ -82,10 +85,13 @@ if (versionEl) {
 /* ================ */
 function updateFilterUI() {
   document.querySelectorAll(".tx-filter").forEach(el => {
-    el.classList.toggle(
-      "active",
-      el.dataset.filter === transactionFilterMode
-    );
+    const mode = el.dataset.filter;
+
+    const isActive =
+      (mode === "all" && transactionFilterMode === null) ||
+      mode === transactionFilterMode;
+
+    el.classList.toggle("active", isActive);
   });
 }
   /* ========= */
