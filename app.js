@@ -630,6 +630,10 @@ function renderTransactionTable() {
     return !!tx.endDate;
   }
 
+  if (transactionFilterMode === "monthly") {
+    return tx.frequency === "monthly" && !tx.endDate;
+  }
+
   return tx.frequency === transactionFilterMode;
 });
 
