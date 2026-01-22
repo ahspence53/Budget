@@ -80,7 +80,15 @@ if (versionEl) {
   });
 });
 /* ================ */
-
+function updateFilterUI() {
+  document.querySelectorAll(".tx-filter").forEach(el => {
+    el.classList.toggle(
+      "active",
+      el.dataset.filter === transactionFilterMode
+    );
+  });
+}
+  /* ========= */
 
 
 
