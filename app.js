@@ -95,7 +95,27 @@ function updateFilterUI() {
   });
 }
   /* ========= */
+function updateFilterBadge() {
+  const badge = document.getElementById("tx-filter-badge");
+  if (!badge) return;
 
+  if (!transactionFilterMode) {
+    badge.classList.add("hidden");
+    badge.textContent = "";
+    return;
+  }
+
+  const label =
+    transactionFilterMode === "monthly"
+      ? "Monthly"
+      : transactionFilterMode === "4-weekly"
+        ? "4-Weekly"
+        : "Targeted";
+
+  badge.textContent = `Filter: ${label}`;
+  badge.classList.remove("hidden");
+}
+  /* ============= */
 
 
 if (localStorage.getItem("dismissedVersion") === APP_VERSION) {
@@ -814,6 +834,7 @@ const indexed = filtered
 
     transactionTableBody.appendChild(tr);
   });
+  updateFilterBadge();
 }
 /* ================= RECURRENCE ================= */
 function occursOn(tx, iso) {
