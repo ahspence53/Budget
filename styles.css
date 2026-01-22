@@ -689,3 +689,12 @@ h3 .helper-text {
 .tx-filter.active {
   text-decoration: underline;
 }
+.tx-filter[data-filter="all"] {
+  font-weight: normal;
+  opacity: 0.8;
+}
+
+.tx-filter[data-filter="all"].active {
+  font-weight: 600;
+  opacity: 1;
+}
