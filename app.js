@@ -34,6 +34,8 @@ let scrollBeforeHelp = 0;
 let transactionSortAscending = true;
 let transactionSortMode = "date"; // "date" or "category"
 let inlineEditIndex = null;
+let transactionFilterMode = null; 
+// null | "monthly" | "4-weekly" | "targeted"
   
 /* ================= DOM ================ */
 const txCategorySelect = document.getElementById("tx-category");
@@ -65,6 +67,19 @@ if (versionEl) {
   versionEl.textContent = `Version: ${APP_VERSION}`;
 }
 /* ===================== */
+  document.querySelectorAll(".tx-filter").forEach(el => {
+  el.addEventListener("click", () => {
+    const mode = el.dataset.filter;
+
+    // Toggle off if clicked again
+    transactionFilterMode =
+      transactionFilterMode === mode ? null : mode;
+
+    renderTransactionTable();
+    updateFilterUI();
+  });
+});
+/* ================ */
 
 
 
