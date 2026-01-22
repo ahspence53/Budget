@@ -615,9 +615,20 @@ function renderTransactionTable() {
 
   /* ---------- BUILD SORTED VIEW (Safari-safe) ---------- */
 
-  const indexed = transactions
-    .map((tx, index) => ({ tx, index }))
-    .sort((a, b) => {
+  const filtered = transactions.filter(tx => {
+  if (!transactionFilterMode) return true;
+
+  if (transactionFilterMode === "targeted") {
+    return !!tx.endDate;
+  }
+
+  return tx.frequency === transactionFilterMode;
+});
+
+const indexed = filtered
+  .map(tx => ({ tx, index: transactions.indexOf(tx) }))
+  .sort((a, b) => {
+    // existing sort logic unchanged
 
       // Description
       if (transactionSortMode === "description") {
