@@ -19,13 +19,14 @@ function startApp() {
   var categories = JSON.parse(localStorage.getItem("categories")) || [];
   var transactions = JSON.parse(localStorage.getItem("transactions")) || [];
   var startDate = localStorage.getItem("startDate") || "";
-  
 
   /* ================= INIT ================= */
   var hash = window.location.hash;
-  if (hash.startsWith("#jump=")) {
+  if (hash.indexOf("#jump=") === 0) {
     var iso = hash.replace("#jump=", "");
-    setTimeout(() => jumpToProjectionDate(iso), 200);
+    setTimeout(function () {
+      jumpToProjectionDate(iso);
+    }, 200);
   }
 
   updateCategoryDropdown();
@@ -36,54 +37,14 @@ function startApp() {
   checkDiaryAlerts();
   setInterval(checkDiaryAlerts, 10 * 60 * 1000); // every 10 minutes
 
-  setTimeout(() => {
-  const banner = document.getElementById("update-banner");
-  console.log(
-  "BANNER STATE AFTER LOAD:",
-  banner ? banner.className : null
-);
-}, 1000);
-
-  
-}
-/* -- */
-var PIN_HASH = "4ed8be64ca1b76549cf21f2c93cc7ceae6e0909de8e405850e8aaad1acd0fb6b";
-
-function hashPin(pin) {
-  var data = new TextEncoder().encode(pin);
-
-  return crypto.subtle.digest("SHA-256", data).then(function (hash) {
-    return Array.from(new Uint8Array(hash))
-      .map(function (b) {
-        return b.toString(16).padStart(2, "0");
-      })
-      .join("");
-  });
-}
-
-function handlePinSubmit() {
-  var input = document.getElementById("pin-input").value;
-  var error = document.getElementById("pin-error");
-
-  if (!input) {
-    error.textContent = "Enter PIN";
-    return;
-  }
-
-  hashPin(input)
-    .then(function (hash) {
-      if (hash === PIN_HASH) {
-        sessionStorage.setItem("pin-ok", "1");
-        document.getElementById("pin-overlay").remove();
-        startApp();
-      } else {
-        error.textContent = "Incorrect PIN";
-      }
-    })
-    .catch(function (err) {
-      error.textContent = "PIN error";
-      console.error(err);
-    });
+  // Optional diagnostic (Safari-safe)
+  setTimeout(function () {
+    var banner = document.getElementById("update-banner");
+    console.log(
+      "BANNER STATE AFTER LOAD:",
+      banner ? banner.className : null
+    );
+  }, 1000);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
