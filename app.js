@@ -1,7 +1,7 @@
 /* ================= DIARY HELPERS (GLOBAL) ======================= */
 
 window.hasDiaryNote = function (isoDate) {
-  let diary = {};
+  var diary = {};
   try {
     diary = JSON.parse(localStorage.getItem("diaryNotes")) || {};
   } catch (e) {
@@ -22,9 +22,9 @@ function startApp() {
   
 
   /* ================= INIT ================= */
-  const hash = window.location.hash;
+  var hash = window.location.hash;
   if (hash.startsWith("#jump=")) {
-    const iso = hash.replace("#jump=", "");
+    var iso = hash.replace("#jump=", "");
     setTimeout(() => jumpToProjectionDate(iso), 200);
   }
 
