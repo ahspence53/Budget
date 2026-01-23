@@ -61,7 +61,12 @@ const editCategoryInput = document.getElementById("edit-category-name");
 const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
-const APP_VERSION = "Budget v1.08";
+
+
+  const CACHE_VERSION = "v1.5.0";
+const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
+const APP_VERSION = `budget-app-${CACHE_VERSION}`;
+
   const versionEl = document.getElementById("app-version");
 if (versionEl) {
   versionEl.textContent = `Version: ${APP_VERSION}`;

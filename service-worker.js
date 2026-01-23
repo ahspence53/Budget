@@ -1,4 +1,6 @@
-const CACHE_NAME = "Budget v1.08";
+const CACHE_VERSION = "v1.5.0";
+const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
+
 
 const ASSETS = [
   "./",
