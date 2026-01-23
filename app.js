@@ -19,7 +19,7 @@ function startApp() {
   let categories = JSON.parse(localStorage.getItem("categories")) || [];
   let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
   let startDate = localStorage.getItem("startDate") || "";
-  const PIN_HASH = "PUT_YOUR_HASH_HERE";
+  
 
   /* ================= INIT ================= */
   const hash = window.location.hash;
@@ -49,15 +49,17 @@ function startApp() {
 /* -- */
 const PIN_HASH = "4ed8be64ca1b76549cf21f2c93cc7ceae6e0909de8e405850e8aaad1acd0fb6b";
 
-async function hashPin(pin) {
+function hashPin(pin) {
   const data = new TextEncoder().encode(pin);
-  const hash = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
+
+  return crypto.subtle.digest("SHA-256", data).then(hash => {
+    return Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
+  });
 }
 
-async function handlePinSubmit() {
+function handlePinSubmit() {
   const input = document.getElementById("pin-input").value;
   const error = document.getElementById("pin-error");
 
@@ -65,6 +67,20 @@ async function handlePinSubmit() {
     error.textContent = "Enter PIN";
     return;
   }
+
+  hashPin(input).then(hash => {
+    if (hash === PIN_HASH) {
+      sessionStorage.setItem("pin-ok", "1");
+      document.getElementById("pin-overlay").remove();
+      startApp();
+    } else {
+      error.textContent = "Incorrect PIN";
+    }
+  }).catch(err => {
+    error.textContent = "PIN error";
+    console.error(err);
+  });
+}
 
   const hash = await hashPin(input);
 
