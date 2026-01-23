@@ -278,21 +278,6 @@ if ("serviceWorker" in navigator) {
   (function () {
 
     var PIN_CODE = "7598";
-    var wasBackgrounded = false;
-
-    function lock() {
-      window.APP_UNLOCKED = false;
-
-      document.getElementById("pin-overlay").style.display = "flex";
-      document.body.classList.add("pin-locked");
-      document.documentElement.classList.add("pin-locked");
-
-      if (document.activeElement) {
-        document.activeElement.blur();
-      }
-
-      window.scrollTo(0, 0);
-    }
 
     function unlock() {
       window.APP_UNLOCKED = true;
@@ -322,8 +307,10 @@ if ("serviceWorker" in navigator) {
       }
     }
 
-    // Always start locked
-    lock();
+    // Always start locked on load
+    window.APP_UNLOCKED = false;
+    document.body.classList.add("pin-locked");
+    document.documentElement.classList.add("pin-locked");
 
     document.getElementById("pin-submit")
       .addEventListener("click", checkPin);
@@ -333,22 +320,6 @@ if ("serviceWorker" in navigator) {
         if (e.keyCode === 13) checkPin();
       });
 
-    // 🔑 REAL background detection (Safari-safe)
-    window.addEventListener("pagehide", function (e) {
-      if (!e.persisted) {
-        wasBackgrounded = true;
-      }
-    });
-
-    window.addEventListener("pageshow", function () {
-  if (sessionStorage.getItem("skip-pin-once")) {
-    sessionStorage.removeItem("skip-pin-once");
-    return; // ✅ returning from Diary — do not lock
-  }
-  lock(); // real re-entry
-});
-
   })();
 </script>
-</body>
 </html>
