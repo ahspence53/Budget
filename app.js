@@ -38,7 +38,10 @@ function startApp() {
 
   setTimeout(() => {
   const banner = document.getElementById("update-banner");
-  console.log("BANNER STATE AFTER LOAD:", banner?.className);
+  console.log(
+  "BANNER STATE AFTER LOAD:",
+  banner ? banner.className : null
+);
 }, 1000);
 
   
