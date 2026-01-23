@@ -17,6 +17,16 @@
 </head>
 <div id="diary-preview" class="diary-preview hidden"></div>
 <body>
+
+  <div id="pin-overlay">
+  <div id="pin-box">
+    <h2>Enter PIN</h2>
+    <input type="password" id="pin-input" inputmode="numeric" />
+    <button id="pin-submit" type="button">Unlock</button>
+    <p id="pin-error"></p>
+  </div>
+</div>
+  
   <div id="offline-indicator" class="offline hidden">
   Offline mode
   </div>
@@ -258,5 +268,46 @@ if ("serviceWorker" in navigator) {
 <div id="app-version" class="app-version"></div>
 <script src="app.js"></script>
 <div id="bottom-spacer"></div>
+
+  <script>
+  (function () {
+
+    var PIN_CODE = "7598";
+
+    function unlock() {
+      sessionStorage.setItem("pin-ok", "1");
+      document.getElementById("pin-overlay").style.display = "none";
+    }
+
+    function checkPin() {
+      var input = document.getElementById("pin-input").value;
+      var error = document.getElementById("pin-error");
+
+      if (input === PIN_CODE) {
+        unlock();
+      } else {
+        error.textContent = "Incorrect PIN";
+      }
+    }
+
+    if (sessionStorage.getItem("pin-ok")) {
+      unlock();
+      return;
+    }
+
+    document
+      .getElementById("pin-submit")
+      .addEventListener("click", checkPin);
+
+    document
+      .getElementById("pin-input")
+      .addEventListener("keydown", function (e) {
+        if (e.keyCode === 13) checkPin();
+      });
+
+  })();
+</script>
+
+  
 </body>
 </html>
