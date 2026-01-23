@@ -1,11 +1,4 @@
-
-
-
-
 /* ================= DIARY HELPERS (GLOBAL) ======================= */
-/* test deployment */
-
-
 
 window.hasDiaryNote = function (isoDate) {
   let diary = {};
