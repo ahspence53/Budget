@@ -321,7 +321,7 @@ if ("serviceWorker" in navigator) {
         error.textContent = "Incorrect PIN";
       }
     }
-
+    var lastHiddenAt = 0;
     // 🔑 ALWAYS START LOCKED
     lock();
 
@@ -336,11 +336,17 @@ if ("serviceWorker" in navigator) {
       });
 
     // 🔑 RE-LOCK WHEN SAFARI RETURNS
-    document.addEventListener("visibilitychange", function () {
-      if (!document.hidden) {
-        lock();
-      }
-    });
+document.addEventListener("visibilitychange", function () {
+  if (document.hidden) {
+    // Record when the app actually went into background
+    lastHiddenAt = Date.now();
+  } else {
+    // Only re-lock if we were hidden long enough
+    if (Date.now() - lastHiddenAt > 1000) {
+      lock();
+    }
+  }
+});
 
   })();
 </script>
