@@ -6,7 +6,7 @@ Title: Home Budget Tracker
 
 Pre-requisites: This is a Progressive Web App
 
-Installation: Add shortcut to desktop, windows, linux or ios
+Installation: Add shortcut to desktop, windows, linux or ios.
 
 Usage: See Help within app.
 
