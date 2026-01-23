@@ -279,22 +279,32 @@ if ("serviceWorker" in navigator) {
 
     var PIN_CODE = "7598";
 
-    function unlock() {
-      window.APP_UNLOCKED = true;
+    function lock() {
+      window.APP_UNLOCKED = false;
 
-      // Hide overlay
-      document.getElementById("pin-overlay").style.display = "none";
+      document.getElementById("pin-overlay").style.display = "flex";
+      document.body.classList.add("pin-locked");
+      document.documentElement.classList.add("pin-locked");
 
-      // Restore scrolling
-      document.body.classList.remove("pin-locked");
-      document.documentElement.classList.remove("pin-locked");
-
-      // Remove any accidental focus
+      // Remove focus and reset scroll
       if (document.activeElement) {
         document.activeElement.blur();
       }
 
-      // Reset scroll position (iOS Safari needs both)
+      window.scrollTo(0, 0);
+    }
+
+    function unlock() {
+      window.APP_UNLOCKED = true;
+
+      document.getElementById("pin-overlay").style.display = "none";
+      document.body.classList.remove("pin-locked");
+      document.documentElement.classList.remove("pin-locked");
+
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
+
       window.scrollTo(0, 0);
       setTimeout(function () {
         window.scrollTo(0, 0);
@@ -305,17 +315,15 @@ if ("serviceWorker" in navigator) {
       var input = document.getElementById("pin-input").value;
       var error = document.getElementById("pin-error");
 
-      if (!input) {
-        error.textContent = "Enter PIN";
-        return;
-      }
-
       if (input === PIN_CODE) {
         unlock();
       } else {
         error.textContent = "Incorrect PIN";
       }
     }
+
+    // 🔑 ALWAYS START LOCKED
+    lock();
 
     document.getElementById("pin-submit")
       .addEventListener("click", checkPin);
@@ -327,9 +335,14 @@ if ("serviceWorker" in navigator) {
         }
       });
 
+    // 🔑 RE-LOCK WHEN SAFARI RETURNS
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) {
+        lock();
+      }
+    });
+
   })();
 </script>
-
-  
 </body>
 </html>
