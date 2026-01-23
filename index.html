@@ -261,17 +261,6 @@ In the <b>24 Month Projection table </b>you can <b>Nudge</b> Expenses forward by
 <button id="back-to-top" class="floating-top">📅24 Month Projection ⬆️</button>
   
 <script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js");
-}
-</script>
-<div id="update-banner" class="hidden">
-  <button id="refresh-app-btn">Refresh</button>
-</div>
-<div id="app-version" class="app-version"></div>
-
-<div id="bottom-spacer"></div>
-  <script>
   (function () {
 
     var PIN_CODE = "7598";
@@ -279,8 +268,28 @@ if ("serviceWorker" in navigator) {
     function loadApp() {
       var script = document.createElement("script");
       script.src = "app.js";
-      document.body.appendChild(script);
 
+      script.onload = function () {
+        // Manually run what DOMContentLoaded used to run
+        if (typeof updateCategoryDropdown === "function") {
+          updateCategoryDropdown();
+        }
+        if (typeof updateEditCategoryDropdown === "function") {
+          updateEditCategoryDropdown();
+        }
+        if (typeof renderTransactionTable === "function") {
+          renderTransactionTable();
+        }
+        if (typeof renderProjectionTable === "function") {
+          renderProjectionTable();
+        }
+        if (typeof checkDiaryAlerts === "function") {
+          checkDiaryAlerts();
+          setInterval(checkDiaryAlerts, 10 * 60 * 1000);
+        }
+      };
+
+      document.body.appendChild(script);
       document.getElementById("pin-overlay").style.display = "none";
     }
 
@@ -301,7 +310,6 @@ if ("serviceWorker" in navigator) {
       }
     }
 
-    // Auto-unlock for this session
     if (sessionStorage.getItem("pin-ok")) {
       loadApp();
       return;
