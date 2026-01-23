@@ -47,27 +47,51 @@ function startApp() {
   }, 1000);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+/* ================= PIN CONFIG ================= */
+
+var PIN_CODE = "7598";
+
+function handlePinSubmit() {
+  var input = document.getElementById("pin-input").value;
+  var error = document.getElementById("pin-error");
+
+  if (!input) {
+    error.textContent = "Enter PIN";
+    return;
+  }
+
+  if (input === PIN_CODE) {
+    sessionStorage.setItem("pin-ok", "1");
+    document.getElementById("pin-overlay").style.display = "none";
+    startApp();
+  } else {
+    error.textContent = "Incorrect PIN";
+  }
+}
+
+/* ================= DOM READY ================= */
+
+document.addEventListener("DOMContentLoaded", function () {
 
   // Auto-unlock for this session
   if (sessionStorage.getItem("pin-ok")) {
-    document.getElementById("pin-overlay").remove();
+    document.getElementById("pin-overlay").style.display = "none";
     startApp();
     return;
   }
 
-  // Wire up PIN UI
   document
     .getElementById("pin-submit")
     .addEventListener("click", handlePinSubmit);
 
   document
     .getElementById("pin-input")
-    .addEventListener("keydown", e => {
-      if (e.key === "Enter") handlePinSubmit();
+    .addEventListener("keydown", function (e) {
+      if (e.keyCode === 13) {
+        handlePinSubmit();
+      }
     });
 });
-
   
 /* ================= STORAGE ================= */
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
