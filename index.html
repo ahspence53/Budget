@@ -266,6 +266,10 @@ if ("serviceWorker" in navigator) {
   <button id="refresh-app-btn">Refresh</button>
 </div>
 <div id="app-version" class="app-version"></div>
+  <script>
+  // App starts locked by default
+  window.APP_UNLOCKED = false;
+</script>
 <script src="app.js"></script>
 <div id="bottom-spacer"></div>
 
