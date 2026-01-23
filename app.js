@@ -468,9 +468,7 @@ addCategoryButton.onclick = () => {
 function ensureStartConfig() {
   if (!startDate) {
     document.body.classList.remove("modal-open");
-    if (window.APP_UNLOCKED === true) {
-  alert("Start date not set");
-}
+    alert("Start date not set");
     return false;
   }
   return true;
@@ -925,9 +923,7 @@ window.renderProjectionTable = function () {
 
   if (!startDate) {
     document.body.classList.remove("modal-open");
-    if (window.APP_UNLOCKED === true) {
-  alert("Start date not set");
-}
+    alert("Start date not set");
     return;
   }
 
@@ -1229,9 +1225,7 @@ transactions.push({
 document.getElementById("export-projection-btn").onclick = () => {
 if (!startDate) {
   document.body.classList.remove("modal-open");
-  if (window.APP_UNLOCKED === true) {
   alert("Start date not set");
-}
   return;
 }
 
@@ -1297,9 +1291,7 @@ negativeBtn.onclick = () => {
 
   if (!startDate) {
     document.body.classList.remove("modal-open");
-if (window.APP_UNLOCKED === true) {
-  alert("Start date not set");
-}
+    alert("Start date not set");
     return;
   }
 
@@ -1425,9 +1417,7 @@ salaryBtn.onclick = () => {
 
   if (!startDate) {
     document.body.classList.remove("modal-open");
-  if (window.APP_UNLOCKED === true) {
-  alert("Start date not set");
-}
+    alert("Start date not set");
     return;
   }
 
@@ -1665,8 +1655,7 @@ document.addEventListener("click", e => {
 
   // Second tap → open diary
   if (previewOpenForIso === iso) {
-    sessionStorage.setItem("skip-pin-once", "1");
-window.location.href = `notes.html?from=projection&date=${iso}`;
+    window.location.href = `notes.html?from=projection&date=${iso}`;
     return;
   }
 

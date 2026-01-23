@@ -17,16 +17,6 @@
 </head>
 <div id="diary-preview" class="diary-preview hidden"></div>
 <body>
-
-  <div id="pin-overlay">
-  <div id="pin-box">
-    <h2>Enter PIN</h2>
-    <input type="password" id="pin-input" inputmode="numeric" />
-    <button id="pin-submit" type="button">Unlock</button>
-    <p id="pin-error"></p>
-  </div>
-</div>
-  
   <div id="offline-indicator" class="offline hidden">
   Offline mode
   </div>
@@ -266,61 +256,7 @@ if ("serviceWorker" in navigator) {
   <button id="refresh-app-btn">Refresh</button>
 </div>
 <div id="app-version" class="app-version"></div>
-  <script>
-  window.APP_UNLOCKED = false;
-  document.documentElement.classList.add("pin-locked");
-  document.body.classList.add("pin-locked");
-</script>
 <script src="app.js"></script>
 <div id="bottom-spacer"></div>
-
-<script>
-  (function () {
-    var APIN = false;
-    if !APIN { unlock() };
-    var PIN_CODE = "7598";
-
-    function unlock() {
-      window.APP_UNLOCKED = true;
-
-      document.getElementById("pin-overlay").style.display = "none";
-      document.body.classList.remove("pin-locked");
-      document.documentElement.classList.remove("pin-locked");
-
-      if (document.activeElement) {
-        document.activeElement.blur();
-      }
-
-      window.scrollTo(0, 0);
-      setTimeout(function () {
-        window.scrollTo(0, 0);
-      }, 0);
-    }
-
-    function checkPin() {
-      var input = document.getElementById("pin-input").value;
-      var error = document.getElementById("pin-error");
-
-      if (input === PIN_CODE) {
-        unlock();
-      } else {
-        error.textContent = "Incorrect PIN";
-      }
-    }
-
-    // Always start locked on load
-    window.APP_UNLOCKED = false;
-    document.body.classList.add("pin-locked");
-    document.documentElement.classList.add("pin-locked");
-
-    document.getElementById("pin-submit")
-      .addEventListener("click", checkPin);
-
-    document.getElementById("pin-input")
-      .addEventListener("keydown", function (e) {
-        if (e.keyCode === 13) checkPin();
-      });
-
-  })();
-</script>
+</body>
 </html>
