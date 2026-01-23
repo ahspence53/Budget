@@ -35,11 +35,64 @@ function startApp() {
 
   checkDiaryAlerts();
   setInterval(checkDiaryAlerts, 10 * 60 * 1000); // every 10 minutes
+
+  setTimeout(() => {
+  const banner = document.getElementById("update-banner");
+  console.log("BANNER STATE AFTER LOAD:", banner?.className);
+}, 1000);
+
+  
 }
 /* -- */
+const PIN_HASH = "4ed8be64ca1b76549cf21f2c93cc7ceae6e0909de8e405850e8aaad1acd0fb6b";
+
+async function hashPin(pin) {
+  const data = new TextEncoder().encode(pin);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function handlePinSubmit() {
+  const input = document.getElementById("pin-input").value;
+  const error = document.getElementById("pin-error");
+
+  if (!input) {
+    error.textContent = "Enter PIN";
+    return;
+  }
+
+  const hash = await hashPin(input);
+
+  if (hash === PIN_HASH) {
+    sessionStorage.setItem("pin-ok", "1");
+    document.getElementById("pin-overlay").remove();
+    startApp();
+  } else {
+    error.textContent = "Incorrect PIN";
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-  // PIN logic will decide whether startApp() is called
+
+  // Auto-unlock for this session
+  if (sessionStorage.getItem("pin-ok")) {
+    document.getElementById("pin-overlay").remove();
+    startApp();
+    return;
+  }
+
+  // Wire up PIN UI
+  document
+    .getElementById("pin-submit")
+    .addEventListener("click", handlePinSubmit);
+
+  document
+    .getElementById("pin-input")
+    .addEventListener("keydown", e => {
+      if (e.key === "Enter") handlePinSubmit();
+    });
 });
 
   
