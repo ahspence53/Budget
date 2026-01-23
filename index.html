@@ -340,12 +340,13 @@ if ("serviceWorker" in navigator) {
       }
     });
 
-    window.addEventListener("pageshow", function (e) {
-      if (wasBackgrounded || e.persisted) {
-        lock();
-        wasBackgrounded = false;
-      }
-    });
+    window.addEventListener("pageshow", function () {
+  if (sessionStorage.getItem("skip-pin-once")) {
+    sessionStorage.removeItem("skip-pin-once");
+    return; // ✅ returning from Diary — do not lock
+  }
+  lock(); // real re-entry
+});
 
   })();
 </script>
