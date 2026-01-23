@@ -712,3 +712,20 @@ h3 .helper-text {
 .filter-badge.hidden {
   display: none;
 }
+
+#pin-overlay {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#pin-box {
+  width: 100%;
+  max-width: 280px;
+  padding: 16px;
+  text-align: center;
+}
