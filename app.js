@@ -1665,7 +1665,8 @@ document.addEventListener("click", e => {
 
   // Second tap → open diary
   if (previewOpenForIso === iso) {
-    window.location.href = `notes.html?from=projection&date=${iso}`;
+    sessionStorage.setItem("skip-pin-once", "1");
+window.location.href = `notes.html?from=projection&date=${iso}`;
     return;
   }
 
