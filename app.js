@@ -19,6 +19,7 @@ function startApp() {
   let categories = JSON.parse(localStorage.getItem("categories")) || [];
   let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
   let startDate = localStorage.getItem("startDate") || "";
+  const PIN_HASH = "PUT_YOUR_HASH_HERE";
 
   /* ================= INIT ================= */
   const hash = window.location.hash;
