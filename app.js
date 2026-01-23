@@ -468,7 +468,9 @@ addCategoryButton.onclick = () => {
 function ensureStartConfig() {
   if (!startDate) {
     document.body.classList.remove("modal-open");
-    alert("Start date not set");
+    if (window.APP_UNLOCKED !== false) {
+  alert("Start date not set");
+}
     return false;
   }
   return true;
@@ -923,7 +925,9 @@ window.renderProjectionTable = function () {
 
   if (!startDate) {
     document.body.classList.remove("modal-open");
-    alert("Start date not set");
+    if (window.APP_UNLOCKED !== false) {
+  alert("Start date not set");
+}
     return;
   }
 
@@ -1225,7 +1229,9 @@ transactions.push({
 document.getElementById("export-projection-btn").onclick = () => {
 if (!startDate) {
   document.body.classList.remove("modal-open");
+  if (window.APP_UNLOCKED !== false) {
   alert("Start date not set");
+}
   return;
 }
 
@@ -1291,7 +1297,9 @@ negativeBtn.onclick = () => {
 
   if (!startDate) {
     document.body.classList.remove("modal-open");
-    alert("Start date not set");
+    if (window.APP_UNLOCKED !== false) {
+  alert("Start date not set");
+}
     return;
   }
 
@@ -1417,7 +1425,9 @@ salaryBtn.onclick = () => {
 
   if (!startDate) {
     document.body.classList.remove("modal-open");
-    alert("Start date not set");
+    if (window.APP_UNLOCKED !== false) {
+  alert("Start date not set");
+}
     return;
   }
 
