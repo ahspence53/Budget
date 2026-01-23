@@ -1,7 +1,14 @@
+
+
+
+
 /* ================= DIARY HELPERS (GLOBAL) ======================= */
+/* test deployment */
+
+
 
 window.hasDiaryNote = function (isoDate) {
-  var diary = {};
+  let diary = {};
   try {
     diary = JSON.parse(localStorage.getItem("diaryNotes")) || {};
   } catch (e) {
@@ -12,86 +19,9 @@ window.hasDiaryNote = function (isoDate) {
   return !!diary[isoDate];
 };
 
-/* -------  */
-function startApp() {
 
-  /* ================= STORAGE ================= */
-  var categories = JSON.parse(localStorage.getItem("categories")) || [];
-  var transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-  var startDate = localStorage.getItem("startDate") || "";
+document.addEventListener("DOMContentLoaded", () => {
 
-  /* ================= INIT ================= */
-  var hash = window.location.hash;
-  if (hash.indexOf("#jump=") === 0) {
-    var iso = hash.replace("#jump=", "");
-    setTimeout(function () {
-      jumpToProjectionDate(iso);
-    }, 200);
-  }
-
-  updateCategoryDropdown();
-  updateEditCategoryDropdown();
-  renderTransactionTable();
-  renderProjectionTable();
-
-  checkDiaryAlerts();
-  setInterval(checkDiaryAlerts, 10 * 60 * 1000); // every 10 minutes
-
-  // Optional diagnostic (Safari-safe)
-  setTimeout(function () {
-    var banner = document.getElementById("update-banner");
-    console.log(
-      "BANNER STATE AFTER LOAD:",
-      banner ? banner.className : null
-    );
-  }, 1000);
-}
-
-/* ================= PIN CONFIG ================= */
-
-var PIN_CODE = "7598";
-
-function handlePinSubmit() {
-  var input = document.getElementById("pin-input").value;
-  var error = document.getElementById("pin-error");
-
-  if (!input) {
-    error.textContent = "Enter PIN";
-    return;
-  }
-
-  if (input === PIN_CODE) {
-    sessionStorage.setItem("pin-ok", "1");
-    document.getElementById("pin-overlay").style.display = "none";
-    startApp();
-  } else {
-    error.textContent = "Incorrect PIN";
-  }
-}
-
-/* ================= DOM READY ================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-  // Auto-unlock for this session
-  if (sessionStorage.getItem("pin-ok")) {
-    document.getElementById("pin-overlay").style.display = "none";
-    startApp();
-    return;
-  }
-
-  document
-    .getElementById("pin-submit")
-    .addEventListener("click", handlePinSubmit);
-
-  document
-    .getElementById("pin-input")
-    .addEventListener("keydown", function (e) {
-      if (e.keyCode === 13) {
-        handlePinSubmit();
-      }
-    });
-});
   
 /* ================= STORAGE ================= */
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
