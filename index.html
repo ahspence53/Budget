@@ -279,10 +279,27 @@ if ("serviceWorker" in navigator) {
     var PIN_CODE = "7598";
 
     function unlock() {
-      sessionStorage.setItem("pin-ok", "1");
-      window.APP_UNLOCKED = true;   // ⭐ ADD THIS
-      document.getElementById("pin-overlay").style.display = "none";
-    }
+  sessionStorage.setItem("pin-ok", "1");
+  window.APP_UNLOCKED = true;
+
+  // Remove overlay
+  document.getElementById("pin-overlay").style.display = "none";
+
+  // Remove scroll lock
+  document.body.classList.remove("pin-locked");
+  document.documentElement.classList.remove("pin-locked");
+
+  // Blur any input Safari focused behind the overlay
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+
+  // iOS Safari needs this in two phases
+  window.scrollTo(0, 0);
+  setTimeout(function () {
+    window.scrollTo(0, 0);
+  }, 0);
+}
 
     function checkPin() {
       var input = document.getElementById("pin-input").value;
