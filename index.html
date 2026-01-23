@@ -278,6 +278,7 @@ if ("serviceWorker" in navigator) {
   (function () {
 
     var PIN_CODE = "7598";
+    var wasBackgrounded = false;
 
     function lock() {
       window.APP_UNLOCKED = false;
@@ -286,7 +287,6 @@ if ("serviceWorker" in navigator) {
       document.body.classList.add("pin-locked");
       document.documentElement.classList.add("pin-locked");
 
-      // Remove focus and reset scroll
       if (document.activeElement) {
         document.activeElement.blur();
       }
@@ -321,8 +321,8 @@ if ("serviceWorker" in navigator) {
         error.textContent = "Incorrect PIN";
       }
     }
-    var lastHiddenAt = 0;
-    // 🔑 ALWAYS START LOCKED
+
+    // Always start locked
     lock();
 
     document.getElementById("pin-submit")
@@ -330,23 +330,22 @@ if ("serviceWorker" in navigator) {
 
     document.getElementById("pin-input")
       .addEventListener("keydown", function (e) {
-        if (e.keyCode === 13) {
-          checkPin();
-        }
+        if (e.keyCode === 13) checkPin();
       });
 
-    // 🔑 RE-LOCK WHEN SAFARI RETURNS
-document.addEventListener("visibilitychange", function () {
-  if (document.hidden) {
-    // Record when the app actually went into background
-    lastHiddenAt = Date.now();
-  } else {
-    // Only re-lock if we were hidden long enough
-    if (Date.now() - lastHiddenAt > 1000) {
-      lock();
-    }
-  }
-});
+    // 🔑 REAL background detection (Safari-safe)
+    window.addEventListener("pagehide", function (e) {
+      if (!e.persisted) {
+        wasBackgrounded = true;
+      }
+    });
+
+    window.addEventListener("pageshow", function (e) {
+      if (wasBackgrounded || e.persisted) {
+        lock();
+        wasBackgrounded = false;
+      }
+    });
 
   })();
 </script>
