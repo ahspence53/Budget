@@ -279,31 +279,35 @@ if ("serviceWorker" in navigator) {
     var PIN_CODE = "7598";
 
     function unlock() {
-  
-  window.APP_UNLOCKED = true;
+      window.APP_UNLOCKED = true;
 
-  // Remove overlay
-  document.getElementById("pin-overlay").style.display = "none";
+      // Hide overlay
+      document.getElementById("pin-overlay").style.display = "none";
 
-  // Remove scroll lock
-  document.body.classList.remove("pin-locked");
-  document.documentElement.classList.remove("pin-locked");
+      // Restore scrolling
+      document.body.classList.remove("pin-locked");
+      document.documentElement.classList.remove("pin-locked");
 
-  // Blur any input Safari focused behind the overlay
-  if (document.activeElement) {
-    document.activeElement.blur();
-  }
+      // Remove any accidental focus
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
 
-  // iOS Safari needs this in two phases
-  window.scrollTo(0, 0);
-  setTimeout(function () {
-    window.scrollTo(0, 0);
-  }, 0);
-}
+      // Reset scroll position (iOS Safari needs both)
+      window.scrollTo(0, 0);
+      setTimeout(function () {
+        window.scrollTo(0, 0);
+      }, 0);
+    }
 
     function checkPin() {
       var input = document.getElementById("pin-input").value;
       var error = document.getElementById("pin-error");
+
+      if (!input) {
+        error.textContent = "Enter PIN";
+        return;
+      }
 
       if (input === PIN_CODE) {
         unlock();
@@ -312,14 +316,14 @@ if ("serviceWorker" in navigator) {
       }
     }
 
-    
-
     document.getElementById("pin-submit")
       .addEventListener("click", checkPin);
 
     document.getElementById("pin-input")
       .addEventListener("keydown", function (e) {
-        if (e.keyCode === 13) checkPin();
+        if (e.keyCode === 13) {
+          checkPin();
+        }
       });
 
   })();
