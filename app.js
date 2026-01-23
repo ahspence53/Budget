@@ -12,8 +12,34 @@ window.hasDiaryNote = function (isoDate) {
   return !!diary[isoDate];
 };
 
+/* -------  */
+function startApp() {
+
+  /* ================= STORAGE ================= */
+  let categories = JSON.parse(localStorage.getItem("categories")) || [];
+  let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+  let startDate = localStorage.getItem("startDate") || "";
+
+  /* ================= INIT ================= */
+  const hash = window.location.hash;
+  if (hash.startsWith("#jump=")) {
+    const iso = hash.replace("#jump=", "");
+    setTimeout(() => jumpToProjectionDate(iso), 200);
+  }
+
+  updateCategoryDropdown();
+  updateEditCategoryDropdown();
+  renderTransactionTable();
+  renderProjectionTable();
+
+  checkDiaryAlerts();
+  setInterval(checkDiaryAlerts, 10 * 60 * 1000); // every 10 minutes
+}
+/* -- */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // PIN logic will decide whether startApp() is called
+});
 
   
 /* ================= STORAGE ================= */
