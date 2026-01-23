@@ -279,7 +279,7 @@ if ("serviceWorker" in navigator) {
     var PIN_CODE = "7598";
 
     function unlock() {
-  sessionStorage.setItem("pin-ok", "1");
+  
   window.APP_UNLOCKED = true;
 
   // Remove overlay
@@ -312,11 +312,7 @@ if ("serviceWorker" in navigator) {
       }
     }
 
-    if (sessionStorage.getItem("pin-ok")) {
-      window.APP_UNLOCKED = true;   // ⭐ ADD THIS
-      unlock();
-      return;
-    }
+    
 
     document.getElementById("pin-submit")
       .addEventListener("click", checkPin);
