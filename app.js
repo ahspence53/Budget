@@ -71,6 +71,11 @@ const APP_VERSION = `budget-app-${CACHE_VERSION}`;
 if (versionEl) {
   versionEl.textContent = `Version: ${APP_VERSION}`;
 }
+
+/* ========= APP VERSION FOR CONSOLE ========== */
+  console.info(
+  `Home Budget App v${APP_VERSION} (${new Date().toISOString()})`
+);
 /* ===================== */
 document.querySelectorAll(".tx-filter").forEach(el => {
   el.addEventListener("click", () => {
