@@ -1127,7 +1127,7 @@ findPrev.onclick=()=>{if(matches.length){findIdx=(findIdx-1+matches.length)%matc
 
 /* ========== 24 MONTH PROJECTION (TOP) ========== */
 document.getElementById("back-to-top")?.addEventListener("click", () => {
-  scrollWithOffset("app-top", 0);
+  scrollWithOffset("app-top", -80);
 });
 /*. ------ */
   
