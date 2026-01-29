@@ -713,6 +713,10 @@ const indexed = filtered
   indexed.forEach(({ tx, index }) => {
 
     const tr = document.createElement("tr");
+    // Frequency class for styling
+if (tx.frequency === "Monthly") tr.classList.add("freq-monthly");
+if (tx.frequency === "4-weekly") tr.classList.add("freq-4weekly");
+if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
 
     /* ===== INLINE EDIT MODE ===== */
     if (inlineEditIndex === index) {
