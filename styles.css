@@ -42,7 +42,7 @@ tr {
 }
 
 .projection-selected {
-  background-color: #ffff00;
+  background-color: #ffff00 !important;
 }
 
 .projection-match-highlight {
