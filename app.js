@@ -105,17 +105,16 @@ function updateFilterUI() {
   });
 }
   /* ======icon helper=== */
-  function frequencyIcon(tx) {
+ function frequencyIcon(tx) {
   const freq = (tx.frequency || "").toLowerCase();
 
-  if (freq === "monthly")    return "🔁 ";
-  if (freq === "4-weekly")   return "📆 ";
-  if (freq === "targeted")   return "🎯 ";
-  if (freq === "irregular")  return "⚡️ ";
+  if (freq === "monthly")    return "🔁︎ ";
+  if (freq === "4-weekly")   return "📆︎ ";
+  if (freq === "targeted")   return "🎯︎ ";
+  if (freq === "irregular")  return "🔀︎ ";
 
   return "";
 }
-
   /* ========== */
 function updateFilterBadge() {
   const badge = document.getElementById("tx-filter-badge");
