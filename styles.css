@@ -713,14 +713,14 @@ h3 .helper-text {
 
 /* ===== Projection frequency icons (experimental) ===== */
 
-#projection-table tr.freq-monthly td:first-child::before {
+#projection-table tr.freq-monthly .desc::before {
   content: "🔁 ";
 }
 
-#projection-table tr.freq-4weekly td:first-child::before {
+#projection-table tr.freq-4weekly .desc::before {
   content: "📆 ";
 }
 
-#projection-table tr.freq-targeted td:first-child::before {
+#projection-table tr.freq-targeted .desc::before {
   content: "🎯 ";
 }
