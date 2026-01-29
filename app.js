@@ -1066,7 +1066,7 @@ window.renderProjectionTable = function () {
         <td>
           <div class="projection-item ${tx.type}">
             <span class="desc">
-              ${tx.description}
+  ${frequencyIcon(tx)}${tx.description}
               ${
                 isFinalOccurrence(tx, iso) && tx.endDate
                   ? `<span
