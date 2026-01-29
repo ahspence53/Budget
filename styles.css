@@ -724,3 +724,7 @@ h3 .helper-text {
 #projection-table tr.freq-targeted .desc::before {
   content: "🎯 ";
 }
+
+#projection-table .desc::before {
+  opacity: 0.75;
+}
