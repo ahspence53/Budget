@@ -106,9 +106,12 @@ function updateFilterUI() {
 }
   /* ======icon helper=== */
   function frequencyIcon(tx) {
-  if (tx.frequency === "Monthly") return "🔁 ";
-  if (tx.frequency === "4-weekly") return "📆 ";
-  if (tx.frequency === "Targeted") return "🎯 ";
+  const freq = (tx.frequency || "").toLowerCase();
+
+  if (freq === "monthly")   return "🔁 ";
+  if (freq === "4-weekly")  return "📆 ";
+  if (freq === "targeted")  return "🎯 ";
+
   return "";
 }
 
