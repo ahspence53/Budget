@@ -111,7 +111,7 @@ function updateFilterUI() {
   if (freq === "monthly")   return "🔁 ";
   if (freq === "4-weekly")  return "📆 ";
   if (freq === "targeted")  return "🎯 ";
-
+  if (freq === "") return "ir ";
   return "";
 }
 
