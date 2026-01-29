@@ -41,9 +41,7 @@ tr {
   background-color: #f3ccff !important;
 }
 
-.projection-selected {
-  background-color: #ffff00 !important;
-}
+
 
 .projection-match-highlight {
   background: yellow !important;
@@ -338,7 +336,7 @@ table button {
 }
 
 tr.projection-selected {
-  background-color: #d6ebff !important;
+  background-color: #ffff00 !important;
 }
 
 
