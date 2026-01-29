@@ -710,3 +710,17 @@ h3 .helper-text {
 .filter-badge.hidden {
   display: none;
 }
+
+/* ===== Projection frequency icons (experimental) ===== */
+
+#projection-table tr.freq-monthly td:first-child::before {
+  content: "🔁 ";
+}
+
+#projection-table tr.freq-4weekly td:first-child::before {
+  content: "📆 ";
+}
+
+#projection-table tr.freq-targeted td:first-child::before {
+  content: "🎯 ";
+}
