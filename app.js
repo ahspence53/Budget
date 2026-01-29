@@ -104,7 +104,15 @@ function updateFilterUI() {
     el.classList.toggle("active", isActive);
   });
 }
-  /* ========= */
+  /* ======icon helper=== */
+  function frequencyIcon(tx) {
+  if (tx.frequency === "Monthly") return "🔁 ";
+  if (tx.frequency === "4-weekly") return "📆 ";
+  if (tx.frequency === "Targeted") return "🎯 ";
+  return "";
+}
+
+  /* ========== */
 function updateFilterBadge() {
   const badge = document.getElementById("tx-filter-badge");
   if (!badge) return;
