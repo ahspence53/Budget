@@ -374,7 +374,6 @@ tr.projection-selected {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-y: auto;
 }
 
 .modal.hidden {
@@ -710,22 +709,4 @@ h3 .helper-text {
 
 .filter-badge.hidden {
   display: none;
-}
-
-/* ===== Projection frequency icons (experimental) ===== */
-
-#projection-table tr.freq-monthly .desc::before {
-  content: "🔁 ";
-}
-
-#projection-table tr.freq-4weekly .desc::before {
-  content: "📆 ";
-}
-
-#projection-table tr.freq-targeted .desc::before {
-  content: "🎯 ";
-}
-
-#projection-table .desc::before {
-  opacity: 0.25;
 }

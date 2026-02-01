@@ -63,7 +63,7 @@ const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 
 
-  const CACHE_VERSION = "v1.5.1";
+  const CACHE_VERSION = "v1.5.0";
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
 const APP_VERSION = `budget-app-${CACHE_VERSION}`;
 
@@ -104,18 +104,7 @@ function updateFilterUI() {
     el.classList.toggle("active", isActive);
   });
 }
-  /* ======icon helper=== */
- function frequencyIcon(tx) {
-  const freq = (tx.frequency || "").toLowerCase();
-
-  if (freq === "monthly")    return "🔁︎ ";
-  if (freq === "4-weekly")   return "📆︎ ";
-  if (freq === "targeted")   return "🎯︎ ";
-  if (freq === "irregular")  return "⚡️ ";
-
-  return "";
-}
-  /* ========== */
+  /* ========= */
 function updateFilterBadge() {
   const badge = document.getElementById("tx-filter-badge");
   if (!badge) return;
@@ -724,10 +713,6 @@ const indexed = filtered
   indexed.forEach(({ tx, index }) => {
 
     const tr = document.createElement("tr");
-    // Frequency class for styling
-if (tx.frequency === "Monthly") tr.classList.add("freq-monthly");
-if (tx.frequency === "4-weekly") tr.classList.add("freq-4weekly");
-if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
 
     /* ===== INLINE EDIT MODE ===== */
     if (inlineEditIndex === index) {
@@ -1069,7 +1054,7 @@ window.renderProjectionTable = function () {
         <td>
           <div class="projection-item ${tx.type}">
             <span class="desc">
-  ${frequencyIcon(tx)}${tx.description}
+              ${tx.description}
               ${
                 isFinalOccurrence(tx, iso) && tx.endDate
                   ? `<span
