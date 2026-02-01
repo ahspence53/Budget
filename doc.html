@@ -233,6 +233,36 @@ Headers and values are case-sensitive and must match exactly.
 </section>
 
 <p><a href="#top">Return to index</a></p>
+<script>
+document.querySelectorAll('.index a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
 
+    const id = link.getAttribute('href');
+    const target = document.querySelector(id);
+    if (!target) return;
+
+    // Find nearest scrollable parent (modal content)
+    let container = target.parentElement;
+    while (container && container !== document.body) {
+      const style = getComputedStyle(container);
+      if (style.overflowY === 'auto' || style.overflowY === 'scroll') {
+        break;
+      }
+      container = container.parentElement;
+    }
+
+    if (!container || container === document.body) {
+      target.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    container.scrollTo({
+      top: target.offsetTop - container.offsetTop - 10,
+      behavior: 'smooth'
+    });
+  });
+});
+</script>
 </body>
 </html>
