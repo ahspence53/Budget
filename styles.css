@@ -710,3 +710,9 @@ h3 .helper-text {
 .filter-badge.hidden {
   display: none;
 }
+
+.section {
+    scroll-margin-top: 20px; /* Adds breathing room at the top after jumping */
+}
+
+
