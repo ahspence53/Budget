@@ -2,7 +2,7 @@
 
 
 
-Title: Home Budget Tracker
+Title: Simple Budget Tracker
 
 Pre-requisites: This is a Progressive Web App
 
