@@ -432,7 +432,14 @@ function formatDate(iso) {
 /* ==============================*/
 
 function normalizeSearch(str) {
-  return str.toLowerCase().replace(/\s+/g,"").replace(/[-\/]/g,"");
+  return str
+    .toLowerCase()
+    // normalise all dash types
+    .replace(/[\u2010-\u2015\u2212\-]/g, "")
+    // remove slashes
+    .replace(/[\/]/g, "")
+    // collapse whitespace
+    .replace(/\s+/g, "");
 }
 /* ===================================================*/
 function hasNudgedAwayTransaction(iso) {
