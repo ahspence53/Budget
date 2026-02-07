@@ -1104,7 +1104,17 @@ window.renderProjectionTable = function () {
     });
   });
 };
+/* ================= STICKY FIND CUMULATIVE TOTAL HELPER ======== */
+  function extractRowAmount(row) {
+  // Projection rows have Income (td[2]) and Expense (td[3])
+  const tds = row.querySelectorAll("td");
+  if (!tds.length) return 0;
 
+  const income = parseFloat(tds[2]?.textContent) || 0;
+  const expense = parseFloat(tds[3]?.textContent) || 0;
+
+  return income - expense;
+}
   
 /* ================= STICKY FIND ================= */
 const findInput=document.getElementById("projection-find-input");
@@ -1113,20 +1123,49 @@ const findPrev=document.getElementById("projection-find-prev");
 const findCounter=document.getElementById("find-counter");
 
 let matches=[], findIdx=-1;
-
+let matchTotals = [];
 function collectMatches(){
-  matches=[];
-  findIdx=-1;
-  const q=normalizeSearch(findInput.value);
-  if(!q){updateCounter();return;}
-  document.querySelectorAll("#projection-table tbody tr").forEach(r=>{
-    if(normalizeSearch(r.textContent).includes(q))matches.push(r);
-  });
+  matches = [];
+  matchTotals = [];
+  findIdx = -1;
+
+  const q = normalizeSearch(findInput.value);
+  if (!q) {
+    updateCounter();
+    return;
+  }
+
+  let runningTotal = 0;
+
+  document
+    .querySelectorAll("#projection-table tbody tr")
+    .forEach(r => {
+      if (normalizeSearch(r.textContent).includes(q)) {
+        matches.push(r);
+
+        const amt = extractRowAmount(r);
+        runningTotal += amt;
+        matchTotals.push(runningTotal);
+      }
+    });
+
   updateCounter();
 }
 
 function updateCounter(){
-  findCounter.textContent = matches.length ? `${findIdx+1}/${matches.length}` : "0/0";
+  if (!matches.length) {
+    findCounter.textContent = "0/0";
+    return;
+  }
+
+  const base = `${findIdx + 1}/${matches.length}`;
+
+  if (findIdx >= 0) {
+    const total = matchTotals[findIdx] || 0;
+    findCounter.textContent = `${base} · £${total.toFixed(2)}`;
+  } else {
+    findCounter.textContent = base;
+  }
 }
 
 function showMatch(){
