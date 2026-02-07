@@ -1133,6 +1133,19 @@ const findInput=document.getElementById("projection-find-input");
 const findNext=document.getElementById("projection-find-next");
 const findPrev=document.getElementById("projection-find-prev");
 const findCounter=document.getElementById("find-counter");
+const findClear = document.getElementById("projection-find-clear");
+  findClear.onclick = () => {
+  findInput.value = "";
+  matches = [];
+  findIdx = -1;
+
+  // remove highlights
+  document
+    .querySelectorAll(".projection-match-highlight")
+    .forEach(r => r.classList.remove("projection-match-highlight"));
+
+  updateCounter();
+};
 
 let matches=[], findIdx=-1;
 let matchTotals = [];
