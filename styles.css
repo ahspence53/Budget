@@ -714,5 +714,16 @@ h3 .helper-text {
 .section {
     scroll-margin-top: 20px; /* Adds breathing room at the top after jumping */
 }
+#projection-find-clear {
+  margin-left: 6px;
+  font-size: 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+}
 
+#projection-find-clear:hover {
+  opacity: 1;
+}
 
