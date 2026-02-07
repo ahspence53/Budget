@@ -1106,12 +1106,17 @@ window.renderProjectionTable = function () {
 };
 /* ================= STICKY FIND CUMULATIVE TOTAL HELPER ======== */
   function extractRowAmount(row) {
-  // Projection rows have Income (td[2]) and Expense (td[3])
   const tds = row.querySelectorAll("td");
-  if (!tds.length) return 0;
+  if (tds.length < 4) return null;
 
-  const income = parseFloat(tds[2]?.textContent) || 0;
-  const expense = parseFloat(tds[3]?.textContent) || 0;
+  const incomeText = tds[2]?.textContent.trim();
+  const expenseText = tds[3]?.textContent.trim();
+
+  const income = incomeText ? parseFloat(incomeText) : 0;
+  const expense = expenseText ? parseFloat(expenseText) : 0;
+
+  // 🚫 Ignore rows with no financial impact
+  if (!income && !expense) return null;
 
   return income - expense;
 }
@@ -1137,17 +1142,21 @@ function collectMatches(){
 
   let runningTotal = 0;
 
-  document
-    .querySelectorAll("#projection-table tbody tr")
-    .forEach(r => {
-      if (normalizeSearch(r.textContent).includes(q)) {
-        matches.push(r);
+document
+  .querySelectorAll("#projection-table tbody tr")
+  .forEach(r => {
+    if (normalizeSearch(r.textContent).includes(q)) {
+      matches.push(r);
 
-        const amt = extractRowAmount(r);
+      const amt = extractRowAmount(r);
+
+      if (amt !== null) {
         runningTotal += amt;
-        matchTotals.push(runningTotal);
       }
-    });
+
+      matchTotals.push(runningTotal);
+    }
+  });
 
   updateCounter();
 }
