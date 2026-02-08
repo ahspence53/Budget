@@ -509,6 +509,16 @@ openingBalanceInput.value = openingBalance || "";
 const helpButton = document.getElementById("help");
 const helpModal = document.getElementById("help-modal");
 const helpClose = document.getElementById("help-close");
+
+const frame = document.querySelector(".modal-frame");
+
+if (frame && frame.contentWindow) {
+  frame.contentWindow.location.hash = "";
+  frame.contentWindow.scrollTo(0, 0);
+}
+  
+
+
 /* ===== ADDITION ======*/
   helpButton.addEventListener("click", () => {
   scrollBeforeHelp = window.scrollY;
