@@ -79,6 +79,27 @@
       border-left: 4px solid #adb5bd;
       margin: 16px 0;
     }
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.modal-header h1 {
+  margin: 0;
+  border-bottom: none; /* Removing the old border-bottom from h1 */
+  padding: 0;
+  font-size: 24px;
+  position: static; /* Removing sticky for the header container */
+}
+
+/* Ensure the horizontal rule looks clean under the new header */
+hr.header-rule {
+  margin-top: 5px;
+  border: 0;
+  border-top: 1px solid #ddd;
+}
 
     
 </style>
@@ -86,11 +107,20 @@
 </head>
 
 <body id="top">
+
+<div class="modal-header">
+  <h1>Help</h1>
+  <a href="#" onclick="window.close();" style="font-weight: bold; color: #0b5ed7;">Close</a>
+</div>
+
+<hr class="header-rule">
+
 <script>
   if (location.hash) {
     location.hash = "";
   }
 </script>
+
 
 
 <hr>
