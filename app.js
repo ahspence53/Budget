@@ -827,23 +827,15 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
 
       tr.innerHTML = `
         <td>
-          <div class="tx-date-cell">
-            <span class="tx-date-text">
-              ${getDisplayedTransactionDate(tx)}
-            </span>
-            <span class="tx-date-icon">
-  ${
-    tx.endDate
-      ? "🎯"
-      : tx.frequency === "monthly"
-        ? "🔁"
-        : tx.frequency === "4-weekly"
-          ? "📆"
-          : ""
-  }
-</span>
-          </div>
-        </td>
+  <div class="tx-date-cell">
+    <span class="tx-date-text">
+      ${getDisplayedTransactionDate(tx)}
+    </span>
+    <span class="tx-date-icon">
+      ${frequencyIcon(tx)}
+    </span>
+  </div>
+</td>
 
         <td>${tx.description}</td>
         <td>${tx.type}</td>
