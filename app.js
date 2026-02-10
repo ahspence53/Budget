@@ -106,11 +106,13 @@ function updateFilterUI() {
 }
   /* ======icon helper=== */
  function frequencyIcon(tx) {
+  // 🎯 Targeted ALWAYS wins
+  if (tx.endDate) return "🎯︎ ";
+
   const freq = (tx.frequency || "").toLowerCase();
 
   if (freq === "monthly")    return "🔁︎ ";
   if (freq === "4-weekly")   return "📆︎ ";
-  if (freq === "targeted")   return "🎯︎ ";
   if (freq === "irregular")  return "⚡️ ";
 
   return "";
