@@ -727,3 +727,8 @@ h3 .helper-text {
   opacity: 1;
 }
 
+.tx-date-icon {
+  margin-left: 4px;
+  opacity: 0.85;
+  white-space: nowrap;
+}
