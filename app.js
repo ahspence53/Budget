@@ -131,6 +131,8 @@ function updateFilterBadge() {
       ? "Monthly"
       : transactionFilterMode === "4-weekly"
         ? "4-Weekly"
+      : transactionFilterMode === "irregular"
+        ? "Irregular"
         : "Targeted";
 
   badge.textContent = `Filter: ${label}`;
