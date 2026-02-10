@@ -63,7 +63,7 @@ const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 
 
-  const CACHE_VERSION = "v1.5.3";
+  const CACHE_VERSION = "v1.5.5";
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
 const APP_VERSION = `budget-app-${CACHE_VERSION}`;
 
