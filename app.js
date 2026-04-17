@@ -1115,6 +1115,10 @@ window.renderProjectionTable = function () {
 
       projectionTbody.appendChild(tr);
 
+      projectionTbody
+  .querySelectorAll("tr.auto-highlight")
+  .forEach(row => row.classList.remove("auto-highlight"));
+
 // Highlight last transaction for today
 const todayRows = projectionTbody.querySelectorAll("tr.today-row");
 
