@@ -732,3 +732,7 @@ h3 .helper-text {
   opacity: 0.85;
   white-space: nowrap;
 }
+
+.auto-highlight {
+  background-color: #fff59d; /* soft yellow */
+}
