@@ -1114,6 +1114,15 @@ window.renderProjectionTable = function () {
       `;
 
       projectionTbody.appendChild(tr);
+
+// Highlight last transaction for today
+const todayRows = projectionTbody.querySelectorAll("tr.today-row");
+
+if (todayRows.length > 0) {
+  const lastRow = todayRows[todayRows.length - 1];
+  lastRow.classList.add("auto-highlight");
+}
+      
     });
   });
 };
