@@ -38,6 +38,7 @@ let transactionFilterMode = null;
 // null | "monthly" | "4-weekly" | "targeted"
   
 /* ================= DOM ================ */
+const STORAGE_KEY = "budget";
 const txCategorySelect = document.getElementById("tx-category");
 const newCategoryInput = document.getElementById("new-category");
 const addCategoryButton = document.getElementById("add-category");
