@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
 /* ================= STORAGE ================= */
+const STORAGE_KEY = "budget";
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
 let transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 let startDate = localStorage.getItem("startDate") || "";
@@ -38,7 +39,7 @@ let transactionFilterMode = null;
 // null | "monthly" | "4-weekly" | "targeted"
   
 /* ================= DOM ================ */
-const STORAGE_KEY = "budget";
+
 const txCategorySelect = document.getElementById("tx-category");
 const newCategoryInput = document.getElementById("new-category");
 const addCategoryButton = document.getElementById("add-category");
