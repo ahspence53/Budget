@@ -1309,7 +1309,7 @@ transactions.push({
 
 
     localStorage.setItem("categories", JSON.stringify(categories));
-    localStorage.setItem("transactions", JSON.stringify(transactions));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
     updateCategoryDropdown();
     updateEditCategoryDropdown();
     renderTransactionTable();
