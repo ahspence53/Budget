@@ -1847,7 +1847,7 @@ document
 
      // Save transactions
 transactions = imported;
-localStorage.setItem("transactions", JSON.stringify(transactions));
+localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
 
 // Rebuild categories from transactions
 categories = [
