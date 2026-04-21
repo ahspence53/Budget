@@ -1846,13 +1846,12 @@ document
         /*followimg two lines added*/
        /* transactions.length = 0; */
        /* transactions.push(...imported); */
-
+    
+        // Save transactions
         transactions = imported;
         localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
 
-     // Save transactions
-transactions = imported;
-localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+ 
 
 // Rebuild categories from transactions
 categories = [
