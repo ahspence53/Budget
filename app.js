@@ -1842,8 +1842,13 @@ document
         }
 
         // 🔑 CRITICAL FIX: update the live array
-        transactions.length = 0;
-        transactions.push(...imported);
+        /* next two lines commented out */
+        /*followimg two lines added*/
+       /* transactions.length = 0; */
+       /* transactions.push(...imported); */
+
+        transactions = imported;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
 
      // Save transactions
 transactions = imported;
