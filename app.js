@@ -662,7 +662,8 @@ addTxButton.onclick = () => {
   entries.forEach(([category, total]) => {
     const row = document.createElement("div");
     row.style.display = "flex";
-    row.style.justifyContent = "space-between";
+row.style.justifyContent = "space-between";
+row.style.maxWidth = "400px";   // ← key fix
     row.style.marginBottom = "4px";
 
     row.innerHTML = `
