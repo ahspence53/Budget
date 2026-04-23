@@ -614,18 +614,14 @@ addTxButton.onclick = () => {
   txEndDate.value = "";   // ← ADD THIS
   txCategorySelect.value = "";
 };
-/* ============ summary of projected savings ========= */
-  function showSavingsProjection() {
+function showSavingsProjection() {
 
   const totals = {};
   let grandTotal = 0;
 
   transactions.forEach(tx => {
 
-    // Only Savings categories
     if (!tx.category || !tx.category.toLowerCase().includes("saving")) return;
-
-    // Ignore targeted (has endDate) and irregular
     if (tx.endDate) return;
     if (tx.frequency === "irregular") return;
 
@@ -649,52 +645,39 @@ addTxButton.onclick = () => {
     grandTotal += projected;
   });
 
-// ===== DISPLAY =====
+  // ===== DISPLAY =====
 
-const popup = document.getElementById("savings-popup");
-const body = document.getElementById("savings-popup-body");
+  const popup = document.getElementById("savings-popup");
+  const body = document.getElementById("savings-popup-body");
 
-body.innerHTML = "";
+  body.innerHTML = "";
 
-// Set layout ONCE
-body.style.maxWidth = "420px";
-body.style.margin = "0 auto";
+  body.style.maxWidth = "420px";
+  body.style.margin = "0 auto";
 
-const entries = Object.entries(totals)
-  .sort((a, b) => b[1] - a[1]);
+  const entries = Object.entries(totals)
+    .sort((a, b) => b[1] - a[1]);
 
-entries.forEach(([category, total]) => {
-  const row = document.createElement("div");
+  // ✅ LOOP (properly closed)
+  entries.forEach(([category, total]) => {
 
-  row.style.display = "flex";
-  row.style.justifyContent = "space-between";
-  row.style.marginBottom = "4px";
+    const row = document.createElement("div");
 
-  row.innerHTML = `
-    <span>${category}</span>
-    <span style="min-width:90px; text-align:right;">
-      £${total.toLocaleString()}
-    </span>
-  `;
+    row.style.display = "flex";
+    row.style.justifyContent = "space-between";
+    row.style.marginBottom = "4px";
 
-  body.appendChild(row);
+    row.innerHTML = `
+      <span>${category}</span>
+      <span style="min-width:90px; text-align:right;">
+        £${total.toLocaleString()}
+      </span>
+    `;
 
+    body.appendChild(row);
+  });
 
-// Grand total
-const totalRow = document.createElement("div");
-totalRow.style.marginTop = "10px";
-totalRow.style.fontWeight = "bold";
-totalRow.style.display = "flex";
-totalRow.style.justifyContent = "space-between";
-
-totalRow.innerHTML = `
-  <span>Total</span>
-  <span>£${grandTotal.toLocaleString()}</span>
-`;
-
-body.appendChild(totalRow);
-
-  // Grand total
+  // ✅ SINGLE grand total (outside loop)
   const totalRow = document.createElement("div");
   totalRow.style.marginTop = "10px";
   totalRow.style.fontWeight = "bold";
@@ -708,6 +691,7 @@ body.appendChild(totalRow);
 
   body.appendChild(totalRow);
 
+  // ✅ SHOW POPUP
   popup.classList.remove("hidden");
   document.body.classList.add("modal-open");
 }
