@@ -649,34 +649,50 @@ addTxButton.onclick = () => {
     grandTotal += projected;
   });
 
-  // ===== DISPLAY =====
+// ===== DISPLAY =====
 
-  const popup = document.getElementById("savings-popup");
-  const body = document.getElementById("savings-popup-body");
+const popup = document.getElementById("savings-popup");
+const body = document.getElementById("savings-popup-body");
 
-  body.innerHTML = "";
+body.innerHTML = "";
 
-  const entries = Object.entries(totals)
-    .sort((a, b) => b[1] - a[1]); // highest first
-
-  entries.forEach(([category, total]) => {
-    const row = document.createElement("div");
-    row.style.display = "flex";
-row.style.justifyContent = "space-between";
-row.style.maxWidth = "400px";   // ← key fix
-    row.style.marginBottom = "4px";
-
-    body.style.maxWidth = "420px";
+// Set layout ONCE
+body.style.maxWidth = "420px";
 body.style.margin = "0 auto";
 
-    row.innerHTML = `
-      <span style="min-width:90px; text-align:right;">
-  £${total.toLocaleString()}
-</span>
-    `;
+const entries = Object.entries(totals)
+  .sort((a, b) => b[1] - a[1]);
 
-    body.appendChild(row);
-  });
+entries.forEach(([category, total]) => {
+  const row = document.createElement("div");
+
+  row.style.display = "flex";
+  row.style.justifyContent = "space-between";
+  row.style.marginBottom = "4px";
+
+  row.innerHTML = `
+    <span>${category}</span>
+    <span style="min-width:90px; text-align:right;">
+      £${total.toLocaleString()}
+    </span>
+  `;
+
+  body.appendChild(row);
+});
+
+// Grand total
+const totalRow = document.createElement("div");
+totalRow.style.marginTop = "10px";
+totalRow.style.fontWeight = "bold";
+totalRow.style.display = "flex";
+totalRow.style.justifyContent = "space-between";
+
+totalRow.innerHTML = `
+  <span>Total</span>
+  <span>£${grandTotal.toLocaleString()}</span>
+`;
+
+body.appendChild(totalRow);
 
   // Grand total
   const totalRow = document.createElement("div");
