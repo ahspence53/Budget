@@ -265,6 +265,21 @@ diaryBtn.onclick = () => {
   openDiaryForDate();
 };
 
+/* ------ button handler for projected savings -------*/
+  document.getElementById("savings-popup-btn").onclick = showSavingsProjection;
+
+document.getElementById("savings-popup-close").onclick = () => {
+  document.getElementById("savings-popup").classList.add("hidden");
+  document.body.classList.remove("modal-open");
+};
+
+document.getElementById("savings-popup").addEventListener("click", e => {
+  if (e.target.id === "savings-popup") {
+    e.target.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  }
+});
+
   function openDiaryForDate(date) {
   if (!date) {
     date = new Date().toISOString().slice(0, 10);
