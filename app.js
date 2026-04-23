@@ -670,8 +670,9 @@ row.style.maxWidth = "400px";   // ← key fix
 body.style.margin = "0 auto";
 
     row.innerHTML = `
-      <span>${category}</span>
-      <span>£${total.toLocaleString()}</span>
+      <span style="min-width:90px; text-align:right;">
+  £${total.toLocaleString()}
+</span>
     `;
 
     body.appendChild(row);
