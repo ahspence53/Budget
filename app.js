@@ -678,7 +678,7 @@ entries.forEach(([category, total]) => {
   `;
 
   body.appendChild(row);
-});
+
 
 // Grand total
 const totalRow = document.createElement("div");
