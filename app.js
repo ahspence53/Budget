@@ -666,6 +666,9 @@ row.style.justifyContent = "space-between";
 row.style.maxWidth = "400px";   // ← key fix
     row.style.marginBottom = "4px";
 
+    body.style.maxWidth = "420px";
+body.style.margin = "0 auto";
+
     row.innerHTML = `
       <span>${category}</span>
       <span>£${total.toLocaleString()}</span>
