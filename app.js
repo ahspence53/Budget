@@ -1025,10 +1025,7 @@ function isNudgedHere(tx, iso) {
 
   e.stopPropagation(); // prevent row selection / other handlers
 
-    /* ========== DIARY ICON CLICK ========== */
-projectionTbody.addEventListener("click", e => {
-  const icon = e.target.closest(".diary-icon");
-  if (!icon) return;
+  
 
   e.stopPropagation(); // prevents row select / nudge interference
 
