@@ -277,12 +277,15 @@ if (savingsClose) {
     document.body.classList.remove("modal-open");
   };
 }
-document.getElementById("savings-popup").addEventListener("click", e => {
-  if (e.target.id === "savings-popup") {
-    e.target.classList.add("hidden");
-    document.body.classList.remove("modal-open");
-  }
-});
+const savingsPopup = document.getElementById("savings-popup");
+if (savingsPopup) {
+  savingsPopup.addEventListener("click", e => {
+    if (e.target.id === "savings-popup") {
+      e.target.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    }
+  });
+}
 
   function openDiaryForDate(date) {
   if (!date) {
