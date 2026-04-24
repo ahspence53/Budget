@@ -340,10 +340,7 @@ document.getElementById("savings-popup").addEventListener("click", e => {
 
   alert(`Category "${oldName}" renamed to "${newName}"`);
 };
-/* ================= UTILS ================= */
-function txId(tx) {
-  return `${tx.date}|${tx.frequency}|${tx.description}|${tx.amount}|${tx.type}`;
-}
+
 /* =================================================== */
 function nudgeKey(id, iso) {
   return `${id}|${iso}`;
