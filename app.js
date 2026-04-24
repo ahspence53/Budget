@@ -261,31 +261,24 @@ document.addEventListener("click", e => {
 /* ----------Diary button ----------------------- */
 const diaryBtn = document.getElementById("diary-popup-btn");
 
-if (diaryBtn) {
-
-  diaryBtn.onclick = () => openDiaryForDate();
-
-}
+diaryBtn.onclick = () => {
+  openDiaryForDate();
+};
 
 /* ------ button handler for projected savings -------*/
-  document.getElementById("savings-popup-btn")?.addEventListener("click", showSavingsProjection);
+  document.getElementById("savings-popup-btn").onclick = showSavingsProjection;
 
-const savingsClose = document.getElementById("savings-popup-close");
-if (savingsClose) {
-  savingsClose.onclick = () => {
-    document.getElementById("savings-popup").classList.add("hidden");
+document.getElementById("savings-popup-close").onclick = () => {
+  document.getElementById("savings-popup").classList.add("hidden");
+  document.body.classList.remove("modal-open");
+};
+
+document.getElementById("savings-popup").addEventListener("click", e => {
+  if (e.target.id === "savings-popup") {
+    e.target.classList.add("hidden");
     document.body.classList.remove("modal-open");
-  };
-}
-const savingsPopup = document.getElementById("savings-popup");
-if (savingsPopup) {
-  savingsPopup.addEventListener("click", e => {
-    if (e.target.id === "savings-popup") {
-      e.target.classList.add("hidden");
-      document.body.classList.remove("modal-open");
-    }
-  });
-}
+  }
+});
 
   function openDiaryForDate(date) {
   if (!date) {
@@ -1359,64 +1352,39 @@ if (window.visualViewport) {
 lockFindBar();
 /* ================= CSV IMPORT (AUTO CATEGORY) ================= */
 const csvInput = document.getElementById("csv-import");
-const importBtn = document.getElementById("import-btn");
+document.getElementById("import-btn").onclick = () => {
+  if (!csvInput.files.length) return alert("Choose CSV");
 
-if (importBtn) {
-  importBtn.onclick = () => {
+  const rows = csvInput.files[0];
+  const reader = new FileReader();
 
-    if (!csvInput.files.length) return alert("Choose CSV");
+  reader.onload = () => {
+    const lines = reader.result.trim().split(/\r?\n/);
+    if (lines.shift().trim() !== "Date,Amount,Income/Expense,Category,Description,Frequency") {
+      return alert("Invalid CSV header");
+    }
 
-    const rows = csvInput.files[0];
-    const reader = new FileReader();
+    categories = [...new Set(categories)];
+    transactions = [];
 
-    reader.onload = () => {
-      const lines = reader.result.trim().split(/\r?\n/);
+    lines.forEach(line=>{
+      const [date,amount,typeRaw,cat,desc,freq] = line.split(",");
+      if (!categories.includes(cat)) categories.push(cat);
+      const normalizedType = typeRaw.trim().toLowerCase();
 
-      if (
-        lines.shift().trim() !==
-        "Date,Amount,Income/Expense,Category,Description,Frequency"
-      ) {
-        return alert("Invalid CSV header");
-      }
-
-      categories = [...new Set(categories)];
-      transactions = [];
-
-      lines.forEach(line => {
-        const [date, amount, typeRaw, cat, desc, freq] = line.split(",");
-
-        if (!categories.includes(cat)) categories.push(cat);
-
-        const normalizedType = typeRaw.trim().toLowerCase();
-
-        if (normalizedType !== "income" && normalizedType !== "expense") {
-          throw new Error(`Invalid Income/Expense value: "${typeRaw}"`);
-        }
-
-        transactions.push({
-          date: date.trim(),
-          description: desc.trim(),
-          category: cat.trim(),
-          amount: parseFloat(amount),
-          type: normalizedType,
-          frequency: freq.trim().toLowerCase()
-        });
-      });
-
-      localStorage.setItem("categories", JSON.stringify(categories));
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
-
-      updateCategoryDropdown();
-      updateEditCategoryDropdown();
-      renderTransactionTable();
-      renderProjectionTable();
-
-      alert("CSV import successful");
-    };
-
-    reader.readAsText(rows);
-  };
+if (normalizedType !== "income" && normalizedType !== "expense") {
+  throw new Error(`Invalid Income/Expense value: "${typeRaw}"`);
 }
+
+transactions.push({
+  date: date.trim(),
+  description: desc.trim(),
+  category: cat.trim(),
+  amount: parseFloat(amount),
+  type: normalizedType,
+  frequency: freq.trim().toLowerCase()
+});
+    });
 
    
 
