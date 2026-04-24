@@ -1018,13 +1018,7 @@ function isNudgedHere(tx, iso) {
       k.startsWith(txId(tx) + "|") && nudges[k] === iso
     );
 }
-/* ============Click icon handler =============== */
-  projectionTbody.addEventListener("click", e => {
-  const icon = e.target.closest(".diary-icon");
-  if (!icon) return;
-
-  e.stopPropagation(); // prevent row selection / other handlers
-
+  
     /* ========== DIARY ICON CLICK ========== */
 projectionTbody.addEventListener("click", e => {
   const icon = e.target.closest(".diary-icon");
@@ -1036,9 +1030,7 @@ projectionTbody.addEventListener("click", e => {
   window.location.href = `notes.html?date=${iso}&from=projection`;
 });
 
-  const iso = icon.dataset.iso;
-  window.location.href = `notes.html?date=${iso}`;
-});
+  
 /* ================= PROJECTION ================= */
 /* ================= PROJECTION ================= */
 
