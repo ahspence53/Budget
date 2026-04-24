@@ -295,9 +295,9 @@ document.getElementById("savings-popup").addEventListener("click", e => {
   // then this is the final one.
   const next = new Date(iso);
 
-  if (tx.frequency === "monthly") {
+  if (tx.frequency?.toLowerCase() === "monthly") {
     next.setMonth(next.getMonth() + 1);
-  } else if (tx.frequency === "4-weekly") {
+  } else if (tx.frequency?.toLowerCase() === "4-weekly") {
     next.setDate(next.getDate() + 28);
   } else {
     return false; // irregular handled elsewhere
@@ -617,13 +617,13 @@ function showSavingsProjection() {
 
     if (!tx.category || !tx.category.toLowerCase().includes("saving")) return;
     if (tx.endDate) return;
-    if (tx.frequency === "irregular") return;
+    if (tx.frequency?.toLowerCase() === "irregular") return;
 
     let multiplier = 0;
 
-    if (tx.frequency === "monthly") {
+    if (tx.frequency?.toLowerCase() === "monthly") {
       multiplier = 24;
-    } else if (tx.frequency === "4-weekly") {
+    } else if (tx.frequency?.toLowerCase() === "4-weekly") {
       multiplier = 26;
     } else {
       return;
@@ -789,10 +789,10 @@ function renderTransactionTable() {
   }
 
   if (transactionFilterMode === "monthly") {
-    return tx.frequency === "monthly" && !tx.endDate;
+    return tx.frequency?.toLowerCase() === "monthly" && !tx.endDate;
   }
 
-  return tx.frequency === transactionFilterMode;
+  return tx.frequency?.toLowerCase() === transactionFilterMode;
 });
 
 const indexed = filtered
@@ -836,9 +836,9 @@ const indexed = filtered
 
     const tr = document.createElement("tr");
     // Frequency class for styling
-if (tx.frequency === "Monthly") tr.classList.add("freq-monthly");
-if (tx.frequency === "4-weekly") tr.classList.add("freq-4weekly");
-if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
+if (tx.frequency?.toLowerCase() === "Monthly") tr.classList.add("freq-monthly");
+if (tx.frequency?.toLowerCase() === "4-weekly") tr.classList.add("freq-4weekly");
+if (tx.frequency?.toLowerCase() === "Targeted") tr.classList.add("freq-targeted");
 
     /* ===== INLINE EDIT MODE ===== */
     if (inlineEditIndex === index) {
@@ -958,7 +958,7 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
     }
 
     if (tx.type === "expense") tr.classList.add("expense-row");
-    if (tx.frequency === "4-weekly") tr.classList.add("freq-4weekly");
+    if (tx.frequency?.toLowerCase() === "4-weekly") tr.classList.add("freq-4weekly");
 
     transactionTableBody.appendChild(tr);
   });
@@ -967,7 +967,7 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
 /* ================= RECURRENCE ================= */
 function occursOn(tx, iso) {
   // Irregular transactions = one-off, unchanged
-  if (tx.frequency === "irregular") {
+  if (tx.frequency?.toLowerCase() === "irregular") {
     return tx.date === iso;
   }
 
@@ -980,13 +980,13 @@ function occursOn(tx, iso) {
   const start = new Date(tx.date);
   const current = new Date(iso);
 
-  if (tx.frequency === "monthly") {
+  if (tx.frequency?.toLowerCase() === "monthly") {
     return (
       start.getDate() === current.getDate()
     );
   }
 
-  if (tx.frequency === "4-weekly") {
+  if (tx.frequency?.toLowerCase() === "4-weekly") {
     const diffDays =
       Math.floor((current - start) / 86400000);
     return diffDays >= 0 && diffDays % 28 === 0;
