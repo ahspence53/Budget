@@ -261,18 +261,22 @@ document.addEventListener("click", e => {
 /* ----------Diary button ----------------------- */
 const diaryBtn = document.getElementById("diary-popup-btn");
 
-diaryBtn.onclick = () => {
-  openDiaryForDate();
-};
+if (diaryBtn) {
+
+  diaryBtn.onclick = () => openDiaryForDate();
+
+}
 
 /* ------ button handler for projected savings -------*/
   document.getElementById("savings-popup-btn")?.addEventListener("click", showSavingsProjection);
 
-document.getElementById("savings-popup-close").onclick = () => {
-  document.getElementById("savings-popup").classList.add("hidden");
-  document.body.classList.remove("modal-open");
-};
-
+const savingsClose = document.getElementById("savings-popup-close");
+if (savingsClose) {
+  savingsClose.onclick = () => {
+    document.getElementById("savings-popup").classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  };
+}
 document.getElementById("savings-popup").addEventListener("click", e => {
   if (e.target.id === "savings-popup") {
     e.target.classList.add("hidden");
