@@ -1355,6 +1355,8 @@ if (importBtn) {
 
     if (!csvInput.files.length) return alert("Choose CSV");
 
+    if (!csvInput) return alert("CSV input missing");
+
     const rows = csvInput.files[0];
     const reader = new FileReader();
 
