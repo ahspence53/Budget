@@ -464,10 +464,7 @@ function normalizeSearch(str) {
 function hasNudgedAwayTransaction(iso) {
   return Object.keys(nudges).some(key => key.endsWith("|" + iso));
 }
-/* ===================================================*/
-  function saveNudges() {
-  localStorage.setItem("nudges", JSON.stringify(nudges));
-}
+
 /* ================= CATEGORIES ================= */
 function updateCategoryDropdown() {
   txCategorySelect.innerHTML = '<option value="">Select</option>';
