@@ -1359,39 +1359,64 @@ if (window.visualViewport) {
 lockFindBar();
 /* ================= CSV IMPORT (AUTO CATEGORY) ================= */
 const csvInput = document.getElementById("csv-import");
-document.getElementById("import-btn").onclick = () => {
-  if (!csvInput.files.length) return alert("Choose CSV");
+const importBtn = document.getElementById("import-btn");
 
-  const rows = csvInput.files[0];
-  const reader = new FileReader();
+if (importBtn) {
+  importBtn.onclick = () => {
 
-  reader.onload = () => {
-    const lines = reader.result.trim().split(/\r?\n/);
-    if (lines.shift().trim() !== "Date,Amount,Income/Expense,Category,Description,Frequency") {
-      return alert("Invalid CSV header");
-    }
+    if (!csvInput.files.length) return alert("Choose CSV");
 
-    categories = [...new Set(categories)];
-    transactions = [];
+    const rows = csvInput.files[0];
+    const reader = new FileReader();
 
-    lines.forEach(line=>{
-      const [date,amount,typeRaw,cat,desc,freq] = line.split(",");
-      if (!categories.includes(cat)) categories.push(cat);
-      const normalizedType = typeRaw.trim().toLowerCase();
+    reader.onload = () => {
+      const lines = reader.result.trim().split(/\r?\n/);
 
-if (normalizedType !== "income" && normalizedType !== "expense") {
-  throw new Error(`Invalid Income/Expense value: "${typeRaw}"`);
+      if (
+        lines.shift().trim() !==
+        "Date,Amount,Income/Expense,Category,Description,Frequency"
+      ) {
+        return alert("Invalid CSV header");
+      }
+
+      categories = [...new Set(categories)];
+      transactions = [];
+
+      lines.forEach(line => {
+        const [date, amount, typeRaw, cat, desc, freq] = line.split(",");
+
+        if (!categories.includes(cat)) categories.push(cat);
+
+        const normalizedType = typeRaw.trim().toLowerCase();
+
+        if (normalizedType !== "income" && normalizedType !== "expense") {
+          throw new Error(`Invalid Income/Expense value: "${typeRaw}"`);
+        }
+
+        transactions.push({
+          date: date.trim(),
+          description: desc.trim(),
+          category: cat.trim(),
+          amount: parseFloat(amount),
+          type: normalizedType,
+          frequency: freq.trim().toLowerCase()
+        });
+      });
+
+      localStorage.setItem("categories", JSON.stringify(categories));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+
+      updateCategoryDropdown();
+      updateEditCategoryDropdown();
+      renderTransactionTable();
+      renderProjectionTable();
+
+      alert("CSV import successful");
+    };
+
+    reader.readAsText(rows);
+  };
 }
-
-transactions.push({
-  date: date.trim(),
-  description: desc.trim(),
-  category: cat.trim(),
-  amount: parseFloat(amount),
-  type: normalizedType,
-  frequency: freq.trim().toLowerCase()
-});
-    });
 
    
 
