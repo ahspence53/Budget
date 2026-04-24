@@ -266,7 +266,7 @@ diaryBtn.onclick = () => {
 };
 
 /* ------ button handler for projected savings -------*/
-  document.getElementById("savings-popup-btn").onclick = showSavingsProjection;
+  document.getElementById("savings-popup-btn")?.addEventListener("click", showSavingsProjection);
 
 document.getElementById("savings-popup-close").onclick = () => {
   document.getElementById("savings-popup").classList.add("hidden");
