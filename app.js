@@ -1863,11 +1863,7 @@ document.addEventListener("mouseout", e => {
   }
 });
 
-document.addEventListener("mouseout", e => {
-  if (e.target.closest(".diary-icon")) {
-    diaryPreview.classList.add("hidden");
-  }
-});
+
 /* =========== EXPORT TRANSACTIONS ============ */
   document.getElementById("export-transactions").onclick = () => {
   const transactions =
