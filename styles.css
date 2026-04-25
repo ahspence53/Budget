@@ -796,3 +796,12 @@ h3 .helper-text {
   padding-top: 6px;
   font-size: 1.05em;
 }
+
+.today-label {
+  margin-left: 6px;
+  font-size: 0.75em;
+  background: #f4b400;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
