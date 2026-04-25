@@ -30,19 +30,7 @@ let transactionSortAscending = true;
 let transactionSortMode = "date"; // "date" or "category"
 let inlineEditIndex = null;
 let transactionFilterMode = null; 
-  let lowestUpcomingBalance = Infinity;
-let lowestUpcomingIso = null;
-let hitNextIncome = false;
-
-summaryEl.className = "";
-
-if (lowestUpcomingBalance < 0) {
-  summaryEl.classList.add("summary-danger");
-} else if (lowestUpcomingBalance < 100) {
-  summaryEl.classList.add("summary-warning");
-} else {
-  summaryEl.classList.add("summary-ok");
-}
+  
 
 
 
