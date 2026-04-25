@@ -1076,16 +1076,13 @@ Object.keys(dayMap).sort().forEach(iso => {
     a.type === b.type ? 0 : a.type === "income" ? -1 : 1
   );
 
-  // 👉 Start tracking from TODAY OR AFTER
   const isTrackingWindow = iso >= todayIso;
 
   todaysTx.forEach(tx => {
     const isIncome = tx.type === "income";
 
-    // 👉 Apply transaction first
     tempBalance += isIncome ? tx.amount : -tx.amount;
 
-    // 👉 Stop AFTER first major income
     const isMajorIncome = isIncome && tx.amount >= 200;
 
     if (isTrackingWindow && !foundNextIncome) {
@@ -1097,14 +1094,6 @@ Object.keys(dayMap).sort().forEach(iso => {
 
     if (iso > todayIso && isMajorIncome) {
       foundNextIncome = true;
-    }
-  });
-});
-
-    // Track lowest balance
-    if (tempBalance < lowestUpcomingBalance) {
-      lowestUpcomingBalance = tempBalance;
-      lowestUpcomingIso = iso;
     }
   });
 });
