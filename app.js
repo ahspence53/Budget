@@ -1066,35 +1066,43 @@ window.renderProjectionTable = function () {
   });
 
   /* ===== PRE-PASS: find lowest balance until next income ===== */
-  let tempBalance = openingBalance;
-  let lowestUpcomingBalance = Infinity;
-  let lowestUpcomingIso = null;
-  let foundNextIncome = false;
+let tempBalance = openingBalance;
+let lowestUpcomingBalance = Infinity;
+let lowestUpcomingIso = null;
+let foundNextIncome = false;
+let startedTracking = false;
 
-  Object.keys(dayMap).forEach(iso => {
-    const todaysTx = [...dayMap[iso]].sort((a, b) =>
-      a.type === b.type ? 0 : a.type === "income" ? -1 : 1
-    );
+Object.keys(dayMap).sort().forEach(iso => {
+  const todaysTx = [...dayMap[iso]].sort((a, b) =>
+    a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+  );
 
-    todaysTx.forEach(tx => {
-      if (foundNextIncome) return;
+  todaysTx.forEach(tx => {
+    const isIncome = tx.type === "income";
 
-      const isIncome = tx.type === "income";
+    // Apply transaction first
+    tempBalance += isIncome ? tx.amount : -tx.amount;
 
-      // STOP before first income AFTER today
-      if (iso > todayIso && isIncome) {
-        foundNextIncome = true;
-        return;
-      }
+    // Start tracking ONLY when we hit today
+    if (iso === todayIso) {
+      startedTracking = true;
+    }
 
-      tempBalance += isIncome ? tx.amount : -tx.amount;
+    if (!startedTracking || foundNextIncome) return;
 
-      if (iso >= todayIso && tempBalance < lowestUpcomingBalance) {
-        lowestUpcomingBalance = tempBalance;
-        lowestUpcomingIso = iso;
-      }
-    });
+    // Stop BEFORE first income after today
+    if (iso > todayIso && isIncome) {
+      foundNextIncome = true;
+      return;
+    }
+
+    // Track lowest balance
+    if (tempBalance < lowestUpcomingBalance) {
+      lowestUpcomingBalance = tempBalance;
+      lowestUpcomingIso = iso;
+    }
   });
+});
 
   /* ===== SUMMARY ===== */
   const summaryEl = document.getElementById("projection-summary");
