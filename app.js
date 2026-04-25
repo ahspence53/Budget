@@ -33,7 +33,16 @@ let transactionFilterMode = null;
   let lowestUpcomingBalance = Infinity;
 let lowestUpcomingIso = null;
 let hitNextIncome = false;
-  
+
+summaryEl.className = "";
+
+if (lowestUpcomingBalance < 0) {
+  summaryEl.classList.add("summary-danger");
+} else if (lowestUpcomingBalance < 100) {
+  summaryEl.classList.add("summary-warning");
+} else {
+  summaryEl.classList.add("summary-ok");
+}
 
 
 
@@ -1110,6 +1119,10 @@ const lowestDateFormatted = lowestUpcomingIso
   ? formatDate(lowestUpcomingIso)
   : null;
 
+  const daysUntilLow = lowestUpcomingIso
+  ? Math.round((new Date(lowestUpcomingIso) - new Date(todayIso)) / 86400000)
+  : null;
+
 // Buffer = how much you'd need to avoid hitting that low
 const bufferNeeded = lowestUpcomingBalance < 0
   ? Math.abs(lowestUpcomingBalance)
@@ -1120,13 +1133,32 @@ const bufferNeeded = lowestUpcomingBalance < 0
 
 if (summaryEl) {
   if (lowestUpcomingIso) {
+
+    const daysUntilLow = Math.round(
+      (new Date(lowestUpcomingIso) - new Date(todayIso)) / 86400000
+    );
+
     summaryEl.innerHTML = `
       <strong>Lowest before next income:</strong> £${lowestUpcomingBalance.toFixed(2)}
       on ${lowestDateFormatted}
+      (${daysUntilLow} days)
       ${bufferNeeded > 0 ? ` — <strong>Buffer needed:</strong> £${bufferNeeded.toFixed(2)}` : ""}
     `;
+
+    // 👉 Add colour logic here
+    summaryEl.className = "";
+
+    if (lowestUpcomingBalance < 0) {
+      summaryEl.classList.add("summary-danger");
+    } else if (lowestUpcomingBalance < 100) {
+      summaryEl.classList.add("summary-warning");
+    } else {
+      summaryEl.classList.add("summary-ok");
+    }
+
   } else {
     summaryEl.innerHTML = "";
+    summaryEl.className = "";
   }
 }
 
