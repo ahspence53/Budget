@@ -1111,6 +1111,7 @@ window.renderProjectionTable = function () {
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span>${formatDate(iso)}</span>
             ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
+            ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ''}
             ${
               hasDiaryNote(iso)
                 ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
@@ -1173,6 +1174,7 @@ window.renderProjectionTable = function () {
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                       <span>${formatDate(iso)}</span>
                       ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
+                      ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ''}
                       ${
                         hasDiaryNote(iso)
                           ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
