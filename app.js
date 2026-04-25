@@ -246,7 +246,7 @@ document.addEventListener("click", e => {
     document.body.classList.remove("modal-open");
   }
 });
-/* -------- helper funcfion for popups salary -1 and negative balances -------- */
+/* -------- helper function for popups salary -1 and negative balances -------- */
   function getTransactionsSortedByDate() {
   return [...transactions].sort((a, b) => {
     const dA = new Date(a.date);
