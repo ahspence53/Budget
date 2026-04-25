@@ -774,3 +774,14 @@ h3 .helper-text {
     opacity: 1;
   }
 }
+
+
+.popup {
+  backdrop-filter: blur(3px);
+}
+
+#savings-popup-body div:last-child {
+  border-top: 1px solid #d6c96b;
+  padding-top: 6px;
+  font-size: 1.05em;
+}
