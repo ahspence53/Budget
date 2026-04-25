@@ -1116,6 +1116,21 @@ const bufferNeeded = lowestUpcomingBalance < 0
   : 0;
 
 /* end of ddition */
+  const summaryEl = document.getElementById("projection-summary");
+
+if (summaryEl) {
+  if (lowestUpcomingIso) {
+    summaryEl.innerHTML = `
+      <strong>Lowest before next income:</strong> £${lowestUpcomingBalance.toFixed(2)}
+      on ${lowestDateFormatted}
+      ${bufferNeeded > 0 ? ` — <strong>Buffer needed:</strong> £${bufferNeeded.toFixed(2)}` : ""}
+    `;
+  } else {
+    summaryEl.innerHTML = "";
+  }
+}
+
+/*.  */
   /* ---------- Render day by day ---------- */
   Object.keys(dayMap).forEach(iso => {
     const todaysTx = dayMap[iso];
