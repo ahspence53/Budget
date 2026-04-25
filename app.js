@@ -1019,6 +1019,7 @@ projectionTbody.addEventListener("click", e => {
 
   
 /* ================= PROJECTION ================= */
+/* ================= PROJECTION ================= */
 window.renderProjectionTable = function () {
   projectionTbody.innerHTML = "";
 
@@ -1063,6 +1064,36 @@ window.renderProjectionTable = function () {
     }
   });
 
+  /* ===== PRE-PASS: find lowest balance from today until next income ===== */
+  let tempBalance = openingBalance;
+  let lowestUpcomingBalance = Infinity;
+  let lowestUpcomingIso = null;
+  let foundNextIncome = false;
+
+  Object.keys(dayMap).forEach(iso => {
+    const todaysTx = [...dayMap[iso]].sort((a, b) =>
+      a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+    );
+
+    todaysTx.forEach(tx => {
+      const isIncome = tx.type === "income";
+
+      tempBalance += isIncome ? tx.amount : -tx.amount;
+
+      if (iso >= todayIso && !foundNextIncome) {
+        if (tempBalance < lowestUpcomingBalance) {
+          lowestUpcomingBalance = tempBalance;
+          lowestUpcomingIso = iso;
+        }
+      }
+
+      // Stop AFTER first income beyond today
+      if (iso > todayIso && isIncome) {
+        foundNextIncome = true;
+      }
+    });
+  });
+
   /* ---------- Render day by day ---------- */
   Object.keys(dayMap).forEach(iso => {
     const todaysTx = dayMap[iso];
@@ -1079,7 +1110,7 @@ window.renderProjectionTable = function () {
         <td>
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span>${formatDate(iso)}</span>
-${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
+            ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
             ${
               hasDiaryNote(iso)
                 ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
@@ -1090,6 +1121,10 @@ ${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
         <td></td><td></td><td></td>
         <td><strong>${balance.toFixed(2)}</strong></td>
       `;
+
+      if (iso === lowestUpcomingIso) {
+        tr.classList.add("lowest-balance");
+      }
 
       projectionTbody.appendChild(tr);
       return;
@@ -1104,11 +1139,6 @@ ${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
     todaysTx.forEach((tx, index) => {
       const isIncome = tx.type === "income";
       balance += isIncome ? tx.amount : -tx.amount;
-      // Track lowest FUTURE balance (from today onwards)
-if (iso >= todayIso && balance < lowestUpcomingBalance) {
-  lowestUpcomingBalance = balance;
-  lowestUpcomingIso = iso;
-}
 
       const tr = document.createElement("tr");
 
@@ -1142,9 +1172,8 @@ if (iso >= todayIso && balance < lowestUpcomingBalance) {
                   dateRendered = true;
                   return `
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                 
-                    <span>${formatDate(iso)}</span>
-${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
+                      <span>${formatDate(iso)}</span>
+                      ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
                       ${
                         hasDiaryNote(iso)
                           ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
@@ -1189,9 +1218,11 @@ ${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
             : balance.toFixed(2)
         }</td>
       `;
-if (iso === lowestUpcomingIso) {
-  tr.classList.add("lowest-balance");
-}
+
+      if (iso === lowestUpcomingIso) {
+        tr.classList.add("lowest-balance");
+      }
+
       projectionTbody.appendChild(tr);
     });
   });
