@@ -805,3 +805,7 @@ h3 .helper-text {
   padding: 2px 6px;
   border-radius: 6px;
 }
+#projection-table tr.lowest-balance td {
+  background-color: #ffe0e0 !important;
+  border-left: 4px solid #d32f2f;
+}
