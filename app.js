@@ -454,9 +454,9 @@ function normalizeSearch(str) {
     .replace(/\s+/g, "");
 }
 /* ===================================================*/
-function hasNudgedAwayTransaction(iso) {
+/*function hasNudgedAwayTransaction(iso) {
   return Object.keys(nudges).some(key => key.endsWith("|" + iso));
-}
+}*/
 
 /* ================= CATEGORIES ================= */
 function updateCategoryDropdown() {
