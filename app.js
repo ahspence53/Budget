@@ -1347,9 +1347,8 @@ const importBtn = document.getElementById("import-btn");
 if (importBtn) {
   importBtn.onclick = () => {
 
-    if (!csvInput.files.length) return alert("Choose CSV");
-
     if (!csvInput) return alert("CSV input missing");
+if (!csvInput.files.length) return alert("Choose CSV");
 
     const rows = csvInput.files[0];
     const reader = new FileReader();
