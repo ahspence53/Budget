@@ -737,10 +737,9 @@ h3 .helper-text {
   background-color: #FFFF00; !important /* soft yellow  #FFFD018*/
 }*/
 
-#projection-table tr.auto-highlight {
+#projection-table tr.auto-highlight td {
   background-color: #FFFD01;
 }
-
 .popup {
   position: fixed;
   top: 0;
