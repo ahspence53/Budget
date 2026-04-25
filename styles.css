@@ -823,3 +823,12 @@ h3 .helper-text {
   border-radius: 6px;
   margin-left: 6px;
 }
+
+.projection-summary {
+  background: #fff3cd;        /* soft amber */
+  border: 1px solid #ffeeba;
+  padding: 10px 14px;
+  margin: 10px 0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
