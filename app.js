@@ -1070,31 +1070,31 @@ let tempBalance = openingBalance;
 let lowestUpcomingBalance = Infinity;
 let lowestUpcomingIso = null;
 let foundNextIncome = false;
-let startedTracking = false;
 
-Object.keys(dayMap).forEach(iso => {
+Object.keys(dayMap).sort().forEach(iso => {
   const todaysTx = [...dayMap[iso]].sort((a, b) =>
     a.type === b.type ? 0 : a.type === "income" ? -1 : 1
   );
 
+  // 👉 Start tracking from TODAY OR AFTER
+  const isTrackingWindow = iso >= todayIso;
+
   todaysTx.forEach(tx => {
     const isIncome = tx.type === "income";
 
-    const isMajorIncome =
-      isIncome && tx.amount >= 200; // adjust threshold if needed
-
-    // 👉 Apply transaction FIRST
+    // 👉 Apply transaction first
     tempBalance += isIncome ? tx.amount : -tx.amount;
 
-    // 👉 Track lowest AFTER applying
-    if (!foundNextIncome && iso >= todayIso) {
+    // 👉 Stop AFTER first major income
+    const isMajorIncome = isIncome && tx.amount >= 200;
+
+    if (isTrackingWindow && !foundNextIncome) {
       if (tempBalance < lowestUpcomingBalance) {
         lowestUpcomingBalance = tempBalance;
         lowestUpcomingIso = iso;
       }
     }
 
-    // 👉 THEN stop after hitting major income
     if (iso > todayIso && isMajorIncome) {
       foundNextIncome = true;
     }
