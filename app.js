@@ -32,6 +32,12 @@ let inlineEditIndex = null;
 let transactionFilterMode = null; 
   let lowestUpcomingBalance = Infinity;
 let lowestUpcomingIso = null;
+let hitNextIncome = false;
+  
+
+
+
+  
 // null | "monthly" | "4-weekly" | "targeted"
   
 /* ================= DOM ================ */
@@ -1080,12 +1086,17 @@ window.renderProjectionTable = function () {
 
       tempBalance += isIncome ? tx.amount : -tx.amount;
 
-      if (iso >= todayIso && !foundNextIncome) {
-        if (tempBalance < lowestUpcomingBalance) {
-          lowestUpcomingBalance = tempBalance;
-          lowestUpcomingIso = iso;
-        }
-      }
+      // Stop tracking as soon as next income is reached
+if (iso > todayIso && isIncome) {
+  foundNextIncome = true;
+}
+
+if (iso > todayIso && isIncome && !foundNextIncome) {
+  if (tempBalance < lowestUpcomingBalance) {
+    lowestUpcomingBalance = tempBalance;
+    lowestUpcomingIso = iso;
+  }
+}
 
       // Stop AFTER first income beyond today
       if (iso > todayIso && isIncome) {
