@@ -1033,8 +1033,6 @@ projectionTbody.addEventListener("click", e => {
 });
 
   
-/* ================= PROJECTION ================= */
-/* ================= PROJECTION ================= 1028 to 1253 */
 window.renderProjectionTable = function () {
   projectionTbody.innerHTML = "";
 
@@ -1079,90 +1077,83 @@ window.renderProjectionTable = function () {
     }
   });
 
-  /* ===== PRE-PASS: find lowest balance from today until next income ===== */
+  /* ===== PRE-PASS: find lowest balance until next income ===== */
   let tempBalance = openingBalance;
   let lowestUpcomingBalance = Infinity;
   let lowestUpcomingIso = null;
   let foundNextIncome = false;
 
-
-
- Object.keys(dayMap).forEach(iso => {
-  const todaysTx = [...dayMap[iso]].sort((a, b) =>
-    a.type === b.type ? 0 : a.type === "income" ? -1 : 1
-  );
-
-  todaysTx.forEach(tx => {
-    const isIncome = tx.type === "income";
-
-    // If we've already reached next income → stop completely
-    if (foundNextIncome) return;
-
-    // If this is the FIRST income after today → stop BEFORE including it
-    if (iso > todayIso && isIncome) {
-      foundNextIncome = true;
-      return;
-    }
-
-    // Apply transaction
-    tempBalance += isIncome ? tx.amount : -tx.amount;
-
-    // Track lowest balance from today onwards
-    if (iso >= todayIso && tempBalance < lowestUpcomingBalance) {
-      lowestUpcomingBalance = tempBalance;
-      lowestUpcomingIso = iso;
-    }
-  });
-});
-/* addition */
-const lowestDateFormatted = lowestUpcomingIso
-  ? formatDate(lowestUpcomingIso)
-  : null;
-
-  const daysUntilLow = lowestUpcomingIso
-  ? Math.round((new Date(lowestUpcomingIso) - new Date(todayIso)) / 86400000)
-  : null;
-
-// Buffer = how much you'd need to avoid hitting that low
-const bufferNeeded = lowestUpcomingBalance < 0
-  ? Math.abs(lowestUpcomingBalance)
-  : 0;
-
-/* end of ddition */
-  const summaryEl = document.getElementById("projection-summary");
-
-if (summaryEl) {
-  if (lowestUpcomingIso) {
-
-    const daysUntilLow = Math.round(
-      (new Date(lowestUpcomingIso) - new Date(todayIso)) / 86400000
+  Object.keys(dayMap).forEach(iso => {
+    const todaysTx = [...dayMap[iso]].sort((a, b) =>
+      a.type === b.type ? 0 : a.type === "income" ? -1 : 1
     );
 
-    summaryEl.innerHTML = `
-      <strong>Lowest before next income:</strong> £${lowestUpcomingBalance.toFixed(2)}
-      on ${lowestDateFormatted}
-      (${daysUntilLow} days)
-      ${bufferNeeded > 0 ? ` — <strong>Buffer needed:</strong> £${bufferNeeded.toFixed(2)}` : ""}
-    `;
+    todaysTx.forEach(tx => {
+      if (foundNextIncome) return;
 
-    // 👉 Add colour logic here
-    summaryEl.className = "";
+      const isIncome = tx.type === "income";
 
-    if (lowestUpcomingBalance < 0) {
-      summaryEl.classList.add("summary-danger");
-    } else if (lowestUpcomingBalance < 100) {
-      summaryEl.classList.add("summary-warning");
+      // STOP before first income AFTER today
+      if (iso > todayIso && isIncome) {
+        foundNextIncome = true;
+        return;
+      }
+
+      tempBalance += isIncome ? tx.amount : -tx.amount;
+
+      if (iso >= todayIso && tempBalance < lowestUpcomingBalance) {
+        lowestUpcomingBalance = tempBalance;
+        lowestUpcomingIso = iso;
+      }
+    });
+  });
+
+  /* ===== SUMMARY ===== */
+  const summaryEl = document.getElementById("projection-summary");
+
+  if (summaryEl) {
+    if (lowestUpcomingIso) {
+      const lowestDateFormatted = formatDate(lowestUpcomingIso);
+
+      const daysUntilLow = Math.round(
+        (new Date(lowestUpcomingIso) - new Date(todayIso)) / 86400000
+      );
+
+      const bufferNeeded =
+        lowestUpcomingBalance < 0
+          ? Math.abs(lowestUpcomingBalance)
+          : 0;
+
+      summaryEl.innerHTML = `
+        <strong>Lowest before next income:</strong> £${lowestUpcomingBalance.toFixed(2)}
+        on ${lowestDateFormatted}
+        (${daysUntilLow} days)
+        ${bufferNeeded > 0 ? ` — <strong>Buffer needed:</strong> £${bufferNeeded.toFixed(2)}` : ""}
+      `;
+
+      summaryEl.classList.remove(
+        "summary-danger",
+        "summary-warning",
+        "summary-ok"
+      );
+
+      if (lowestUpcomingBalance < 0) {
+        summaryEl.classList.add("summary-danger");
+      } else if (lowestUpcomingBalance < 100) {
+        summaryEl.classList.add("summary-warning");
+      } else {
+        summaryEl.classList.add("summary-ok");
+      }
     } else {
-      summaryEl.classList.add("summary-ok");
+      summaryEl.innerHTML = "";
+      summaryEl.classList.remove(
+        "summary-danger",
+        "summary-warning",
+        "summary-ok"
+      );
     }
-
-  } else {
-    summaryEl.innerHTML = "";
-    summaryEl.className = "";
   }
-}
 
-/*.  */
   /* ---------- Render day by day ---------- */
   Object.keys(dayMap).forEach(iso => {
     const todaysTx = dayMap[iso];
@@ -1173,14 +1164,19 @@ if (summaryEl) {
       const tr = document.createElement("tr");
 
       if (iso === todayIso) tr.classList.add("today-row");
-      if ([0, 6].includes(new Date(iso).getDay())) tr.classList.add("weekend-row");
+      if ([0, 6].includes(new Date(iso).getDay()))
+        tr.classList.add("weekend-row");
+
+      if (iso === lowestUpcomingIso) {
+        tr.classList.add("lowest-balance");
+      }
 
       tr.innerHTML = `
         <td>
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span>${formatDate(iso)}</span>
             ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
-            ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ''}
+            ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ""}
             ${
               hasDiaryNote(iso)
                 ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
@@ -1192,9 +1188,6 @@ if (summaryEl) {
         <td><strong>${balance.toFixed(2)}</strong></td>
       `;
 
-     if (iso === lowestUpcomingIso && index === todaysTx.length - 1) {
-  tr.classList.add("lowest-balance");
-}
       projectionTbody.appendChild(tr);
       return;
     }
@@ -1212,7 +1205,8 @@ if (summaryEl) {
       const tr = document.createElement("tr");
 
       if (iso === todayIso) tr.classList.add("today-row");
-      if ([0, 6].includes(new Date(iso).getDay())) tr.classList.add("weekend-row");
+      if ([0, 6].includes(new Date(iso).getDay()))
+        tr.classList.add("weekend-row");
       if (balance < 0) tr.classList.add("negative");
 
       const today = new Date(toISO(new Date()));
@@ -1233,6 +1227,13 @@ if (summaryEl) {
         tr.classList.add("highlight-savings");
       }
 
+      if (
+        iso === lowestUpcomingIso &&
+        index === todaysTx.length - 1
+      ) {
+        tr.classList.add("lowest-balance");
+      }
+
       tr.innerHTML = `
         <td>
           ${
@@ -1243,7 +1244,7 @@ if (summaryEl) {
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                       <span>${formatDate(iso)}</span>
                       ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
-                      ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ''}
+                      ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ""}
                       ${
                         hasDiaryNote(iso)
                           ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
@@ -1289,15 +1290,11 @@ if (summaryEl) {
         }</td>
       `;
 
-      if (iso === lowestUpcomingIso && index === todaysTx.length - 1) {
-  tr.classList.add("lowest-balance");
-}
-
       projectionTbody.appendChild(tr);
     });
   });
 
-  /* ===== FINAL PASS: highlight last transaction for today ===== */
+  /* ===== FINAL PASS: highlight last transaction today ===== */
   projectionTbody
     .querySelectorAll("tr.auto-highlight")
     .forEach(row => row.classList.remove("auto-highlight"));
