@@ -32,19 +32,17 @@ tr {
 }
 
 /* Weekend shading in 24-month projection */
-#projection-table tr.weekend-row {
+#projection-table tr.weekend-row td {
+
   background-color: #ffffc5;
-}
 
-/* Highlight today's date */
-.projection-today {
-  background-color: #f3ccff !important;
 }
 
 
 
-.projection-match-highlight {
-  background: yellow !important;
+#projection-table tr.today-row td {
+
+  background-color: #fff7d6;
 }
 
 .frequency-legend {
