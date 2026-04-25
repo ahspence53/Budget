@@ -1122,10 +1122,9 @@ window.renderProjectionTable = function () {
         <td><strong>${balance.toFixed(2)}</strong></td>
       `;
 
-      if (iso === lowestUpcomingIso) {
-        tr.classList.add("lowest-balance");
-      }
-
+     if (iso === lowestUpcomingIso && index === todaysTx.length - 1) {
+  tr.classList.add("lowest-balance");
+}
       projectionTbody.appendChild(tr);
       return;
     }
@@ -1219,9 +1218,9 @@ window.renderProjectionTable = function () {
         }</td>
       `;
 
-      if (iso === lowestUpcomingIso) {
-        tr.classList.add("lowest-balance");
-      }
+      if (iso === lowestUpcomingIso && index === todaysTx.length - 1) {
+  tr.classList.add("lowest-balance");
+}
 
       projectionTbody.appendChild(tr);
     });
