@@ -1076,40 +1076,35 @@ window.renderProjectionTable = function () {
   let lowestUpcomingIso = null;
   let foundNextIncome = false;
 
-   /* ===== PRE-PASS: find lowest balance from today until next income ===== */
-  let tempBalance = openingBalance;
-  let lowestUpcomingBalance = Infinity;
-  let lowestUpcomingIso = null;
-  let foundNextIncome = false;
 
-  Object.keys(dayMap).forEach(iso => {
-    const todaysTx = [...dayMap[iso]].sort((a, b) =>
-      a.type === b.type ? 0 : a.type === "income" ? -1 : 1
-    );
 
-    todaysTx.forEach(tx => {
-      const isIncome = tx.type === "income";
+ Object.keys(dayMap).forEach(iso => {
+  const todaysTx = [...dayMap[iso]].sort((a, b) =>
+    a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+  );
 
-      tempBalance += isIncome ? tx.amount : -tx.amount;
+  todaysTx.forEach(tx => {
+    const isIncome = tx.type === "income";
 
-      // Stop tracking as soon as next income is reached
-if (iso > todayIso && isIncome) {
-  foundNextIncome = true;
-}
+    // If we've already reached next income → stop completely
+    if (foundNextIncome) return;
 
-if (iso > todayIso && isIncome && !foundNextIncome) {
-  if (tempBalance < lowestUpcomingBalance) {
-    lowestUpcomingBalance = tempBalance;
-    lowestUpcomingIso = iso;
-  }
-}
+    // If this is the FIRST income after today → stop BEFORE including it
+    if (iso > todayIso && isIncome) {
+      foundNextIncome = true;
+      return;
+    }
 
-      // Stop AFTER first income beyond today
-      if (iso > todayIso && isIncome) {
-        foundNextIncome = true;
-      }
-    });
+    // Apply transaction
+    tempBalance += isIncome ? tx.amount : -tx.amount;
+
+    // Track lowest balance from today onwards
+    if (iso >= todayIso && tempBalance < lowestUpcomingBalance) {
+      lowestUpcomingBalance = tempBalance;
+      lowestUpcomingIso = iso;
+    }
   });
+});
 
   /* ---------- Render day by day ---------- */
   Object.keys(dayMap).forEach(iso => {
