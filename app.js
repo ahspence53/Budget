@@ -1017,8 +1017,6 @@ projectionTbody.addEventListener("click", e => {
 
   
 /* ================= PROJECTION ================= */
-/* ================= PROJECTION ================= */
-
 window.renderProjectionTable = function () {
   projectionTbody.innerHTML = "";
 
@@ -1117,19 +1115,16 @@ window.renderProjectionTable = function () {
         (diffDays >= 0 && diffDays <= 7) ||
         (diffDays < 0 && diffDays >= -MAX_PAST_NUDGE_DAYS);
 
-      /* ========== ADDED PENSION HIGHLIGHT ============ */
-      // Pension highlight
-      if (tx.description.toLowerCase().includes("pension") ||
-        tx.description.toLowerCase().includes("salary")) {
+      if (
+        tx.description.toLowerCase().includes("pension") ||
+        tx.description.toLowerCase().includes("salary")
+      ) {
         tr.classList.add("highlight-pension");
       }
-      /* ========== ADDED SAVINGS HIGHLIGHT ============ */
-           // Savings highlight
+
       if (tx.description.toLowerCase().includes("savings")) {
         tr.classList.add("highlight-savings");
       }
-
-      /* =============================================== */
 
       tr.innerHTML = `
         <td>
@@ -1155,14 +1150,13 @@ window.renderProjectionTable = function () {
         <td>
           <div class="projection-item ${tx.type}">
             <span class="desc">
-  ${frequencyIcon(tx)}${tx.description}
+              ${frequencyIcon(tx)}${tx.description}
               ${
                 isFinalOccurrence(tx, iso) && tx.endDate
-                  ? `<span
-                       class="tx-ends"
+                  ? `<span class="tx-ends"
                        data-end="${tx.endDate}"
-                       data-name="${tx.description}"
-                     > 🎯 ends</span>`
+                       data-name="${tx.description}">
+                       🎯 ends</span>`
                   : ""
               }
             </span>
@@ -1187,21 +1181,20 @@ window.renderProjectionTable = function () {
       `;
 
       projectionTbody.appendChild(tr);
-
-      projectionTbody
-  .querySelectorAll("tr.auto-highlight")
-  .forEach(row => row.classList.remove("auto-highlight"));
-
-// Highlight last transaction for today
-const todayRows = projectionTbody.querySelectorAll("tr.today-row");
-
-if (todayRows.length > 0) {
-  const lastRow = todayRows[todayRows.length - 1];
-  lastRow.classList.add("auto-highlight");
-}
-      
     });
   });
+
+  /* ===== FINAL PASS: highlight last transaction for today ===== */
+  projectionTbody
+    .querySelectorAll("tr.auto-highlight")
+    .forEach(row => row.classList.remove("auto-highlight"));
+
+  const todayRows = projectionTbody.querySelectorAll("tr.today-row");
+
+  if (todayRows.length > 0) {
+    const lastRow = todayRows[todayRows.length - 1];
+    lastRow.classList.add("auto-highlight");
+  }
 };
 /* ================= STICKY FIND CUMULATIVE TOTAL HELPER ======== */
   function extractRowAmount(row) {
