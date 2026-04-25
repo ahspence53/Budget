@@ -207,7 +207,12 @@ document.getElementById("restore-notes").addEventListener("change", e => {
     return;
   }
   if (!file) return;
-
+/* ADDED FOR RESTORE NOTES BACKUP FILE */
+  document
+  .getElementById("restore-notes-btn")
+  ?.addEventListener("click", () => {
+    document.getElementById("restore-notes")?.click();
+  });
 
 
 
