@@ -492,14 +492,15 @@ addCategoryButton.onclick = () => {
   updateCategoryDropdown();
 };
 /* ===================================================*/
-function ensureStartConfig() {
+/* WE THINK THIS FUNCTION IS NOT USED, COMMENT OUT FOR THE MOMENT */
+/*function ensureStartConfig() {
   if (!startDate) {
     document.body.classList.remove("modal-open");
     alert("Start date not set");
     return false;
   }
   return true;
-}
+}*/
 
 /* ================= CONFIG ================= */
 saveConfigButton.onclick = () => {
