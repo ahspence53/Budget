@@ -814,3 +814,12 @@ h3 .helper-text {
   background-color: #ffe0e0;
   border-left: 4px solid red;
 }
+
+.low-label {
+  background: #d9534f;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-left: 6px;
+}
