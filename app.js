@@ -1091,10 +1091,13 @@ Object.keys(dayMap).sort().forEach(iso => {
     if (!startedTracking || foundNextIncome) return;
 
     // Stop BEFORE first income after today
-    if (iso > todayIso && isIncome) {
-      foundNextIncome = true;
-      return;
-    }
+    const isMajorIncome =
+  isIncome && tx.amount >= 200; // tweak threshold
+
+if (iso > todayIso && isMajorIncome) {
+  foundNextIncome = true;
+  return;
+}
 
     // Track lowest balance
     if (tempBalance < lowestUpcomingBalance) {
