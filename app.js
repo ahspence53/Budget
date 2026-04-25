@@ -1105,7 +1105,17 @@ window.renderProjectionTable = function () {
     }
   });
 });
+/* addition */
+const lowestDateFormatted = lowestUpcomingIso
+  ? formatDate(lowestUpcomingIso)
+  : null;
 
+// Buffer = how much you'd need to avoid hitting that low
+const bufferNeeded = lowestUpcomingBalance < 0
+  ? Math.abs(lowestUpcomingBalance)
+  : 0;
+
+/* end of ddition */
   /* ---------- Render day by day ---------- */
   Object.keys(dayMap).forEach(iso => {
     const todaysTx = dayMap[iso];
