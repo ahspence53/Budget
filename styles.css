@@ -809,3 +809,8 @@ h3 .helper-text {
   background-color: #ffe0e0 !important;
   border-left: 4px solid #d32f2f;
 }
+
+.lowest-balance {
+  background-color: #ffe0e0;
+  border-left: 4px solid red;
+}
