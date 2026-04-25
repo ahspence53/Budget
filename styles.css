@@ -738,7 +738,7 @@ h3 .helper-text {
 }*/
 
 #projection-table tr.auto-highlight td {
-  background-color: #FFFD01;
+  background-color: #FFFD01 !important;
 }
 .popup {
   position: fixed;
