@@ -1189,7 +1189,9 @@ ${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
             : balance.toFixed(2)
         }</td>
       `;
-
+if (iso === lowestUpcomingIso) {
+  tr.classList.add("lowest-balance");
+}
       projectionTbody.appendChild(tr);
     });
   });
