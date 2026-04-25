@@ -832,3 +832,24 @@ h3 .helper-text {
   border-radius: 6px;
   font-size: 0.95rem;
 }
+
+#projection-summary {
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.summary-ok {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.summary-warning {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.summary-danger {
+  background: #f8d7da;
+  color: #842029;
+}
