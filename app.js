@@ -1076,6 +1076,12 @@ window.renderProjectionTable = function () {
   let lowestUpcomingIso = null;
   let foundNextIncome = false;
 
+   /* ===== PRE-PASS: find lowest balance from today until next income ===== */
+  let tempBalance = openingBalance;
+  let lowestUpcomingBalance = Infinity;
+  let lowestUpcomingIso = null;
+  let foundNextIncome = false;
+
   Object.keys(dayMap).forEach(iso => {
     const todaysTx = [...dayMap[iso]].sort((a, b) =>
       a.type === b.type ? 0 : a.type === "income" ? -1 : 1
