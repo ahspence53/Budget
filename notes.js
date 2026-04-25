@@ -93,6 +93,12 @@ li.classList.add(getDiaryAgeClass(date));
       notesList.appendChild(li);
     });
 }
+/* ADDED FOR RESTORE NOTES BACKUP FILE */
+  document
+  .getElementById("restore-notes-btn")
+  ?.addEventListener("click", () => {
+    document.getElementById("restore-notes")?.click();
+  });
 
 // ---------------- events ----------------
 saveBtn.onclick = () => {
@@ -207,12 +213,6 @@ document.getElementById("restore-notes").addEventListener("change", e => {
     return;
   }
   if (!file) return;
-/* ADDED FOR RESTORE NOTES BACKUP FILE */
-  document
-  .getElementById("restore-notes-btn")
-  ?.addEventListener("click", () => {
-    document.getElementById("restore-notes")?.click();
-  });
 
 
 
