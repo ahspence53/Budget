@@ -40,9 +40,19 @@ tr {
 
 
 
-#projection-table tr.today-row td {
+/*#projection-table tr.today-row td {
 
   background-color: #ffff00;
+}*/
+/* Subtle background for ALL today's rows */
+#projection-table tr.today-row td {
+  background-color: #fff7d6;
+}
+
+/* Strong highlight for final row today */
+#projection-table tr.today-row.auto-highlight td {
+  background-color: #ffe066 !important;
+  font-weight: 600;
 }
 
 .frequency-legend {
