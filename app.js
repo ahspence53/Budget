@@ -1076,7 +1076,6 @@ window.renderProjectionTable = function () {
       tr.innerHTML = `
         <td>
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            /*<span>${formatDate(iso)}</span>*/
             <span>${formatDate(iso)}</span>
 ${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
             ${
@@ -1136,7 +1135,7 @@ ${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
                   dateRendered = true;
                   return `
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                    /*  <span>${formatDate(iso)}</span>*/
+                 
                     <span>${formatDate(iso)}</span>
 ${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
                       ${
