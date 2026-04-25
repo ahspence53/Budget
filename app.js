@@ -30,6 +30,8 @@ let transactionSortAscending = true;
 let transactionSortMode = "date"; // "date" or "category"
 let inlineEditIndex = null;
 let transactionFilterMode = null; 
+  let lowestUpcomingBalance = Infinity;
+let lowestUpcomingIso = null;
 // null | "monthly" | "4-weekly" | "targeted"
   
 /* ================= DOM ================ */
