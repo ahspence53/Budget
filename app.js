@@ -529,13 +529,7 @@ if (frame && frame.contentWindow) {
 
 
 /* ===== ADDITION ======*/
-  helpButton.addEventListener("click", () => {
-  scrollBeforeHelp = window.scrollY;
-
-  helpModal.classList.remove("hidden");
-  document.body.classList.add("modal-open");
-});
-  /* ==============*/
+  
 if (helpButton) {
   helpButton.addEventListener("click", () => {
     document.body.classList.add("modal-open");
