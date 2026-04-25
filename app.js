@@ -1106,6 +1106,11 @@ ${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
     todaysTx.forEach((tx, index) => {
       const isIncome = tx.type === "income";
       balance += isIncome ? tx.amount : -tx.amount;
+      // Track lowest FUTURE balance (from today onwards)
+      if (iso >= todayIso && balance < lowestUpcomingBalance) {
+        lowestUpcomingBalance = balance;
+        lowestUpcomingIso = iso;
+      }
 
       const tr = document.createElement("tr");
 
@@ -1153,6 +1158,9 @@ ${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
               : ""
           }
         </td>
+        if (iso === lowestUpcomingIso) {
+  tr.classList.add("lowest-balance");
+}
 
         <td>
           <div class="projection-item ${tx.type}">
