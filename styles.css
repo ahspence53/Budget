@@ -923,11 +923,13 @@ r  text-align: center;
 #negative-popup-btn {
   background: #ff0000;
   border-color: #e0a0a0;
+  color : #900;
 }
 
 #salary-popup-btn {
   background: #ff0000;
   border-color: #a0c4e0;
+  color : #004080;
 }
 
 .action-button-row button {
