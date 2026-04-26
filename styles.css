@@ -867,3 +867,30 @@ h3 .helper-text {
   top: 0;
   z-index: 10;
 }
+
+
+/* ===== ACTION BUTTON ROW ===== */
+.action-button-row {
+  display: flex;
+  flex-wrap: wrap;          /* allows wrapping on smaller screens */
+  gap: 8px;
+  align-items: stretch;     /* 👈 makes heights equal */
+}
+
+/* ===== BUTTONS ===== */
+.action-button-row button {
+  height: 42px;             /* 👈 controls ALL button height */
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+
+  font-size: 14px;
+  line-height: 1.2;
+}
