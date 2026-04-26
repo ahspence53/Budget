@@ -923,16 +923,44 @@ r  text-align: center;
 #negative-popup-btn {
   background: #ff0000;
   border-color: #e0a0a0;
-  color : WHITE;
-  font-weight : BOLD;
+  color: WHITE;
+  font-weight: BOLD;
+  
+  /* The Shadow: Offset-X, Offset-Y, Blur, Color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  
+  /* Smooth transition for the pop effect */
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
 }
+
+/* Optional: Make it pop more when hovered */
+#negative-popup-btn:hover {
+  transform: translateY(-2px); /* Moves the button up slightly */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Deepens the shadow */
+}
+
 
 #salary-popup-btn {
   background: #ff0000;
-  border-color: #a0c4e0;
-  color WHITE;
-  font-weight : BOLD;
+  border-color: #e0a0a0;
+  color: WHITE;
+  font-weight: BOLD;
+  
+  /* The Shadow: Offset-X, Offset-Y, Blur, Color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  
+  /* Smooth transition for the pop effect */
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
 }
+
+/* Optional: Make it pop more when hovered */
+#salary-popup-btn:hover {
+  transform: translateY(-2px); /* Moves the button up slightly */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Deepens the shadow */
+}
+
 
 .action-button-row button {
   border-radius: 999px;
