@@ -962,24 +962,3 @@ r  text-align: center;
 }
 
 
-.action-button-row button {
-  border-radius: 999px;
-}
-
-
-.action-group {
-  margin-bottom: 12px;
-}
-
-.group-label {
-  font-size: 12px;
-  color: #666;
-  margin: 4px 2px 6px;
-  font-weight: bold;
-}
-
-.action-group .action-button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
