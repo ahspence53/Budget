@@ -961,9 +961,9 @@ r  text-align: center;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Deepens the shadow */
 }
 
-.action-group button {
-  font-size: 1.1rem;     /* text size */
-  padding: 12px 14px;    /* internal spacing */
-  min-height: 48px;      /* consistent button height */
-  border-radius: 8px;    /* optional: softer look */
+#import-export .action-button-row > button {
+  font-size: 1.15rem;
+  padding: 12px 16px;
+  min-height: 48px;
+  border-radius: 8px;
 }
