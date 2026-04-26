@@ -950,7 +950,7 @@ r  text-align: center;
   /* The Shadow: Offset-X, Offset-Y, Blur, Color */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   
-6  /* Smooth transition for the pop effect */
+ /* Smooth transition for the pop effect */
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
@@ -978,4 +978,11 @@ r  text-align: center;
 
 .action-group {
   margin-bottom: 10px;
+}
+
+.group-label {
+  font-size: 1rem;     /* slightly larger */
+  font-weight: 700;    /* bold */
+  display: block;      /* keeps it on its own line */
+  margin-bottom: 6px;  /* space above buttons */
 }
