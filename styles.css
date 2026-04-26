@@ -961,4 +961,11 @@ r  text-align: center;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Deepens the shadow */
 }
 
+/* ONLY affect the View / Tools rows */
+.action-group button {
+  font-size: 1.15rem;   /* text size */
+  padding: 10px 16px;   /* button size */
+  min-height: 44px;     /* consistent height */
+  border-radius: 8px;   /* optional – nicer look */
+}
 
