@@ -884,7 +884,7 @@ h3 .helper-text {
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
+r  text-align: center;
 
   box-sizing: border-box;
   border-radius: 8px;
@@ -897,4 +897,9 @@ h3 .helper-text {
 
 .action-button-row button {
   white-space: nowrap;   /* keeps them single-line */
+}
+
+.action-button-row button {
+  flex: 1;
+  min-width: 140px;   /* prevents them getting too small */
 }
