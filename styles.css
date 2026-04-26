@@ -990,3 +990,9 @@ r  text-align: center;
   font-size: 1.05rem;
 }
 
+.action-group button {
+  font-size: 1.1rem;     /* text size */
+  padding: 12px 14px;    /* internal spacing */
+  min-height: 48px;      /* consistent button height */
+  border-radius: 8px;    /* optional: softer look */
+}
