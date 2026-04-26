@@ -115,7 +115,7 @@ table input,
 table select,
 table button {
   padding: 4px 6px;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 #config input {
