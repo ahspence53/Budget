@@ -103,9 +103,7 @@ tr {
 
 /* ================= FORMS ================= */
 
-/* Forms only (not tables, not buttons row) */
-#add-transaction-section input,
-#add-transaction-section select {
+input, select, button {
   font-size: 1.05rem;
   padding: 10px 12px;
 }
@@ -115,7 +113,7 @@ table input,
 table select,
 table button {
   padding: 4px 6px;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 #config input {
@@ -886,7 +884,7 @@ h3 .helper-text {
   display: flex;
   align-items: center;
   justify-content: center;
- text-align: center;
+r  text-align: center;
 
   box-sizing: border-box;
   border-radius: 8px;
@@ -952,7 +950,7 @@ h3 .helper-text {
   /* The Shadow: Offset-X, Offset-Y, Blur, Color */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   
- /* Smooth transition for the pop effect */
+6  /* Smooth transition for the pop effect */
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
@@ -962,39 +960,5 @@ h3 .helper-text {
   transform: translateY(-2px); /* Moves the button up slightly */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Deepens the shadow */
 }
-/* ===== VISUAL GROUPING ONLY (SAFE) ===== */
 
-.action-group {
-  margin-bottom: 14px;
-}
 
-.group-label {
-  font-size: 0.8rem;
-  color: #666;
-  margin-bottom: 4px;
-  display: block;
-  font-weight: 600;
-}
-
-/* Subtle separation line between groups */
-.action-group + .action-group {
-  border-top: 1px solid #ddd;
-  padding-top: 10px;
-}
-
-/* Slightly soften Tools row */
-.action-group:last-of-type .action-button-row button {
-  opacity: 0.9;
-  background: #f7f7f7;
-}
-
-#projection-table {
-  font-size: 1 rem;
-}
-
-.action-group button {
-  font-size: 1.1rem;     /* text size */
-  padding: 12px 14px;    /* internal spacing */
-  min-height: 48px;      /* consistent button height */
-  border-radius: 8px;    /* optional: softer look */
-}
