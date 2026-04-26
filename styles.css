@@ -894,3 +894,7 @@ h3 .helper-text {
   font-size: 14px;
   line-height: 1.2;
 }
+
+.action-button-row button {
+  white-space: nowrap;   /* keeps them single-line */
+}
