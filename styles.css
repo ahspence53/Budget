@@ -924,12 +924,14 @@ r  text-align: center;
   background: #ff0000;
   border-color: #e0a0a0;
   color : WHITE;
+  font-weight : BOLD;
 }
 
 #salary-popup-btn {
   background: #ff0000;
   border-color: #a0c4e0;
   color WHITE;
+  font-weight : BOLD;
 }
 
 .action-button-row button {
