@@ -103,7 +103,9 @@ tr {
 
 /* ================= FORMS ================= */
 
-input, select, button {
+/* Forms only (not tables, not buttons row) */
+#add-transaction-section input,
+#add-transaction-section select {
   font-size: 1.05rem;
   padding: 10px 12px;
 }
