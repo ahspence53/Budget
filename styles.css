@@ -51,7 +51,7 @@ tr {
 
 /* Strong highlight for final row today */
 #projection-table tr.today-row.auto-highlight td {
-  background-color: #ffe066 !important;
+  background-color: #ffea00 !important;
   font-weight: 600;
 }
 
