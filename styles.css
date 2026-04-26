@@ -907,3 +907,29 @@ r  text-align: center;
 .action-button-row {
   margin: 10px 0;   /* gives breathing room above/below */
 }
+
+.action-button-row button {
+  transition: all 0.15s ease;
+}
+
+.action-button-row button:hover {
+  background: #e8e8e8;
+}
+
+.action-button-row button:active {
+  transform: scale(0.97);
+}
+
+#negative-popup-btn {
+  background: #ffe5e5;
+  border-color: #e0a0a0;
+}
+
+#salary-popup-btn {
+  background: #e8f4ff;
+  border-color: #a0c4e0;
+}
+
+.action-button-row button {
+  border-radius: 999px;
+}
