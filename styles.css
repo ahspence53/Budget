@@ -967,3 +967,15 @@ r  text-align: center;
   min-height: 48px;
   border-radius: 8px;
 }
+
+.group-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.action-group {
+  margin-bottom: 10px;
+}
