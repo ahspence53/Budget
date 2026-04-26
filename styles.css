@@ -950,7 +950,7 @@ r  text-align: center;
   /* The Shadow: Offset-X, Offset-Y, Blur, Color */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   
-  /* Smooth transition for the pop effect */
+6  /* Smooth transition for the pop effect */
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
@@ -964,4 +964,8 @@ r  text-align: center;
 
 .action-button-row button {
   border-radius: 999px;
+}
+
+.group-label {
+  font-weight: bold;
 }
