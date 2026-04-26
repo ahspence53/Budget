@@ -945,7 +945,10 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
       };
 
       tr.querySelector(".delete-btn").onclick = () => {
-        if (!confirm(`Delete "${tx.description}"?`)) return;
+       /* if (!confirm(`Delete "${tx.description}"?`)) return;*/
+        if (!confirm(
+  `Delete "${tx.description}" on ${getDisplayedTransactionDate(tx)} for £${tx.amount.toFixed(2)}?`
+)) return;
         transactions.splice(index, 1);
         saveTransactions();
         renderTransactionTable();
