@@ -950,7 +950,7 @@ r  text-align: center;
   /* The Shadow: Offset-X, Offset-Y, Blur, Color */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   
-6  /* Smooth transition for the pop effect */
+ /* Smooth transition for the pop effect */
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
@@ -960,5 +960,29 @@ r  text-align: center;
   transform: translateY(-2px); /* Moves the button up slightly */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Deepens the shadow */
 }
+/* ===== VISUAL GROUPING ONLY (SAFE) ===== */
 
+.action-group {
+  margin-bottom: 14px;
+}
+
+.group-label {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 4px;
+  display: block;
+  font-weight: 600;
+}
+
+/* Subtle separation line between groups */
+.action-group + .action-group {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+/* Slightly soften Tools row */
+.action-group:last-of-type .action-button-row button {
+  opacity: 0.9;
+  background: #f7f7f7;
+}
 
