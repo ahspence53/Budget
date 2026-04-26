@@ -308,6 +308,15 @@ table button {
   cursor: pointer;
 }
 
+/* Styling the Savings popup button */
+#savings-popup-btn {
+  background-color: #FFEA00; 
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 /* Adding a hover effect */
 #salary-popup-btn:hover {
   background-color: #45a049;
