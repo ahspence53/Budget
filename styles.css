@@ -903,3 +903,7 @@ r  text-align: center;
   flex: 1;
   min-width: 140px;   /* prevents them getting too small */
 }
+
+.action-button-row {
+  margin: 10px 0;   /* gives breathing room above/below */
+}
