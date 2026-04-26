@@ -960,6 +960,7 @@ r  text-align: center;
   transform: translateY(-2px); /* Moves the button up slightly */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Deepens the shadow */
 }
+
 .action-group button {
   font-size: 1.1rem;     /* text size */
   padding: 12px 14px;    /* internal spacing */
