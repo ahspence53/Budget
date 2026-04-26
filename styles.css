@@ -966,9 +966,7 @@ r  text-align: center;
   border-radius: 999px;
 }
 
-.group-label {
-  font-weight: bold;
-}
+
 .action-group {
   margin-bottom: 12px;
 }
@@ -977,7 +975,7 @@ r  text-align: center;
   font-size: 12px;
   color: #666;
   margin: 4px 2px 6px;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .action-group .action-button-row {
