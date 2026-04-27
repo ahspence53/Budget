@@ -1827,8 +1827,8 @@ function toggleSort(key) {
 
 function renderSalaryRows() {
   salaryPopupBody
-    .querySelectorAll("tr:not(:first-child)")
-    .forEach(tr => tr.remove());
+  .querySelectorAll("tr.data-row")
+  .forEach(tr => tr.remove());
 
   salaryRows.sort((a, b) => {
     const val =
