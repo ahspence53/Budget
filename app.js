@@ -1685,6 +1685,8 @@ const salaryPopup = document.getElementById("salary-popup");
 const salaryPopupBody = document.getElementById("salary-popup-body");
 const salaryClose = document.getElementById("salary-popup-close");
 
+const salaryMinusOne = new Map(); // iso → Set of frequencies
+
 let salaryRows = [];
 let salarySortKey = "balance"; // "balance" | "date"
 let salarySortAsc = true;
