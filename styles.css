@@ -986,3 +986,11 @@ r  text-align: center;
   display: block;      /* keeps it on its own line */
   margin-bottom: 6px;  /* space above buttons */
 }
+
+.salary-date {
+  white-space: nowrap;
+}
+
+.salary-date span.salary-jump-icon {
+  margin-left: 6px;
+}
