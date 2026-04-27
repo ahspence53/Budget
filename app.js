@@ -1864,11 +1864,9 @@ console.log(iso, frequencies);
 
     let freqIcons = "";
 
-const freqs = salaryMinusOne.get(iso);
-
-if (freqs) {
-  if (freqs.has("monthly")) freqIcons += " 🔁";
-  if (freqs.has("4-weekly")) freqIcons += " 📆";
+if (frequencies) {
+  if (frequencies.has("monthly")) freqIcons += " 🔁";
+  if (frequencies.has("4-weekly")) freqIcons += " 📆";
 }
 
     tr.innerHTML = `
