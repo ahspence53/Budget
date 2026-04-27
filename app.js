@@ -914,7 +914,12 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
     } else {
 
       /* ===== NORMAL VIEW MODE ===== */
+let freqIcons = "";
 
+if (frequencies) {
+  if (frequencies.has("monthly")) freqIcons += " 🔁";
+  if (frequencies.has("4-weekly")) freqIcons += " 📆";
+}
       tr.innerHTML = `
         <td>
   <div class="tx-date-cell">
