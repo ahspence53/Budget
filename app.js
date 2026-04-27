@@ -1702,20 +1702,25 @@ salaryBtn.onclick = () => {
     return;
   }
 /* ---------- FILTER CONTROLS ---------- */
+/* ---------- FILTER CONTROLS ---------- */
 const filterRow = document.createElement("tr");
 
-filterRow.innerHTML = `
-  <td colspan="2" style="padding:8px 0; text-align:center;">
-    <button data-filter="all">All</button>
-    <button data-filter="monthly">🔁 Monthly</button>
-    <button data-filter="4-weekly">📆 4-weekly</button>
-  </td>
+const filterCell = document.createElement("td");
+filterCell.colSpan = 2;
+filterCell.style.textAlign = "center";
+filterCell.style.padding = "8px 0";
+
+filterCell.innerHTML = `
+  <button data-filter="all">All</button>
+  <button data-filter="monthly">🔁 Monthly</button>
+  <button data-filter="4-weekly">📆 4-weekly</button>
 `;
 
+filterRow.appendChild(filterCell);
 salaryPopupBody.appendChild(filterRow);
 
 /* button behaviour */
-filterRow.querySelectorAll("button").forEach(btn => {
+filterCell.querySelectorAll("button").forEach(btn => {
   btn.onclick = () => {
     salaryFilter = btn.dataset.filter;
     renderSalaryRows();
