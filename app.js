@@ -1826,27 +1826,34 @@ function renderSalaryRows() {
     salarySortKey === "balance" ? (salarySortAsc ? " ▲" : " ▼") : "";
 
   salaryRows.forEach(({ iso, balance, frequencies }) => {
-    const tr = document.createElement("tr");
-    if (balance < 0) tr.classList.add("negative");
+  const tr = document.createElement("tr");
+  if (balance < 0) tr.classList.add("negative");
 
-    tr.innerHTML = `
-      <td class="salary-date">
-   ${formatDate(iso)}${freqIcons} <span class="salary-jump-icon">🔍</span>
-      </td>
-      <td style="text-align:right">
-        <strong>${balance.toFixed(2)}</strong>
-      </td>
-    `;
+  let freqIcons = "";
+  if (frequencies) {
+    if (frequencies.has("monthly")) freqIcons += " 🔁";
+    if (frequencies.has("4-weekly")) freqIcons += " 📆";
+  }
 
-    tr.style.cursor = "pointer";
-    tr.onclick = () => {
-      salaryPopup.classList.add("hidden");
-      document.body.classList.remove("modal-open");
-      setTimeout(() => jumpToProjectionDate(iso), 200);
-    };
+  tr.innerHTML = `
+    <td class="salary-date">
+      ${formatDate(iso)}${freqIcons}
+      <span class="salary-jump-icon">🔍</span>
+    </td>
+    <td style="text-align:right">
+      <strong>${balance.toFixed(2)}</strong>
+    </td>
+  `;
 
-    salaryPopupBody.appendChild(tr);
-  });
+  tr.style.cursor = "pointer";
+  tr.onclick = () => {
+    salaryPopup.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+    setTimeout(() => jumpToProjectionDate(iso), 200);
+  };
+
+  salaryPopupBody.appendChild(tr);
+});
 }
 
 /* ---------- CLOSE ---------- */
