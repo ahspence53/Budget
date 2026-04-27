@@ -1757,7 +1757,7 @@ orderedTx.forEach(tx => {
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     const iso = toISO(d);
 
-  const orderedTx = getTransactionsSortedByDate();
+  /*const orderedTx = getTransactionsSortedByDate();*/
 
 orderedTx.forEach(tx => {
   // existing salary -1 logic
