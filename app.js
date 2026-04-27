@@ -1837,7 +1837,7 @@ if (freqs) {
 
     tr.innerHTML = `
       <td class="salary-date">
-        ${formatDate(iso)} <span class="salary-jump-icon">🔍</span>
+        ${formatDate(iso)}${freqIcons} <span class="salary-jump-icon">🔍</span>
       </td>
       <td style="text-align:right">
         <strong>${balance.toFixed(2)}</strong>
