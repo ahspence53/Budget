@@ -1820,7 +1820,7 @@ function renderSalaryRows() {
   document.getElementById("salary-balance-arrow").textContent =
     salarySortKey === "balance" ? (salarySortAsc ? " ▲" : " ▼") : "";
 
-  salaryRows.forEach(({ iso, balance }) => {
+  salaryRows.forEach(({ iso, balance, frequencies }) => {
     const tr = document.createElement("tr");
     if (balance < 0) tr.classList.add("negative");
 
