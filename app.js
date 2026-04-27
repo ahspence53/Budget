@@ -30,7 +30,7 @@ let transactionSortAscending = true;
 let transactionSortMode = "date"; // "date" or "category"
 let inlineEditIndex = null;
 let transactionFilterMode = null; 
-let salaryFilter = "all"; // "all" | "monthly" | "4-weekly"
+  
 
 
 
@@ -1722,32 +1722,6 @@ salaryBtn.onclick = () => {
     toggleSort("balance");
   };
 
-  /* added filter details */
-  const filterRow = document.createElement("tr");
-filterRow.innerHTML = `
-  <td colspan="2" style="text-align:center; padding:6px;">
-    <button id="filter-all">All</button>
-    <button id="filter-monthly">🔁 Monthly</button>
-    <button id="filter-4weekly">📆 4-weekly</button>
-  </td>
-`;
-salaryPopupBody.appendChild(filterRow);
-  document.getElementById("filter-all").onclick = () => {
-  salaryFilter = "all";
-  renderSalaryRows();
-};
-
-document.getElementById("filter-monthly").onclick = () => {
-  salaryFilter = "monthly";
-  renderSalaryRows();
-};
-
-document.getElementById("filter-4weekly").onclick = () => {
-  salaryFilter = "4-weekly";
-  renderSalaryRows();
-};
-  /* end add filter */
-
   /* ---------- COLLECT SALARY -1 DATES ---------- */
   /*const salaryMinusOne = new Map(); // iso → Set of frequencies*/
 
@@ -1848,13 +1822,7 @@ function renderSalaryRows() {
   document.getElementById("salary-balance-arrow").textContent =
     salarySortKey === "balance" ? (salarySortAsc ? " ▲" : " ▼") : "";
 
- salaryRows.forEach(({ iso, balance }) => {
-  const freqs = salaryMinusOne.get(iso);
-
-  // --- FILTER LOGIC ---
-  if (salaryFilter !== "all") {
-    if (!freqs || !freqs.has(salaryFilter)) return;
-  }
+  salaryRows.forEach(({ iso, balance }) => {
     const tr = document.createElement("tr");
     if (balance < 0) tr.classList.add("negative");
 
