@@ -914,12 +914,7 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
     } else {
 
       /* ===== NORMAL VIEW MODE ===== */
-let freqIcons = "";
 
-if (frequencies) {
-  frequencies.includes("monthly") freqIcons += " 🔁";
-  if (frequencies.has("4-weekly")) freqIcons += " 📆";
-}
       tr.innerHTML = `
         <td>
   <div class="tx-date-cell">
@@ -1725,32 +1720,27 @@ salaryBtn.onclick = () => {
     toggleSort("balance");
   };
 
-  /* ---------- COLLECT SALARY -1 DATES ----------  1723 to 1743 */
-  const salaryMinusOne = new Map(); // iso → Set of frequencies
+  /* ---------- COLLECT SALARY -1 DATES ---------- */
+  const salaryMinusOne = new Set();
 
-const orderedTx = getTransactionsSortedByDate();
+  const orderedTx = getTransactionsSortedByDate();
 
 orderedTx.forEach(tx => {
-  if (tx.type === "income") {
-    const start = new Date(tx.date);
-    const end = new Date(start);
-    end.setMonth(end.getMonth() + 24);
+  // existing salary -1 logic
+    if (tx.type === "income") {
+      const start = new Date(tx.date);
+      const end = new Date(start);
+      end.setMonth(end.getMonth() + 24);
 
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      if (occursOn(tx, toISO(d))) {
-        const prev = new Date(d);
-        prev.setDate(prev.getDate() - 1);
-        const prevIso = toISO(prev);
-
-        if (!salaryMinusOne.has(prevIso)) {
-          salaryMinusOne.set(prevIso, new Set());
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        if (occursOn(tx, toISO(d))) {
+          const prev = new Date(d);
+          prev.setDate(prev.getDate() - 1);
+          salaryMinusOne.add(toISO(prev));
         }
-
-        salaryMinusOne.get(prevIso).add(tx.frequency);
       }
     }
-  }
-});
+  });
 
   /* ---------- CALCULATE BALANCES ---------- */
   let balance = openingBalance;
@@ -1762,7 +1752,7 @@ orderedTx.forEach(tx => {
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     const iso = toISO(d);
 
-  /*const orderedTx = getTransactionsSortedByDate();*/
+  const orderedTx = getTransactionsSortedByDate();
 
 orderedTx.forEach(tx => {
   // existing salary -1 logic
@@ -1778,18 +1768,17 @@ orderedTx.forEach(tx => {
       }
     });
 
-   if (salaryMinusOne.has(iso)) {
-  salaryRows.push({
-    iso,
-    date: new Date(iso),
-    balance,
-    frequencies: Array.from(salaryMinusOne.get(iso))
-  });
-}}
+    if (salaryMinusOne.has(iso)) {
+      salaryRows.push({
+        iso,
+        date: new Date(iso),
+        balance
+      });
+    }
+  }
 
   renderSalaryRows();
   salaryPopup.classList.remove("hidden");
-  
 };
 
 /* ---------- SORT + RENDER ---------- */
@@ -1825,35 +1814,28 @@ function renderSalaryRows() {
   document.getElementById("salary-balance-arrow").textContent =
     salarySortKey === "balance" ? (salarySortAsc ? " ▲" : " ▼") : "";
 
-  salaryRows.forEach(({ iso, balance, frequencies }) => {
-  const tr = document.createElement("tr");
-  if (balance < 0) tr.classList.add("negative");
+  salaryRows.forEach(({ iso, balance }) => {
+    const tr = document.createElement("tr");
+    if (balance < 0) tr.classList.add("negative");
 
-  let freqIcons = "";
-  if (frequencies) {
-    frequencies.includes("monthly") freqIcons += " 🔁";
-    if (frequencies.has("4-weekly")) freqIcons += " 📆";
-  }
+    tr.innerHTML = `
+      <td class="salary-date">
+        ${formatDate(iso)} <span class="salary-jump-icon">🔍</span>
+      </td>
+      <td style="text-align:right">
+        <strong>${balance.toFixed(2)}</strong>
+      </td>
+    `;
 
-  tr.innerHTML = `
-    <td class="salary-date">
-      ${formatDate(iso)}${freqIcons}
-      <span class="salary-jump-icon">🔍</span>
-    </td>
-    <td style="text-align:right">
-      <strong>${balance.toFixed(2)}</strong>
-    </td>
-  `;
+    tr.style.cursor = "pointer";
+    tr.onclick = () => {
+      salaryPopup.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+      setTimeout(() => jumpToProjectionDate(iso), 200);
+    };
 
-  tr.style.cursor = "pointer";
-  tr.onclick = () => {
-    salaryPopup.classList.add("hidden");
-    document.body.classList.remove("modal-open");
-    setTimeout(() => jumpToProjectionDate(iso), 200);
-  };
-
-  salaryPopupBody.appendChild(tr);
-});
+    salaryPopupBody.appendChild(tr);
+  });
 }
 
 /* ---------- CLOSE ---------- */
