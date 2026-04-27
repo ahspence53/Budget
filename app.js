@@ -1690,12 +1690,12 @@ const salaryMinusOne = new Map(); // iso → Set of frequencies
 let salaryRows = [];
 let salarySortKey = "balance"; // "balance" | "date"
 let salarySortAsc = true;
-salaryMinusOne.clear();
+/*salaryMinusOne.clear();*/
 salaryBtn.onclick = () => {
   document.body.classList.add("modal-open");
   salaryPopupBody.innerHTML = "";
   salaryRows = [];
-
+salaryMinusOne.clear();
   if (!startDate) {
     document.body.classList.remove("modal-open");
     alert("Start date not set");
