@@ -917,7 +917,7 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
 let freqIcons = "";
 
 if (frequencies) {
-  if (frequencies.has("monthly")) freqIcons += " 🔁";
+  frequencies.includes("monthly") freqIcons += " 🔁";
   if (frequencies.has("4-weekly")) freqIcons += " 📆";
 }
       tr.innerHTML = `
@@ -1831,7 +1831,7 @@ function renderSalaryRows() {
 
   let freqIcons = "";
   if (frequencies) {
-    if (frequencies.has("monthly")) freqIcons += " 🔁";
+    frequencies.includes("monthly") freqIcons += " 🔁";
     if (frequencies.has("4-weekly")) freqIcons += " 📆";
   }
 
