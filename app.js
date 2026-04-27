@@ -1807,12 +1807,13 @@ orderedTx.forEach(tx => {
     });
 
     if (salaryMinusOne.has(iso)) {
-      salaryRows.push({
-        iso,
-        date: new Date(iso),
-        balance
-      });
-    }
+  salaryRows.push({
+    iso,
+    date: new Date(iso),
+    balance,
+    frequencies: salaryMinusOne.get(iso)   // ✅ THIS IS THE KEY
+  });
+}
   }
 
   renderSalaryRows();
