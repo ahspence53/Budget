@@ -1847,7 +1847,7 @@ function renderSalaryRows() {
     salarySortKey === "balance" ? (salarySortAsc ? " ▲" : " ▼") : "";
 
   salaryRows.forEach(({ iso, balance, frequencies }) => {
-
+console.log(iso, frequencies);
   /* ---------- APPLY FILTER ---------- */
   if (salaryFilter !== "all") {
     if (!frequencies || !frequencies.has(salaryFilter)) return;
