@@ -1723,7 +1723,7 @@ salaryBtn.onclick = () => {
   };
 
   /* ---------- COLLECT SALARY -1 DATES ---------- */
-  const salaryMinusOne = new Set();
+  const salaryMinusOne = new Map(); // iso → Set of frequencies
 
   const orderedTx = getTransactionsSortedByDate();
 
