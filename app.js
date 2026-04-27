@@ -1826,6 +1826,15 @@ function renderSalaryRows() {
     const tr = document.createElement("tr");
     if (balance < 0) tr.classList.add("negative");
 
+    let freqIcons = "";
+
+const freqs = salaryMinusOne.get(iso);
+
+if (freqs) {
+  if (freqs.has("monthly")) freqIcons += " 🔁";
+  if (freqs.has("4-weekly")) freqIcons += " 📆";
+}
+
     tr.innerHTML = `
       <td class="salary-date">
         ${formatDate(iso)} <span class="salary-jump-icon">🔍</span>
