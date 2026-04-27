@@ -1738,7 +1738,13 @@ orderedTx.forEach(tx => {
         if (occursOn(tx, toISO(d))) {
           const prev = new Date(d);
           prev.setDate(prev.getDate() - 1);
-          salaryMinusOne.add(toISO(prev));
+          const prevIso = toISO(prev);
+
+if (!salaryMinusOne.has(prevIso)) {
+  salaryMinusOne.set(prevIso, new Set());
+}
+
+salaryMinusOne.get(prevIso).add(tx.frequency);
         }
       }
     }
