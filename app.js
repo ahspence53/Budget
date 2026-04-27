@@ -1841,7 +1841,12 @@ function renderSalaryRows() {
   document.getElementById("salary-balance-arrow").textContent =
     salarySortKey === "balance" ? (salarySortAsc ? " ▲" : " ▼") : "";
 
-  salaryRows.forEach(({ iso, balance }) => {
+  salaryRows.forEach(({ iso, balance, frequencies }) => {
+
+  /* ---------- APPLY FILTER ---------- */
+  if (salaryFilter !== "all") {
+    if (!frequencies || !frequencies.has(salaryFilter)) return;
+  }
     const tr = document.createElement("tr");
     if (balance < 0) tr.classList.add("negative");
 
