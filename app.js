@@ -1783,7 +1783,7 @@ orderedTx.forEach(tx => {
     iso,
     date: new Date(iso),
     balance,
-    frequencies: salaryMinusOne.get(iso)
+    frequencies: Array.from(salaryMinusOne.get(iso))
   });
 }}
 
