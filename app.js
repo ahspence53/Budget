@@ -1768,7 +1768,13 @@ if (!salaryMinusOne.has(prevIso)) {
   salaryMinusOne.set(prevIso, new Set());
 }
 
-salaryMinusOne.get(prevIso).add(tx.frequency);
+let freq = (tx.frequency || "").toLowerCase().trim();
+
+if (freq === "monthly") {
+  salaryMinusOne.get(prevIso).add("monthly");
+} else if (freq.includes("4")) {
+  salaryMinusOne.get(prevIso).add("4-weekly");
+}
         }
       }
     }
