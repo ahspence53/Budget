@@ -1720,27 +1720,32 @@ salaryBtn.onclick = () => {
     toggleSort("balance");
   };
 
-  /* ---------- COLLECT SALARY -1 DATES ---------- */
-  const salaryMinusOne = new Set();
+  /* ---------- COLLECT SALARY -1 DATES ----------  1723 to 1743 */
+  const salaryMinusOne = new Map(); // iso → Set of frequencies
 
-  const orderedTx = getTransactionsSortedByDate();
+const orderedTx = getTransactionsSortedByDate();
 
 orderedTx.forEach(tx => {
-  // existing salary -1 logic
-    if (tx.type === "income") {
-      const start = new Date(tx.date);
-      const end = new Date(start);
-      end.setMonth(end.getMonth() + 24);
+  if (tx.type === "income") {
+    const start = new Date(tx.date);
+    const end = new Date(start);
+    end.setMonth(end.getMonth() + 24);
 
-      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        if (occursOn(tx, toISO(d))) {
-          const prev = new Date(d);
-          prev.setDate(prev.getDate() - 1);
-          salaryMinusOne.add(toISO(prev));
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      if (occursOn(tx, toISO(d))) {
+        const prev = new Date(d);
+        prev.setDate(prev.getDate() - 1);
+        const prevIso = toISO(prev);
+
+        if (!salaryMinusOne.has(prevIso)) {
+          salaryMinusOne.set(prevIso, new Set());
         }
+
+        salaryMinusOne.get(prevIso).add(tx.frequency);
       }
     }
-  });
+  }
+});
 
   /* ---------- CALCULATE BALANCES ---------- */
   let balance = openingBalance;
@@ -1768,14 +1773,14 @@ orderedTx.forEach(tx => {
       }
     });
 
-    if (salaryMinusOne.has(iso)) {
-      salaryRows.push({
-        iso,
-        date: new Date(iso),
-        balance
-      });
-    }
-  }
+   if (salaryMinusOne.has(iso)) {
+  salaryRows.push({
+    iso,
+    date: new Date(iso),
+    balance,
+    frequencies: salaryMinusOne.get(iso)
+  });
+}
 
   renderSalaryRows();
   salaryPopup.classList.remove("hidden");
