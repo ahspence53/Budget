@@ -1780,10 +1780,11 @@ orderedTx.forEach(tx => {
     balance,
     frequencies: salaryMinusOne.get(iso)
   });
-}
+}}
 
   renderSalaryRows();
   salaryPopup.classList.remove("hidden");
+  
 };
 
 /* ---------- SORT + RENDER ---------- */
