@@ -30,7 +30,7 @@ let transactionSortAscending = true;
 let transactionSortMode = "date"; // "date" or "category"
 let inlineEditIndex = null;
 let transactionFilterMode = null; 
-  
+  let salaryFilter = "all"; // "all" | "monthly" | "4-weekly"
 
 
 
@@ -1701,7 +1701,26 @@ salaryBtn.onclick = () => {
     alert("Start date not set");
     return;
   }
+/* ---------- FILTER CONTROLS ---------- */
+const filterRow = document.createElement("tr");
 
+filterRow.innerHTML = `
+  <td colspan="2" style="padding:8px 0; text-align:center;">
+    <button data-filter="all">All</button>
+    <button data-filter="monthly">🔁 Monthly</button>
+    <button data-filter="4-weekly">📆 4-weekly</button>
+  </td>
+`;
+
+salaryPopupBody.appendChild(filterRow);
+
+/* button behaviour */
+filterRow.querySelectorAll("button").forEach(btn => {
+  btn.onclick = () => {
+    salaryFilter = btn.dataset.filter;
+    renderSalaryRows();
+  };
+});
   /* ---------- HEADER ROW ---------- */
   const header = document.createElement("tr");
   header.innerHTML = `
