@@ -1239,20 +1239,21 @@ if (whatIfActive) {
    
     /* ===== TRANSACTIONS ===== */
     todaysTx.forEach((tx, index) => {
-      /* what-if styling */
-    if (tx.__whatIf) {
-  tr.classList.add("whatif-row");
-}
-      const isIncome = tx.type === "income";
-      balance += isIncome ? tx.amount : -tx.amount;
 
-      const tr = document.createElement("tr");
+  const isIncome = tx.type === "income";
+  balance += isIncome ? tx.amount : -tx.amount;
 
-      if (iso === todayIso) tr.classList.add("today-row");
-      if ([0, 6].includes(new Date(iso).getDay()))
-        tr.classList.add("weekend-row");
-      if (balance < 0) tr.classList.add("negative");
+  const tr = document.createElement("tr");
 
+  // ✅ FIX: move this HERE (after tr exists)
+  if (tx.__whatIf) {
+    tr.classList.add("whatif-row");
+  }
+
+  if (iso === todayIso) tr.classList.add("today-row");
+  if ([0, 6].includes(new Date(iso).getDay()))
+    tr.classList.add("weekend-row");
+  if (balance < 0) tr.classList.add("negative");
       const today = new Date(toISO(new Date()));
       const diffDays = Math.round((new Date(iso) - today) / 86400000);
 
