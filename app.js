@@ -1253,6 +1253,22 @@ if (whatIfActive) {
 
   // ✅ FIX: move this HERE (after tr exists)
   if (tx.__whatIf) {
+  const start = new Date(tx.date);
+  const current = new Date(iso);
+
+  // Not before start date
+  if (current < start) return;
+
+  // Work out month difference
+  const monthsDiff =
+    (current.getFullYear() - start.getFullYear()) * 12 +
+    (current.getMonth() - start.getMonth());
+
+  if (monthsDiff < 0) return;
+
+  // Only trigger once per month on same day-of-month
+  if (current.getDate() !== start.getDate()) return;
+}
     tr.classList.add("whatif-row");
   }
 
