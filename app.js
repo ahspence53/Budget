@@ -1082,7 +1082,7 @@ window.renderProjectionTable = function () {
   /* ---------- Place transactions ---------- */
   transactions.forEach(tx => {
     for (let iso in dayMap) {
-      if (!occursOn(tx, iso)) continue;
+      if (!tx.__whatIf && !occursOn(tx, iso)) continue;
 
       const id = txId(tx);
       const nudgeKey = `${id}|${iso}`;
