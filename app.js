@@ -1251,8 +1251,7 @@ if (whatIfActive) {
 
   const tr = document.createElement("tr");
 
-  // ✅ FIX: move this HERE (after tr exists)
-  if (tx.__whatIf) {
+if (tx.__whatIf) {
   const start = new Date(tx.date);
   const current = new Date(iso);
 
@@ -1268,9 +1267,10 @@ if (whatIfActive) {
 
   // Only trigger once per month on same day-of-month
   if (current.getDate() !== start.getDate()) return;
+
+  // ✅ Styling ONLY after it passes checks
+  tr.classList.add("whatif-row");
 }
-    tr.classList.add("whatif-row");
-  }
 
   if (iso === todayIso) tr.classList.add("today-row");
   if ([0, 6].includes(new Date(iso).getDay()))
