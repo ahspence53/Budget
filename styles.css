@@ -994,3 +994,7 @@ r  text-align: center;
 .salary-date span.salary-jump-icon {
   margin-left: 6px;
 }
+.whatif-row {
+  opacity: 0.7;
+  font-style: italic;
+}
