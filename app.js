@@ -2132,7 +2132,7 @@ transactions = imported.map(tx => ({
 
   type: tx.type === "income" ? "income" : "expense",
 
-  frequency: tx.frequency || "irregular",
+  frequency: (tx.frequency || "irregular").toLowerCase().trim(),
 
   date: tx.date || "",
 
