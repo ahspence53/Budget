@@ -95,6 +95,34 @@ document.querySelectorAll(".tx-filter").forEach(el => {
     updateFilterUI();
   });
 });
+
+/* click handler for what-if button */
+
+const whatIfBtn = document.getElementById("whatif-btn");
+
+whatIfBtn.onclick = () => {
+  const input = prompt("Monthly saving amount (£):");
+
+  if (input === null) return; // cancelled
+
+  const value = parseFloat(input);
+
+  if (isNaN(value) || value <= 0) {
+    alert("Enter a valid amount");
+    return;
+  }
+
+  whatIfAmount = value;
+  whatIfActive = true;
+
+  renderProjectionTable();
+};
+/* clear function for what-if */
+  function clearWhatIf() {
+  whatIfActive = false;
+  whatIfAmount = 0;
+  renderProjectionTable();
+}
 /* ================ */
 function updateFilterUI() {
   document.querySelectorAll(".tx-filter").forEach(el => {
