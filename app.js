@@ -102,29 +102,33 @@ const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
   const input = prompt("Monthly saving amount (£):");
-  console.log("WHAT IF ADDED", whatIfAmount);
-  console.log("Transactions length:", transactions?.length);
 
   if (input === null) return; // cancelled
 
   const value = parseFloat(input);
 
   if (isNaN(value) || value <= 0) {
-    alert("Enter a valid amount");
+    alert("Please enter a valid amount greater than 0");
     return;
   }
 
-  whatIfAmount = value;
-  whatIfActive = true;
+  // remove any previous What If entries
+  transactions = transactions.filter(t => !t.__whatIf);
+
+  transactions.push({
+    description: "What If Saving",
+    amount: value,
+    type: "expense",
+    frequency: "monthly",
+    date: toISO(new Date()),
+    category: "What If",
+    __whatIf: true
+  });
+
+  console.log("WHAT IF ADDED", value);
 
   renderProjectionTable();
 };
-/* clear function for what-if */
-  function clearWhatIf() {
-  whatIfActive = false;
-  whatIfAmount = 0;
-  renderProjectionTable();
-}
 /* ================ */
 function updateFilterUI() {
   document.querySelectorAll(".tx-filter").forEach(el => {
