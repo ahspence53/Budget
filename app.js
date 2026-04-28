@@ -1235,13 +1235,14 @@ if (whatIfActive) {
     });
   }
 }
-/* what-if styling */
-    if (tx.__whatIf) {
-  tr.classList.add("whatif-row");
-}
+
    
     /* ===== TRANSACTIONS ===== */
     todaysTx.forEach((tx, index) => {
+      /* what-if styling */
+    if (tx.__whatIf) {
+  tr.classList.add("whatif-row");
+}
       const isIncome = tx.type === "income";
       balance += isIncome ? tx.amount : -tx.amount;
 
