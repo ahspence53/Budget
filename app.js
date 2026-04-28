@@ -130,6 +130,12 @@ whatIfBtn.onclick = () => {
   renderProjectionTable();
 };
 /* ================ */
+  function clearWhatIf() {
+  transactions = transactions.filter(tx => !tx.__whatIf);
+  renderProjectionTable();
+}
+document.getElementById("clear-whatif-btn").onclick = clearWhatIf;
+/*.  */
 function updateFilterUI() {
   document.querySelectorAll(".tx-filter").forEach(el => {
     const mode = el.dataset.filter;
