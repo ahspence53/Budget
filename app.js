@@ -102,6 +102,8 @@ const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
   const input = prompt("Monthly saving amount (£):");
+  console.log("WHAT IF ADDED", whatIfAmount);
+  console.log("Transactions length:", transactions?.length);
 
   if (input === null) return; // cancelled
 
