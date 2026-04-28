@@ -30,7 +30,9 @@ let transactionSortAscending = true;
 let transactionSortMode = "date"; // "date" or "category"
 let inlineEditIndex = null;
 let transactionFilterMode = null; 
-  let salaryFilter = "all"; // "all" | "monthly" | "4-weekly"
+let salaryFilter = "all"; // "all" | "monthly" | "4-weekly"
+let whatIfAmount = 0;
+let whatIfActive = false;
 
 
 
