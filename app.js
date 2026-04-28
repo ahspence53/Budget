@@ -1233,20 +1233,7 @@ Object.keys(dayMap).sort().forEach(iso => {
     );
     /* added what-if processing */
     // WHAT IF: add monthly saving on same day-of-month as startDate (today)
-if (whatIfActive) {
-  const today = new Date(toISO(new Date()));
-  const current = new Date(iso);
 
-  if (current.getDate() === today.getDate()) {
-    todaysTx.push({
-      type: "expense",
-      amount: whatIfAmount,
-      description: "What If Saving",
-      category: "What If",
-      __whatIf: true
-    });
-  }
-}
 
    
     /* ===== TRANSACTIONS ===== */
