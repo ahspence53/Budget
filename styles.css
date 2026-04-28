@@ -998,3 +998,8 @@ r  text-align: center;
   opacity: 0.7;
   font-style: italic;
 }
+
+.whatif-row {
+  background: #e3f2fd;
+  font-style: italic;
+}
