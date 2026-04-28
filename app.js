@@ -1166,6 +1166,10 @@ Object.keys(dayMap).sort().forEach(iso => {
         ${bufferNeeded > 0 ? ` — <strong>Buffer needed:</strong> £${bufferNeeded.toFixed(2)}` : ""}
       `;
 
+      if (transactions.some(t => t.__whatIf)) {
+  summaryEl.innerHTML += `<br>🧪 What If active`;
+}
+
       summaryEl.classList.remove(
         "summary-danger",
         "summary-warning",
