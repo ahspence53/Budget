@@ -2122,7 +2122,25 @@ document
           alert("Invalid transactions file");
           return;
         }
+// 🔥 CLEAN the data
 
+transactions = imported.map(tx => ({
+
+  description: tx.description || "",
+
+  amount: parseFloat(tx.amount) || 0,
+
+  type: tx.type === "income" ? "income" : "expense",
+
+  frequency: tx.frequency || "irregular",
+
+  date: tx.date || "",
+
+  endDate: tx.endDate || null,
+
+  category: tx.category || ""
+
+}));
         // 🔑 CRITICAL FIX: update the live array
         /* next two lines commented out */
         /*followimg two lines added*/
