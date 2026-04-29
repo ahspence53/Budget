@@ -126,11 +126,12 @@ whatIfBtn.onclick = () => {
       category: "What If",
       __whatIf: true
     });
+    
+
+    whatIfActive = true;
     whatIfBtn.textContent = whatIfActive
   ? "❌ Clear What If"
   : "✏️ What If";
-
-    whatIfActive = true;
 
   } else {
     // CLEAR What If
