@@ -102,7 +102,10 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
-  if (whatIfActive === true) return;
+  if (whatIfActive === true) {
+    clearWhatIf;
+    return;
+  }
   const input = prompt("Monthly saving amount (£):");
   whatIfActive = true;
 
