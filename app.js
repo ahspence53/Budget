@@ -116,7 +116,7 @@ whatIfBtn.onclick = () => {
 
     // remove any existing (safety)
     transactions = transactions.filter(t => !t.__whatIf);
-
+whatIfActive = true;
     transactions.push({
       description: "What If Saving",
       amount: value,
@@ -128,10 +128,10 @@ whatIfBtn.onclick = () => {
     });
     
 
-    whatIfActive = true;
-    whatIfBtn.textContent = whatIfActive
-  ? "✏️ What If";
-  : "❌ Clear What If"
+    
+  whatIfBtn.textContent = whatIfActive
+  ? "❌ Clear What If"
+  : "✏️ What If";
 
   } else {
     // CLEAR What If
