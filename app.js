@@ -103,21 +103,17 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
-  
+
   if (!whatIfActive) {
-    // CREATE What If
+    // create What If
     const input = prompt("Monthly saving amount (£):", "50");
     if (input === null) return;
 
     const value = parseFloat(input);
-    if (isNaN(value) || value <= 0) {
-      alert("Enter a valid amount");
-      return;
-    }
+    if (isNaN(value) || value <= 0) return;
 
-    // remove any existing (safety)
     transactions = transactions.filter(t => !t.__whatIf);
-whatIfActive = true;
+
     transactions.push({
       description: "What If Saving",
       amount: value,
@@ -127,22 +123,23 @@ whatIfActive = true;
       category: "What If",
       __whatIf: true
     });
-    
 
-    
-  
+    whatIfActive = true;
 
   } else {
-    // CLEAR What If
+    // clear What If
     transactions = transactions.filter(t => !t.__whatIf);
-    whatIfActive = transactions.some(t => t.__whatIf);
-    /*whatIfActive = false;*/
+    whatIfActive = false;
   }
-  whatIfBtn.textContent = whatIfActive
-  ? "❌ Clear What If"
-  : "✏️ What If";
 
   renderProjectionTable();
+
+  // ✅ update button AFTER state change
+  const whatIfTx = transactions.find(t => t.__whatIf);
+
+  whatIfBtn.textContent = whatIfTx
+    ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
+    : "✏️ What If";
 };
 /* ================ */
   function clearWhatIf() {
