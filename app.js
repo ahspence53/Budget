@@ -139,7 +139,7 @@ whatIfActive = true;
     /*whatIfActive = false;*/
   }
   whatIfBtn.textContent = whatIfActive
-  ?   `❌ Clear What If: $${value}` 
+  ?   "❌ Clear What If: " + value
   : "✏️ What If";
 
   renderProjectionTable();
