@@ -102,9 +102,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
-  whatIfBtn.textContent = whatIfActive
-  ? "❌ Clear What If"
-  : "✏️ What If";
+  
   if (!whatIfActive) {
     // CREATE What If
     const input = prompt("Monthly saving amount (£):", "50");
@@ -128,6 +126,9 @@ whatIfBtn.onclick = () => {
       category: "What If",
       __whatIf: true
     });
+    whatIfBtn.textContent = whatIfActive
+  ? "❌ Clear What If"
+  : "✏️ What If";
 
     whatIfActive = true;
 
