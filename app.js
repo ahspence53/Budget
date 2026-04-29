@@ -102,41 +102,38 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
+  if (!whatIfActive) {
+    // CREATE What If
+    const input = prompt("Monthly saving amount (£):", "50");
+    if (input === null) return;
 
-  
+    const value = parseFloat(input);
+    if (isNaN(value) || value <= 0) {
+      alert("Enter a valid amount");
+      return;
+    }
 
-  if (whatIfActive === true) {
-    clearWhatIf();
-    whatIfActive = false;
-    return;
+    // remove any existing (safety)
+    transactions = transactions.filter(t => !t.__whatIf);
+
+    transactions.push({
+      description: "What If Saving",
+      amount: value,
+      type: "expense",
+      frequency: "monthly",
+      date: toISO(new Date()),
+      category: "What If",
+      __whatIf: true
+    });
+
+    whatIfActive = true;
+
+  } else {
+    // CLEAR What If
+    transactions = transactions.filter(t => !t.__whatIf);
+    whatIfActive = transactions.some(t => t.__whatIf);
+    /*whatIfActive = false;*/
   }
-  const input = prompt("Monthly saving amount (£):");
-  whatIfActive = true;
-
-  if (input === null) return; // cancelled
-  
-
-  const value = parseFloat(input);
-
-  if (isNaN(value) || value <= 0) {
-    alert("Please enter a valid amount greater than 0");
-    return;
-  }
-
-  // remove any previous What If entries
-  transactions = transactions.filter(t => !t.__whatIf);
-
-  transactions.push({
-    description: "What If Saving",
-    amount: value,
-    type: "expense",
-    frequency: "monthly",
-    date: toISO(new Date()),
-    category: "What If",
-    __whatIf: true
-  });
-
-  console.log("WHAT IF ADDED", value);
 
   renderProjectionTable();
 };
