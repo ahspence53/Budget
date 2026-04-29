@@ -103,10 +103,10 @@ const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
   const input = prompt("Monthly saving amount (£):");
-  whatIfActivw = true;
+  whatIfActive = true;
 
   if (input === null) return; // cancelled
-
+  if whatIActive return; //WhatIfActive is set to true
   const value = parseFloat(input);
 
   if (isNaN(value) || value <= 0) {
