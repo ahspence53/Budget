@@ -106,7 +106,8 @@ whatIfBtn.onclick = () => {
   whatIfActive = true;
 
   if (input === null) return; // cancelled
-  if whatIActive return; //WhatIfActive is set to true
+  if (whatIfActive === true) return;
+
   const value = parseFloat(input);
 
   if (isNaN(value) || value <= 0) {
