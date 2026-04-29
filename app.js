@@ -103,7 +103,6 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
-  whatIfActive = transactions.some(t => t.__whatIf);
   
   if (!whatIfActive) {
     // CREATE What If
@@ -140,8 +139,8 @@ whatIfActive = true;
     /*whatIfActive = false;*/
   }
   whatIfBtn.textContent = whatIfActive
-  ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
-  : "What If";
+  ? "❌ Clear What If"
+  : "✏️ What If";
 
   renderProjectionTable();
 };
