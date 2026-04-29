@@ -97,7 +97,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 });
 
 /* click handler for what-if button */
-if whatIActive {
+if whatIActive = true {
   return;
 }
   
@@ -105,7 +105,7 @@ const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
   const input = prompt("Monthly saving amount (£):");
-  whatIActive = true;
+  whatIfActivw = true;
 
   if (input === null) return; // cancelled
 
