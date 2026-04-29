@@ -130,9 +130,7 @@ whatIfActive = true;
     
 
     
-  whatIfBtn.textContent = whatIfActive
-  ? "❌ Clear What If"
-  : "✏️ What If";
+  
 
   } else {
     // CLEAR What If
@@ -140,6 +138,9 @@ whatIfActive = true;
     whatIfActive = transactions.some(t => t.__whatIf);
     /*whatIfActive = false;*/
   }
+  whatIfBtn.textContent = whatIfActive
+  ? "❌ Clear What If"
+  : "✏️ What If";
 
   renderProjectionTable();
 };
