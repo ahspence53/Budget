@@ -137,9 +137,17 @@ whatIfBtn.onclick = () => {
   // ✅ update button AFTER state change
   const whatIfTx = transactions.find(t => t.__whatIf);
 
-  whatIfBtn.textContent = whatIfTx
-    ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
-    : "✏️ What If";
+whatIfBtn.textContent = whatIfTx
+  ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
+  : "✏️ What If";
+
+// persistent state
+whatIfBtn.classList.toggle("whatif-on", !!whatIfTx);
+
+// click feedback
+whatIfBtn.classList.remove("whatif-active");
+void whatIfBtn.offsetWidth;
+whatIfBtn.classList.add("whatif-active");
 };
 /* ================ */
   function clearWhatIf() {
