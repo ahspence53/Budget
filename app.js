@@ -103,6 +103,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 const whatIfBtn = document.getElementById("whatif-btn");
 
 whatIfBtn.onclick = () => {
+  whatIfActive = transactions.some(t => t.__whatIf);
   
   if (!whatIfActive) {
     // CREATE What If
