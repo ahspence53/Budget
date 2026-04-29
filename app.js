@@ -141,7 +141,7 @@ whatIfActive = true;
   }
   whatIfBtn.textContent = whatIfActive
   ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
-  : "What If"
+  : "What If";
 
   renderProjectionTable();
 };
