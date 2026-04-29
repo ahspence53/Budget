@@ -130,8 +130,8 @@ whatIfBtn.onclick = () => {
 
     whatIfActive = true;
     whatIfBtn.textContent = whatIfActive
-  ? "❌ Clear What If"
-  : "✏️ What If";
+   "✏️ What If";
+   " ? "❌ Clear What If"
 
   } else {
     // CLEAR What If
