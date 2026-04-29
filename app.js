@@ -107,6 +107,7 @@ whatIfBtn.onclick = () => {
 
   if (whatIfActive === true) {
     clearWhatIf();
+    whatIfActive = false;
     return;
   }
   const input = prompt("Monthly saving amount (£):");
