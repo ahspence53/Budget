@@ -137,7 +137,7 @@ whatIfBtn.onclick = () => {
     // CLEAR What If
     transactions = transactions.filter(t => !t.__whatIf);
     whatIfActive = transactions.some(t => t.__whatIf);
-    /*whatIfActive = false;*/
+    whatIfActive = false;
   }
 
   renderProjectionTable();
