@@ -97,9 +97,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 });
 
 /* click handler for what-if button */
-if whatIActive = true {
-  return;
-}
+
   
 const whatIfBtn = document.getElementById("whatif-btn");
 
