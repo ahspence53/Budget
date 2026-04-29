@@ -1003,3 +1003,20 @@ r  text-align: center;
   background: #e3f2fd;
   font-style: italic;
 }
+
+/* Flash animation */
+@keyframes whatif-flash {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.05); background-color: #d1f7d6; }
+  100% { transform: scale(1); }
+}
+
+.whatif-active {
+  animation: whatif-flash 0.4s ease;
+}
+
+/* Persistent "active" state */
+.whatif-on {
+  background-color: #2e7d32;
+  color: white;
+}
