@@ -99,69 +99,70 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 
 /* click handler for what-if button */
 
+  
 const whatIfBtn = document.getElementById("whatif-btn");
-const datePicker = document.getElementById("whatif-date-picker");
-
-// 🔹 handle date selection (set once, outside click)
-datePicker.addEventListener("change", () => {
-  const value = parseFloat(datePicker.dataset.value);
-  const startDateInput = datePicker.value;
-
-  if (!value || !startDateInput) return;
-
-  // hide picker after selection
-  datePicker.style.display = "none";
-
-  // create What If
-  transactions = transactions.filter(t => !t.__whatIf);
-
-  transactions.push({
-    description: "What If Saving",
-    amount: value,
-    type: "expense",
-    frequency: "monthly",
-    date: startDateInput,
-    category: "What If",
-    __whatIf: true
-  });
-
-  whatIfActive = true;
-
-  updateWhatIfUI();
-});
 
 whatIfBtn.onclick = () => {
 
-  // always sync state
-  whatIfActive = transactions.some(t => t.__whatIf);
-
   if (!whatIfActive) {
-    // STEP 1: get amount
+    // create What If
     const input = prompt("Monthly saving amount (£):", "50");
-    if (input === null) return;
+if (input === null) return;
 
-    const value = parseFloat(input);
-    if (isNaN(value) || value <= 0) {
-      alert("Enter a valid amount");
-      return;
-    }
+const value = parseFloat(input);
+if (isNaN(value) || value <= 0) {
+  alert("Enter a valid amount");
+  return;
+}
 
-    // STEP 2: show date picker
-    datePicker.dataset.value = value; // store amount safely
-    datePicker.value = toISO(new Date());
+// 👉 new: ask for start date (default = today)
+const defaultDate = toISO(new Date());
+const dateInput = prompt("Start date (YYYY-MM-DD):", defaultDate);
+if (dateInput === null) return;
 
-    datePicker.style.display = "block";
-    datePicker.focus();
+const startDateInput = dateInput.trim();
 
-    return; // 🔴 STOP here — wait for user to pick date
+// quick validation
+if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateInput)) {
+  alert("Enter date as YYYY-MM-DD");
+  return;
+}
+    transactions = transactions.filter(t => !t.__whatIf);
+
+transactions.push({
+  description: "What If Saving",
+  amount: value,
+  type: "expense",
+  frequency: "monthly",
+  date: startDateInput,   // 👈 key change
+  category: "What If",
+  __whatIf: true
+});
+
+    whatIfActive = true;
 
   } else {
-    // CLEAR What If
+    // clear What If
     transactions = transactions.filter(t => !t.__whatIf);
     whatIfActive = false;
-
-    updateWhatIfUI();
   }
+
+  renderProjectionTable();
+
+  // ✅ update button AFTER state change
+  const whatIfTx = transactions.find(t => t.__whatIf);
+
+whatIfBtn.textContent = whatIfTx
+  ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
+  : "✏️ What If";
+
+// persistent state
+whatIfBtn.classList.toggle("whatif-on", !!whatIfTx);
+
+// click feedback
+whatIfBtn.classList.remove("whatif-active");
+void whatIfBtn.offsetWidth;
+whatIfBtn.classList.add("whatif-active");
 };
 /* ================ */
   function clearWhatIf() {
