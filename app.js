@@ -121,7 +121,8 @@ whatIfBtn.onclick = () => {
     dateInput.value = toISO(new Date());
 
     whatIfmodal.classList.remove("hidden");
-
+document.body.classList.remove("modal-open");
+    
     setTimeout(() => amountInput.focus(), 100);
 
   } else {
@@ -164,7 +165,7 @@ confirmBtn.onclick = () => {
   whatIfActive = true;
 
   whatIfmodal.classList.add("hidden");
-
+document.body.classList.remove("modal-open");
   updateWhatIfUI();
 };
 
@@ -172,6 +173,7 @@ confirmBtn.onclick = () => {
 
 cancelBtn.onclick = () => {
   whatIfmodal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
 };
 
 /* ---------- UI UPDATE (THIS WAS YOUR MISSING PIECE) ---------- */
