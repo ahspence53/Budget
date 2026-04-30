@@ -100,45 +100,30 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 /* click handler for what-if button */
 
   
-const whatIfBtn = document.getElementById("whatif-btn");
-
-whatIfBtn.onclick = () => {
-
-  if (!whatIfActive) {
-    // create What If
-    const input = prompt("Monthly saving amount (£):", "50");
-if (input === null) return;
-
-const value = parseFloat(input);
-if (isNaN(value) || value <= 0) {
-  alert("Enter a valid amount");
-  return;
-}
-
 const datePicker = document.getElementById("whatif-date-picker");
 
 // set default
 datePicker.value = toISO(new Date());
 
-// open picker (or fallback)
-if (datePicker.showPicker) {
-  datePicker.showPicker();
-} else {
-  datePicker.style.display = "block";
-  datePicker.focus();
-}
+// temporarily show it so user can interact
+datePicker.style.display = "block";
 
-// STOP here — wait for user selection
+// focus it (important on iPad)
+datePicker.focus();
+
+// STOP execution here — everything continues in onchange
 datePicker.onchange = () => {
   const startDateInput = datePicker.value;
 
   if (!startDateInput) return;
 
-  // reset handler so it doesn't fire multiple times
+  // hide again after selection
+  datePicker.style.display = "none";
+
+  // prevent duplicate firing
   datePicker.onchange = null;
 
-  // 👇 MOVE the rest of your logic INSIDE here
-
+  // 👉 NOW continue your logic
   transactions = transactions.filter(t => !t.__whatIf);
 
   transactions.push({
