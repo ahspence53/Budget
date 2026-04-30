@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ================= STORAGE ================= */
 const STORAGE_KEY = "budget";
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
-window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
+let transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
 let startDate = localStorage.getItem("startDate") || "";
 let openingBalance = parseFloat(localStorage.getItem("openingBalance")) || 0;
 let editingIndex = null;
@@ -30,14 +30,6 @@ let transactionSortAscending = true;
 let transactionSortMode = "date"; // "date" or "category"
 let inlineEditIndex = null;
 let transactionFilterMode = null; 
-let salaryFilter = "all"; // "all" | "monthly" | "4-weekly"
-let whatIfAmount = 0;
-let whatIfActive = false;
-  
-
-
-
-  
 // null | "monthly" | "4-weekly" | "targeted"
   
 /* ================= DOM ================ */
@@ -96,81 +88,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
     updateFilterUI();
   });
 });
-
-/* click handler for what-if button */
-
-  
-const whatIfBtn = document.getElementById("whatif-btn");
-
-whatIfBtn.onclick = () => {
-
-  if (!whatIfActive) {
-    // create What If
-    const input = prompt("Monthly saving amount (£):", "50");
-if (input === null) return;
-
-const value = parseFloat(input);
-if (isNaN(value) || value <= 0) {
-  alert("Enter a valid amount");
-  return;
-}
-
-// 👉 new: ask for start date (default = today)
-const defaultDate = toISO(new Date());
-const dateInput = prompt("Start date (YYYY-MM-DD):", defaultDate);
-if (dateInput === null) return;
-
-const startDateInput = dateInput.trim();
-
-// quick validation
-if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateInput)) {
-  alert("Enter date as YYYY-MM-DD");
-  return;
-}
-    transactions = transactions.filter(t => !t.__whatIf);
-
-transactions.push({
-  description: "What If Saving",
-  amount: value,
-  type: "expense",
-  frequency: "monthly",
-  date: startDateInput,   // 👈 key change
-  category: "What If",
-  __whatIf: true
-});
-
-    whatIfActive = true;
-
-  } else {
-    // clear What If
-    transactions = transactions.filter(t => !t.__whatIf);
-    whatIfActive = false;
-  }
-
-  renderProjectionTable();
-
-  // ✅ update button AFTER state change
-  const whatIfTx = transactions.find(t => t.__whatIf);
-
-whatIfBtn.textContent = whatIfTx
-  ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
-  : "✏️ What If";
-
-// persistent state
-whatIfBtn.classList.toggle("whatif-on", !!whatIfTx);
-
-// click feedback
-whatIfBtn.classList.remove("whatif-active");
-void whatIfBtn.offsetWidth;
-whatIfBtn.classList.add("whatif-active");
-};
 /* ================ */
-  function clearWhatIf() {
-  transactions = transactions.filter(tx => !tx.__whatIf);
-  renderProjectionTable();
-}
-/*document.getElementById("clear-whatif-btn").onclick = clearWhatIf;*/
-/*.  */
 function updateFilterUI() {
   document.querySelectorAll(".tx-filter").forEach(el => {
     const mode = el.dataset.filter;
@@ -1022,10 +940,7 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
       };
 
       tr.querySelector(".delete-btn").onclick = () => {
-       /* if (!confirm(`Delete "${tx.description}"?`)) return;*/
-        if (!confirm(
-  `Delete "${tx.description}" on ${getDisplayedTransactionDate(tx)} for £${tx.amount.toFixed(2)}?`
-)) return;
+        if (!confirm(`Delete "${tx.description}"?`)) return;
         transactions.splice(index, 1);
         saveTransactions();
         renderTransactionTable();
@@ -1101,6 +1016,7 @@ projectionTbody.addEventListener("click", e => {
 });
 
   
+/* ================= PROJECTION ================= */
 window.renderProjectionTable = function () {
   projectionTbody.innerHTML = "";
 
@@ -1145,95 +1061,6 @@ window.renderProjectionTable = function () {
     }
   });
 
-  /* ===== PRE-PASS: find lowest balance until next income ===== */
-let tempBalance = openingBalance;
-let lowestUpcomingBalance = Infinity;
-let lowestUpcomingIso = null;
-let foundNextIncome = false;
-
-Object.keys(dayMap).sort().forEach(iso => {
-  const todaysTx = [...dayMap[iso]].sort((a, b) =>
-    a.type === b.type ? 0 : a.type === "income" ? -1 : 1
-  );
-
-  const isTrackingWindow = iso >= todayIso;
-
-  todaysTx.forEach(tx => {
-    const isIncome = tx.type === "income";
-
-    tempBalance += isIncome ? tx.amount : -tx.amount;
-
-    const isMajorIncome = isIncome && tx.amount >= 200;
-
-    if (isTrackingWindow && !foundNextIncome) {
-      if (tempBalance < lowestUpcomingBalance) {
-        lowestUpcomingBalance = tempBalance;
-        lowestUpcomingIso = iso;
-      }
-    }
-
-    if (iso > todayIso && isMajorIncome) {
-      foundNextIncome = true;
-    }
-  });
-});
-
-  /* ===== SUMMARY ===== */
-  const summaryEl = document.getElementById("projection-summary");
-
-  if (summaryEl) {
-    if (lowestUpcomingIso) {
-      const lowestDateFormatted = formatDate(lowestUpcomingIso);
-
-      const daysUntilLow = Math.round(
-        (new Date(lowestUpcomingIso) - new Date(todayIso)) / 86400000
-      );
-
-      const bufferNeeded =
-        lowestUpcomingBalance < 0
-          ? Math.abs(lowestUpcomingBalance)
-          : 0;
-
-      summaryEl.innerHTML = `
-        <strong>Lowest before next income:</strong> £${lowestUpcomingBalance.toFixed(2)}
-        on ${lowestDateFormatted}
-        (${daysUntilLow} days)
-        ${bufferNeeded > 0 ? ` — <strong>Buffer needed:</strong> £${bufferNeeded.toFixed(2)}` : ""}
-      `;
-
-/*      if (transactions.some(t => t.__whatIf)) {*/
- /* summaryEl.innerHTML += `<br>🧪 What If active`;*/
-/*}*/
-const whatIfTx = transactions.find(t => t.__whatIf);
-
-if (whatIfTx) {
-  summaryEl.innerHTML += `
-    <br>🧪 What If active: £${whatIfTx.amount.toFixed(2)} / month
-  `;
-}
-      summaryEl.classList.remove(
-        "summary-danger",
-        "summary-warning",
-        "summary-ok"
-      );
-
-      if (lowestUpcomingBalance < 0) {
-        summaryEl.classList.add("summary-danger");
-      } else if (lowestUpcomingBalance < 100) {
-        summaryEl.classList.add("summary-warning");
-      } else {
-        summaryEl.classList.add("summary-ok");
-      }
-    } else {
-      summaryEl.innerHTML = "";
-      summaryEl.classList.remove(
-        "summary-danger",
-        "summary-warning",
-        "summary-ok"
-      );
-    }
-  }
-
   /* ---------- Render day by day ---------- */
   Object.keys(dayMap).forEach(iso => {
     const todaysTx = dayMap[iso];
@@ -1244,19 +1071,13 @@ if (whatIfTx) {
       const tr = document.createElement("tr");
 
       if (iso === todayIso) tr.classList.add("today-row");
-      if ([0, 6].includes(new Date(iso).getDay()))
-        tr.classList.add("weekend-row");
-
-      if (iso === lowestUpcomingIso) {
-        tr.classList.add("lowest-balance");
-      }
+      if ([0, 6].includes(new Date(iso).getDay())) tr.classList.add("weekend-row");
 
       tr.innerHTML = `
         <td>
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span>${formatDate(iso)}</span>
-            ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
-            ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ""}
+${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
             ${
               hasDiaryNote(iso)
                 ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
@@ -1276,52 +1097,18 @@ if (whatIfTx) {
     todaysTx.sort((a, b) =>
       a.type === b.type ? 0 : a.type === "income" ? -1 : 1
     );
-    /* added what-if processing */
-    // WHAT IF: add monthly saving on same day-of-month as startDate (today)
 
-
-   
     /* ===== TRANSACTIONS ===== */
     todaysTx.forEach((tx, index) => {
+      const isIncome = tx.type === "income";
+      balance += isIncome ? tx.amount : -tx.amount;
 
-  const isIncome = tx.type === "income";
-  balance += isIncome ? tx.amount : -tx.amount;
+      const tr = document.createElement("tr");
 
-  const tr = document.createElement("tr");
+      if (iso === todayIso) tr.classList.add("today-row");
+      if ([0, 6].includes(new Date(iso).getDay())) tr.classList.add("weekend-row");
+      if (balance < 0) tr.classList.add("negative");
 
-if (tx.__whatIf) {
-  const start = new Date(tx.date);
-  const current = new Date(iso);
-
-  // Not before start date
-  if (current < start) return;
-
-  // Work out month difference
-  const monthsDiff =
-    (current.getFullYear() - start.getFullYear()) * 12 +
-    (current.getMonth() - start.getMonth());
-
-  if (monthsDiff < 0) return;
-
-  // Only trigger once per month on same day-of-month
-  const lastDay = new Date(
-  current.getFullYear(),
-  current.getMonth() + 1,
-  0
-).getDate();
-
-const targetDay = Math.min(start.getDate(), lastDay);
-
-if (current.getDate() !== targetDay) return;
-
-  // ✅ Styling ONLY after it passes checks
-  tr.classList.add("whatif-row");
-}
-
-  if (iso === todayIso) tr.classList.add("today-row");
-  if ([0, 6].includes(new Date(iso).getDay()))
-    tr.classList.add("weekend-row");
-  if (balance < 0) tr.classList.add("negative");
       const today = new Date(toISO(new Date()));
       const diffDays = Math.round((new Date(iso) - today) / 86400000);
 
@@ -1340,13 +1127,6 @@ if (current.getDate() !== targetDay) return;
         tr.classList.add("highlight-savings");
       }
 
-      if (
-        iso === lowestUpcomingIso &&
-        index === todaysTx.length - 1
-      ) {
-        tr.classList.add("lowest-balance");
-      }
-
       tr.innerHTML = `
         <td>
           ${
@@ -1355,9 +1135,9 @@ if (current.getDate() !== targetDay) return;
                   dateRendered = true;
                   return `
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                      <span>${formatDate(iso)}</span>
-                      ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
-                      ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ""}
+                 
+                    <span>${formatDate(iso)}</span>
+${iso === todayIso ? '<span class="today-label">Today</span>' : ''}
                       ${
                         hasDiaryNote(iso)
                           ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
@@ -1407,7 +1187,7 @@ if (current.getDate() !== targetDay) return;
     });
   });
 
-  /* ===== FINAL PASS: highlight last transaction today ===== */
+  /* ===== FINAL PASS: highlight last transaction for today ===== */
   projectionTbody
     .querySelectorAll("tr.auto-highlight")
     .forEach(row => row.classList.remove("auto-highlight"));
@@ -1800,62 +1580,25 @@ negativePopup.addEventListener("click", e => {
 /* =================================== */
 /* ================= SALARY -1 DAY POPUP ================= */
 
-/* ================= SALARY -1 DAY POPUP ================= */
-
 const salaryBtn = document.getElementById("salary-popup-btn");
 const salaryPopup = document.getElementById("salary-popup");
 const salaryPopupBody = document.getElementById("salary-popup-body");
 const salaryClose = document.getElementById("salary-popup-close");
 
-const salaryMinusOne = new Map(); // iso → Set of frequencies
-
 let salaryRows = [];
-let salarySortKey = "balance";
+let salarySortKey = "balance"; // "balance" | "date"
 let salarySortAsc = true;
-
-/* assumes you already have this globally */
-/// let salaryFilter = "all";
 
 salaryBtn.onclick = () => {
   document.body.classList.add("modal-open");
   salaryPopupBody.innerHTML = "";
   salaryRows = [];
-  salaryMinusOne.clear();
 
   if (!startDate) {
     document.body.classList.remove("modal-open");
     alert("Start date not set");
     return;
   }
-
-  /* ---------- FILTER CONTROLS ---------- */
-  const filterRow = document.createElement("tr");
-  const filterCell = document.createElement("td");
-  filterCell.colSpan = 2;
-  filterCell.style.textAlign = "center";
-  filterCell.style.padding = "8px 0";
-
-  filterCell.innerHTML = `
-    <button data-filter="all">All</button>
-    <button data-filter="monthly">🔁 Monthly</button>
-    <button data-filter="4-weekly">📆 4-weekly</button>
-  `;
-
-  filterRow.appendChild(filterCell);
-  salaryPopupBody.appendChild(filterRow);
-
-  filterCell.querySelectorAll("button").forEach(btn => {
-    btn.onclick = () => {
-      salaryFilter = btn.dataset.filter;
-
-      // highlight active filter
-      filterCell.querySelectorAll("button").forEach(b => {
-        b.style.fontWeight = b.dataset.filter === salaryFilter ? "bold" : "normal";
-      });
-
-      renderSalaryRows();
-    };
-  });
 
   /* ---------- HEADER ROW ---------- */
   const header = document.createElement("tr");
@@ -1869,13 +1612,21 @@ salaryBtn.onclick = () => {
   `;
   salaryPopupBody.appendChild(header);
 
-  header.children[0].onclick = () => toggleSort("date");
-  header.children[1].onclick = () => toggleSort("balance");
+  header.children[0].onclick = () => {
+    toggleSort("date");
+  };
+
+  header.children[1].onclick = () => {
+    toggleSort("balance");
+  };
 
   /* ---------- COLLECT SALARY -1 DATES ---------- */
+  const salaryMinusOne = new Set();
+
   const orderedTx = getTransactionsSortedByDate();
 
-  orderedTx.forEach(tx => {
+orderedTx.forEach(tx => {
+  // existing salary -1 logic
     if (tx.type === "income") {
       const start = new Date(tx.date);
       const end = new Date(start);
@@ -1885,19 +1636,7 @@ salaryBtn.onclick = () => {
         if (occursOn(tx, toISO(d))) {
           const prev = new Date(d);
           prev.setDate(prev.getDate() - 1);
-          const prevIso = toISO(prev);
-
-          if (!salaryMinusOne.has(prevIso)) {
-            salaryMinusOne.set(prevIso, new Set());
-          }
-
-          let freq = (tx.frequency || "").toLowerCase().trim();
-
-          if (freq === "monthly") {
-            salaryMinusOne.get(prevIso).add("monthly");
-          } else if (freq.includes("4")) {
-            salaryMinusOne.get(prevIso).add("4-weekly");
-          }
+          salaryMinusOne.add(toISO(prev));
         }
       }
     }
@@ -1913,7 +1652,10 @@ salaryBtn.onclick = () => {
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     const iso = toISO(d);
 
-    orderedTx.forEach(tx => {
+  const orderedTx = getTransactionsSortedByDate();
+
+orderedTx.forEach(tx => {
+  // existing salary -1 logic
       const id = txId(tx);
       const natural = occursOn(tx, iso);
       const nudgedAway = nudges[`${id}|${iso}`];
@@ -1930,8 +1672,7 @@ salaryBtn.onclick = () => {
       salaryRows.push({
         iso,
         date: new Date(iso),
-        balance,
-        frequencies: salaryMinusOne.get(iso)
+        balance
       });
     }
   }
@@ -1953,55 +1694,33 @@ function toggleSort(key) {
 }
 
 function renderSalaryRows() {
-  // remove only data rows
-  salaryPopupBody.querySelectorAll("tr.data-row").forEach(tr => tr.remove());
+  salaryPopupBody
+    .querySelectorAll("tr:not(:first-child)")
+    .forEach(tr => tr.remove());
 
   salaryRows.sort((a, b) => {
     const val =
       salarySortKey === "balance"
+      
         ? a.balance - b.balance
         : a.date - b.date;
 
     return salarySortAsc ? val : -val;
   });
 
-  // safe arrow update
-  const dateArrow = document.getElementById("salary-date-arrow");
-  const balanceArrow = document.getElementById("salary-balance-arrow");
+  document.getElementById("salary-date-arrow").textContent =
+    salarySortKey === "date" ? (salarySortAsc ? " ▲" : " ▼") : "";
 
-  if (dateArrow) {
-    dateArrow.textContent =
-      salarySortKey === "date" ? (salarySortAsc ? " ▲" : " ▼") : "";
-  }
+  document.getElementById("salary-balance-arrow").textContent =
+    salarySortKey === "balance" ? (salarySortAsc ? " ▲" : " ▼") : "";
 
-  if (balanceArrow) {
-    balanceArrow.textContent =
-      salarySortKey === "balance" ? (salarySortAsc ? " ▲" : " ▼") : "";
-  }
-
-  salaryRows.forEach(({ iso, balance, frequencies }) => {
-
-    /* ---------- APPLY FILTER ---------- */
-    if (salaryFilter !== "all") {
-      if (!frequencies || !frequencies.has(salaryFilter)) return;
-    }
-
+  salaryRows.forEach(({ iso, balance }) => {
     const tr = document.createElement("tr");
-    tr.classList.add("data-row");
-
     if (balance < 0) tr.classList.add("negative");
-
-    let freqIcons = "";
-
-    if (frequencies) {
-      if (frequencies.has("monthly")) freqIcons += " 🔁";
-      if (frequencies.has("4-weekly")) freqIcons += " 📆";
-    }
 
     tr.innerHTML = `
       <td class="salary-date">
-        ${formatDate(iso)}${freqIcons}
-        <span class="salary-jump-icon">🔍</span>
+        ${formatDate(iso)} <span class="salary-jump-icon">🔍</span>
       </td>
       <td style="text-align:right">
         <strong>${balance.toFixed(2)}</strong>
@@ -2024,12 +1743,14 @@ function renderSalaryRows() {
 salaryClose.onclick = () => {
   salaryPopup.classList.add("hidden");
   document.body.classList.remove("modal-open");
-};
+
+}
 
 salaryPopup.addEventListener("click", e => {
   if (e.target === salaryPopup) {
     salaryPopup.classList.add("hidden");
     document.body.classList.remove("modal-open");
+    
   }
 });
 /* ========== NUDGE ========== */
@@ -2192,25 +1913,7 @@ document
           alert("Invalid transactions file");
           return;
         }
-// 🔥 CLEAN the data
 
-transactions = imported.map(tx => ({
-
-  description: tx.description || "",
-
-  amount: parseFloat(tx.amount) || 0,
-
-  type: tx.type === "income" ? "income" : "expense",
-
-  frequency: (tx.frequency || "irregular").toLowerCase().trim(),
-
-  date: tx.date || "",
-
-  endDate: tx.endDate || null,
-
-  category: tx.category || ""
-
-}));
         // 🔑 CRITICAL FIX: update the live array
         /* next two lines commented out */
         /*followimg two lines added*/
