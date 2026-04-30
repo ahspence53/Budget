@@ -105,41 +105,24 @@ const whatIfBtn = document.getElementById("whatif-btn");
 whatIfBtn.onclick = () => {
 
   if (!whatIfActive) {
- const input = prompt("Monthly saving amount (£):", "50");
-if (input === null) return;
+    // create What If
+    const input = prompt("Monthly saving amount (£):", "50");
+    if (input === null) return;
 
-const value = parseFloat(input);
-if (isNaN(value) || value <= 0) {
-  alert("Enter a valid amount");
-  return;
-}
-
-// 👉 new: ask for start date (default = today)
-const defaultDate = toISO(new Date());
-const dateInput = prompt("Start date (YYYY-MM-DD):", defaultDate);
-if (dateInput === null) return;
-
-const startDateInput = dateInput.trim();
-
-// quick validation
-if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateInput)) {
-  alert("Enter date as YYYY-MM-DD");
-  return;
-}
+    const value = parseFloat(input);
+    if (isNaN(value) || value <= 0) return;
 
     transactions = transactions.filter(t => !t.__whatIf);
 
-    transactions = transactions.filter(t => !t.__whatIf);
-
-transactions.push({
-  description: "What If Saving",
-  amount: value,
-  type: "expense",
-  frequency: "monthly",
-  date: startDateInput,   // 👈 key change
-  category: "What If",
-  __whatIf: true
-});
+    transactions.push({
+      description: "What If Saving",
+      amount: value,
+      type: "expense",
+      frequency: "monthly",
+      date: toISO(new Date()),
+      category: "What If",
+      __whatIf: true
+    });
 
     whatIfActive = true;
 
@@ -1204,10 +1187,7 @@ Object.keys(dayMap).sort().forEach(iso => {
       `;
 
       if (transactions.some(t => t.__whatIf)) {
-  summaryEl.innerHTML += `
-    <br>🧪 What If active: £${whatIfTx.amount.toFixed(2)} / month
-  `;
-
+  summaryEl.innerHTML += `<br>🧪 What If active`;
 }
 
       summaryEl.classList.remove(
@@ -1303,15 +1283,7 @@ if (tx.__whatIf) {
   if (monthsDiff < 0) return;
 
   // Only trigger once per month on same day-of-month
-  const lastDay = new Date(
-  current.getFullYear(),
-  current.getMonth() + 1,
-  0
-).getDate();
-
-const targetDay = Math.min(start.getDate(), lastDay);
-
-if (current.getDate() !== targetDay) return;
+  if (current.getDate() !== start.getDate()) return;
 
   // ✅ Styling ONLY after it passes checks
   tr.classList.add("whatif-row");
