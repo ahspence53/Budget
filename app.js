@@ -1204,7 +1204,10 @@ Object.keys(dayMap).sort().forEach(iso => {
       `;
 
       if (transactions.some(t => t.__whatIf)) {
-  summaryEl.innerHTML += `<br>🧪 What If active`;
+  summaryEl.innerHTML += `
+    <br>🧪 What If active: £${whatIfTx.amount.toFixed(2)} / month
+  `;
+
 }
 
       summaryEl.classList.remove(
