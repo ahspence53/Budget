@@ -115,39 +115,37 @@ if (isNaN(value) || value <= 0) {
   return;
 }
 
-// 👉 new: ask for start date (default = today)
-const defaultDate = toISO(new Date());
-const dateInput = prompt("Start date (YYYY-MM-DD):", defaultDate);
-if (dateInput === null) return;
+const datePicker = document.getElementById("whatif-date-picker");
 
-const startDateInput = dateInput.trim();
+// default = today
+datePicker.value = toISO(new Date());
 
-// quick validation
-if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateInput)) {
-  alert("Enter date as YYYY-MM-DD");
-  return;
-}
-    transactions = transactions.filter(t => !t.__whatIf);
+// open picker
+datePicker.showPicker();
 
-transactions.push({
-  description: "What If Saving",
-  amount: value,
-  type: "expense",
-  frequency: "monthly",
-  date: startDateInput,   // 👈 key change
-  category: "What If",
-  __whatIf: true
-});
+// when user selects a date
+datePicker.onchange = () => {
+  const isoDate = datePicker.value;
 
-    whatIfActive = true;
+  if (!isoDate) return;
 
-  } else {
-    // clear What If
-    transactions = transactions.filter(t => !t.__whatIf);
-    whatIfActive = false;
-  }
+  // 👉 use isoDate directly (no conversion needed)
+  transactions = transactions.filter(t => !t.__whatIf);
+
+  transactions.push({
+    description: "What If Saving",
+    amount: value,
+    type: "expense",
+    frequency: "monthly",
+    date: isoDate,
+    category: "What If",
+    __whatIf: true
+  });
+
+  whatIfActive = true;
 
   renderProjectionTable();
+};
 
   // ✅ update button AFTER state change
   const whatIfTx = transactions.find(t => t.__whatIf);
