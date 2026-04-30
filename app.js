@@ -105,24 +105,41 @@ const whatIfBtn = document.getElementById("whatif-btn");
 whatIfBtn.onclick = () => {
 
   if (!whatIfActive) {
-    // create What If
-    const input = prompt("Monthly saving amount (£):", "50");
-    if (input === null) return;
+ const input = prompt("Monthly saving amount (£):", "50");
+if (input === null) return;
 
-    const value = parseFloat(input);
-    if (isNaN(value) || value <= 0) return;
+const value = parseFloat(input);
+if (isNaN(value) || value <= 0) {
+  alert("Enter a valid amount");
+  return;
+}
+
+// 👉 new: ask for start date (default = today)
+const defaultDate = toISO(new Date());
+const dateInput = prompt("Start date (YYYY-MM-DD):", defaultDate);
+if (dateInput === null) return;
+
+const startDateInput = dateInput.trim();
+
+// quick validation
+if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateInput)) {
+  alert("Enter date as YYYY-MM-DD");
+  return;
+}
 
     transactions = transactions.filter(t => !t.__whatIf);
 
-    transactions.push({
-      description: "What If Saving",
-      amount: value,
-      type: "expense",
-      frequency: "monthly",
-      date: toISO(new Date()),
-      category: "What If",
-      __whatIf: true
-    });
+    transactions = transactions.filter(t => !t.__whatIf);
+
+transactions.push({
+  description: "What If Saving",
+  amount: value,
+  type: "expense",
+  frequency: "monthly",
+  date: startDateInput,   // 👈 key change
+  category: "What If",
+  __whatIf: true
+});
 
     whatIfActive = true;
 
