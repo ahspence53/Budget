@@ -1298,7 +1298,15 @@ if (tx.__whatIf) {
   if (monthsDiff < 0) return;
 
   // Only trigger once per month on same day-of-month
-  if (current.getDate() !== start.getDate()) return;
+  const lastDay = new Date(
+  current.getFullYear(),
+  current.getMonth() + 1,
+  0
+).getDate();
+
+const targetDay = Math.min(start.getDate(), lastDay);
+
+if (current.getDate() !== targetDay) return;
 
   // ✅ Styling ONLY after it passes checks
   tr.classList.add("whatif-row");
