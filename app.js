@@ -100,58 +100,33 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 /* click handler for what-if button */
 
   
-const datePicker = document.getElementById("whatif-date-picker");
+const whatIfBtn = document.getElementById("whatif-btn");
 
-// set default
-datePicker.value = toISO(new Date());
+whatIfBtn.onclick = () => {
 
-// temporarily show it so user can interact
-datePicker.style.display = "block";
+  if (!whatIfActive) {
+    // create What If
+    const input = prompt("Monthly saving amount (£):", "50");
+if (input === null) return;
 
-// focus it (important on iPad)
-datePicker.focus();
+const value = parseFloat(input);
+if (isNaN(value) || value <= 0) {
+  alert("Enter a valid amount");
+  return;
+}
 
-// STOP execution here — everything continues in onchange
-datePicker.onchange = () => {
-  const startDateInput = datePicker.value;
+// 👉 new: ask for start date (default = today)
+const defaultDate = toISO(new Date());
+const dateInput = prompt("Start date (YYYY-MM-DD):", defaultDate);
+if (dateInput === null) return;
 
-  if (!startDateInput) return;
+const startDateInput = dateInput.trim();
 
-  // hide again after selection
-  datePicker.style.display = "none";
-
-  // prevent duplicate firing
-  datePicker.onchange = null;
-
-  // 👉 NOW continue your logic
-  transactions = transactions.filter(t => !t.__whatIf);
-
-  transactions.push({
-    description: "What If Saving",
-    amount: value,
-    type: "expense",
-    frequency: "monthly",
-    date: startDateInput,
-    category: "What If",
-    __whatIf: true
-  });
-
-  whatIfActive = true;
-
-  renderProjectionTable();
-
-  const whatIfTx = transactions.find(t => t.__whatIf);
-
-  whatIfBtn.textContent = whatIfTx
-    ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
-    : "✏️ What If";
-
-  whatIfBtn.classList.toggle("whatif-on", !!whatIfTx);
-
-  whatIfBtn.classList.remove("whatif-active");
-  void whatIfBtn.offsetWidth;
-  whatIfBtn.classList.add("whatif-active");
-};
+// quick validation
+if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateInput)) {
+  alert("Enter date as YYYY-MM-DD");
+  return;
+}
     transactions = transactions.filter(t => !t.__whatIf);
 
 transactions.push({
