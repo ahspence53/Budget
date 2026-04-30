@@ -102,7 +102,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 /* ================= WHAT IF ================= */
 
 const whatIfBtn = document.getElementById("whatif-btn");
-const modal = document.getElementById("whatif-modal");
+const whatIfmodal = document.getElementById("whatif-modal");
 const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
 const confirmBtn = document.getElementById("whatif-confirm");
