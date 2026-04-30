@@ -1201,10 +1201,16 @@ Object.keys(dayMap).sort().forEach(iso => {
         ${bufferNeeded > 0 ? ` — <strong>Buffer needed:</strong> £${bufferNeeded.toFixed(2)}` : ""}
       `;
 
-      if (transactions.some(t => t.__whatIf)) {
-  summaryEl.innerHTML += `<br>🧪 What If active`;
-}
+/*      if (transactions.some(t => t.__whatIf)) {*/
+ /* summaryEl.innerHTML += `<br>🧪 What If active`;*/
+/*}*/
+const whatIfTx = transactions.find(t => t.__whatIf);
 
+if (whatIfTx) {
+  summaryEl.innerHTML += `
+    <br>🧪 What If active: £${whatIfTx.amount.toFixed(2)} / month
+  `;
+}
       summaryEl.classList.remove(
         "summary-danger",
         "summary-warning",
