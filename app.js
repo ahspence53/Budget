@@ -115,18 +115,58 @@ if (isNaN(value) || value <= 0) {
   return;
 }
 
-// 👉 new: ask for start date (default = today)
-const defaultDate = toISO(new Date());
-const dateInput = prompt("Start date (YYYY-MM-DD):", defaultDate);
-if (dateInput === null) return;
+const datePicker = document.getElementById("whatif-date-picker");
 
-const startDateInput = dateInput.trim();
+// set default
+datePicker.value = toISO(new Date());
 
-// quick validation
-if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateInput)) {
-  alert("Enter date as YYYY-MM-DD");
-  return;
+// open picker (or fallback)
+if (datePicker.showPicker) {
+  datePicker.showPicker();
+} else {
+  datePicker.style.display = "block";
+  datePicker.focus();
 }
+
+// STOP here — wait for user selection
+datePicker.onchange = () => {
+  const startDateInput = datePicker.value;
+
+  if (!startDateInput) return;
+
+  // reset handler so it doesn't fire multiple times
+  datePicker.onchange = null;
+
+  // 👇 MOVE the rest of your logic INSIDE here
+
+  transactions = transactions.filter(t => !t.__whatIf);
+
+  transactions.push({
+    description: "What If Saving",
+    amount: value,
+    type: "expense",
+    frequency: "monthly",
+    date: startDateInput,
+    category: "What If",
+    __whatIf: true
+  });
+
+  whatIfActive = true;
+
+  renderProjectionTable();
+
+  const whatIfTx = transactions.find(t => t.__whatIf);
+
+  whatIfBtn.textContent = whatIfTx
+    ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
+    : "✏️ What If";
+
+  whatIfBtn.classList.toggle("whatif-on", !!whatIfTx);
+
+  whatIfBtn.classList.remove("whatif-active");
+  void whatIfBtn.offsetWidth;
+  whatIfBtn.classList.add("whatif-active");
+};
     transactions = transactions.filter(t => !t.__whatIf);
 
 transactions.push({
