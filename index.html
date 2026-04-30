@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Home Budget (2026).</title>
+  <title>Home Budget - Track & Forecast</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,6 +17,7 @@
 </head>
 <div id="diary-preview" class="diary-preview hidden"></div>
 <body>
+  <input type="date" id="whatif-date-picker" style="display:none; margin-top:10px;">
   <div id="offline-indicator" class="offline hidden">
   Offline mode
   </div>
@@ -29,7 +30,7 @@
 </div>
 
 <header id="app-top" class="app-header">
-  <h1>Home Budget (2026).</h1>
+  <h1>Home Budget - Track & Forecast.</h1>
 </header>
 
 <section class="config">
@@ -44,20 +45,36 @@
    
   
 </section>
+  
+   
+</section>
   <section id="import-export">
-  <div class="action-button-row">
-    <button id="salary-popup-btn">Salary -1 day balances</button>
+  <div class="action-group">
+  
+    <span class="group-label">Views</span>
+    <div class="action-button-row">
+      
+    <button id="salary-popup-btn">Salary -1 day <br>balances⚖️</button>
     <button id="negative-popup-btn">📈 Negative balances</button>
-    <button id="diary-popup-btn">🗓️ Diary</button>
+    <button id="diary-popup-btn">📚Diary</button>
     <button id="upcoming-diary-btn">🗓️ Next 14 Days</button>
-    <button id="help">Help</button>
+    <button id="savings-popup-btn">🔐 Savings Projection</button>
+  </div>
+  </div>
+    
+  <div class="action-group">
+    <span class="group-label">Tools</span>
+    <div class="action-button-row">
+    <button id="help">🆗 Help</button>
     <button id="TopofApp">🔁 Transactions ⬇️</button>
     <button id="menucategory"> 
         Edit/Add Categories &amp;<br>
         Transactions ⬇️
      </button>
-    <button id="savings-popup-btn">Savings Projection</button>
+    <button id="whatif-btn">🧪 What If</button>
+      <!-- <button id="clear-whatif-btn">❌ Clear What If</button> -->
     
+    </div>
   </div>
 
   <div id="savings-popup" class="popup hidden">
@@ -74,10 +91,13 @@
 
 In the <b>24 Month Projection table </b>you can <b>Nudge</b> Expenses forward by <b>1 day</b> at  a time if they fall at <b>Weekends</b> or <b>Bank Holidays</b>, or if it hasn't yet been debited.
 <hr style="border: none; height: 8px; background-color: #000000; margin: 15px 0;">
-<h2 style="background-color: #008000; color: #ffffff; padding: 10px;">
+    
+<div id="projection-summary" class="projection-summary"></div>
+    
+    <h2 style="background-color: #008000; color: #ffffff; padding: 10px;">
   📅 24-Month Projection 
   <span style="margin-left: 600px;">
-    Home Budget (2026)
+    Home Budget - Track & Forecast.
   </span>
 </h2>
 
