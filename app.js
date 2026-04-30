@@ -99,12 +99,16 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 
 /* click handler for what-if button */
 
+/* ================= WHAT IF ================= */
+
 const whatIfBtn = document.getElementById("whatif-btn");
 const modal = document.getElementById("whatif-modal");
 const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
 const confirmBtn = document.getElementById("whatif-confirm");
 const cancelBtn = document.getElementById("whatif-cancel");
+
+/* ---------- BUTTON ---------- */
 
 whatIfBtn.onclick = () => {
 
@@ -118,7 +122,6 @@ whatIfBtn.onclick = () => {
 
     modal.classList.remove("hidden");
 
-    // optional nice UX
     setTimeout(() => amountInput.focus(), 100);
 
   } else {
@@ -130,8 +133,7 @@ whatIfBtn.onclick = () => {
   }
 };
 
-
-/* ---------- MODAL HANDLERS ---------- */
+/* ---------- CONFIRM ---------- */
 
 confirmBtn.onclick = () => {
   const value = parseFloat(amountInput.value);
@@ -147,10 +149,8 @@ confirmBtn.onclick = () => {
     return;
   }
 
-  // remove existing What If
   transactions = transactions.filter(t => !t.__whatIf);
 
-  // create new What If
   transactions.push({
     description: "What If Saving",
     amount: value,
@@ -168,29 +168,28 @@ confirmBtn.onclick = () => {
   updateWhatIfUI();
 };
 
+/* ---------- CANCEL ---------- */
 
 cancelBtn.onclick = () => {
   modal.classList.add("hidden");
 };
 
-  // ✅ update button AFTER state change
+/* ---------- UI UPDATE (THIS WAS YOUR MISSING PIECE) ---------- */
+
+function updateWhatIfUI() {
   const whatIfTx = transactions.find(t => t.__whatIf);
 
-whatIfBtn.textContent = whatIfTx
-  ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
-  : "✏️ What If";
+  whatIfBtn.textContent = whatIfTx
+    ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
+    : "✏️ What If";
 
-// persistent state
-whatIfBtn.classList.toggle("whatif-on", !!whatIfTx);
+  whatIfBtn.classList.toggle("whatif-on", !!whatIfTx);
 
-// click feedback
-whatIfBtn.classList.remove("whatif-active");
-void whatIfBtn.offsetWidth;
-whatIfBtn.classList.add("whatif-active");
-};
-/* ================ */
-  function clearWhatIf() {
-  transactions = transactions.filter(tx => !tx.__whatIf);
+  // click feedback animation
+  whatIfBtn.classList.remove("whatif-active");
+  void whatIfBtn.offsetWidth;
+  whatIfBtn.classList.add("whatif-active");
+
   renderProjectionTable();
 }
 /*document.getElementById("clear-whatif-btn").onclick = clearWhatIf;*/
