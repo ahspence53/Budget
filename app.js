@@ -99,55 +99,79 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 
 /* click handler for what-if button */
 
-  
 const whatIfBtn = document.getElementById("whatif-btn");
+const modal = document.getElementById("whatif-modal");
+const amountInput = document.getElementById("whatif-amount");
+const dateInput = document.getElementById("whatif-date");
+const confirmBtn = document.getElementById("whatif-confirm");
+const cancelBtn = document.getElementById("whatif-cancel");
 
 whatIfBtn.onclick = () => {
 
+  // sync state
+  whatIfActive = transactions.some(t => t.__whatIf);
+
   if (!whatIfActive) {
-    // create What If
-    const input = prompt("Monthly saving amount (£):", "50");
-if (input === null) return;
+    // OPEN MODAL
+    amountInput.value = "";
+    dateInput.value = toISO(new Date());
 
-const value = parseFloat(input);
-if (isNaN(value) || value <= 0) {
-  alert("Enter a valid amount");
-  return;
-}
+    modal.classList.remove("hidden");
 
-// 👉 new: ask for start date (default = today)
-const defaultDate = toISO(new Date());
-const dateInput = prompt("Start date (YYYY-MM-DD):", defaultDate);
-if (dateInput === null) return;
-
-const startDateInput = dateInput.trim();
-
-// quick validation
-if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateInput)) {
-  alert("Enter date as YYYY-MM-DD");
-  return;
-}
-    transactions = transactions.filter(t => !t.__whatIf);
-
-transactions.push({
-  description: "What If Saving",
-  amount: value,
-  type: "expense",
-  frequency: "monthly",
-  date: startDateInput,   // 👈 key change
-  category: "What If",
-  __whatIf: true
-});
-
-    whatIfActive = true;
+    // optional nice UX
+    setTimeout(() => amountInput.focus(), 100);
 
   } else {
-    // clear What If
+    // CLEAR What If
     transactions = transactions.filter(t => !t.__whatIf);
     whatIfActive = false;
+
+    updateWhatIfUI();
+  }
+};
+
+
+/* ---------- MODAL HANDLERS ---------- */
+
+confirmBtn.onclick = () => {
+  const value = parseFloat(amountInput.value);
+  const startDateInput = dateInput.value;
+
+  if (isNaN(value) || value <= 0) {
+    alert("Enter a valid amount");
+    return;
   }
 
-  renderProjectionTable();
+  if (!startDateInput) {
+    alert("Select a start date");
+    return;
+  }
+
+  // remove existing What If
+  transactions = transactions.filter(t => !t.__whatIf);
+
+  // create new What If
+  transactions.push({
+    description: "What If Saving",
+    amount: value,
+    type: "expense",
+    frequency: "monthly",
+    date: startDateInput,
+    category: "What If",
+    __whatIf: true
+  });
+
+  whatIfActive = true;
+
+  modal.classList.add("hidden");
+
+  updateWhatIfUI();
+};
+
+
+cancelBtn.onclick = () => {
+  modal.classList.add("hidden");
+};
 
   // ✅ update button AFTER state change
   const whatIfTx = transactions.find(t => t.__whatIf);
