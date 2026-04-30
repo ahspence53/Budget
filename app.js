@@ -99,50 +99,18 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 
 /* click handler for what-if button */
 
-  
 const whatIfBtn = document.getElementById("whatif-btn");
+const datePicker = document.getElementById("whatif-date-picker");
 
-whatIfBtn.onclick = () => {
-
-  // always sync state
-  whatIfActive = transactions.some(t => t.__whatIf);
-
-  if (!whatIfActive) {
-    // STEP 1: get amount
-    const input = prompt("Monthly saving amount (£):", "50");
-    if (input === null) return;
-
-    const value = parseFloat(input);
-    if (isNaN(value) || value <= 0) {
-      alert("Enter a valid amount");
-      return;
-    }
-
-    // STEP 2: use date picker instead of prompt
-    const datePicker = document.getElementById("whatif-date-picker");
-
-// set default
-datePicker.value = toISO(new Date());
-
-// show it
-datePicker.style.display = "block";
-datePicker.focus();
-
-// 👇 guard against auto-trigger
-let firstEvent = true;
-
-datePicker.onchange = () => {
-  if (firstEvent) {
-    firstEvent = false;
-    return; // ignore fake initial trigger
-  }
-
+// 🔹 handle date selection (set once, outside click)
+datePicker.addEventListener("change", () => {
+  const value = parseFloat(datePicker.dataset.value);
   const startDateInput = datePicker.value;
-  if (!startDateInput) return;
 
-  // hide after real selection
+  if (!value || !startDateInput) return;
+
+  // hide picker after selection
   datePicker.style.display = "none";
-  datePicker.onchange = null;
 
   // create What If
   transactions = transactions.filter(t => !t.__whatIf);
@@ -160,9 +128,32 @@ datePicker.onchange = () => {
   whatIfActive = true;
 
   updateWhatIfUI();
-};
+});
 
-    return; // IMPORTANT: stop here
+whatIfBtn.onclick = () => {
+
+  // always sync state
+  whatIfActive = transactions.some(t => t.__whatIf);
+
+  if (!whatIfActive) {
+    // STEP 1: get amount
+    const input = prompt("Monthly saving amount (£):", "50");
+    if (input === null) return;
+
+    const value = parseFloat(input);
+    if (isNaN(value) || value <= 0) {
+      alert("Enter a valid amount");
+      return;
+    }
+
+    // STEP 2: show date picker
+    datePicker.dataset.value = value; // store amount safely
+    datePicker.value = toISO(new Date());
+
+    datePicker.style.display = "block";
+    datePicker.focus();
+
+    return; // 🔴 STOP here — wait for user to pick date
 
   } else {
     // CLEAR What If
