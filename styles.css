@@ -1044,3 +1044,27 @@ r  text-align: center;
   border-radius: 10px;
   width: 280px;
 }
+
+.whatif-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000; /* higher than others */
+}
+
+.whatif-modal.hidden {
+  display: none;
+}
+
+.whatif-modal .modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 280px;
+}
