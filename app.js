@@ -121,40 +121,46 @@ whatIfBtn.onclick = () => {
     // STEP 2: use date picker instead of prompt
     const datePicker = document.getElementById("whatif-date-picker");
 
-    datePicker.value = toISO(new Date());
+// set default
+datePicker.value = toISO(new Date());
 
-    // make visible (important for iPad/Safari)
-    datePicker.style.display = "block";
-    datePicker.focus();
+// show it
+datePicker.style.display = "block";
+datePicker.focus();
 
-    // STOP HERE — wait for user selection
-    datePicker.onchange = () => {
-      const startDateInput = datePicker.value;
-      if (!startDateInput) return;
+// 👇 guard against auto-trigger
+let firstEvent = true;
 
-      // hide again
-      datePicker.style.display = "none";
+datePicker.onchange = () => {
+  if (firstEvent) {
+    firstEvent = false;
+    return; // ignore fake initial trigger
+  }
 
-      // prevent double firing
-      datePicker.onchange = null;
+  const startDateInput = datePicker.value;
+  if (!startDateInput) return;
 
-      // create What If
-      transactions = transactions.filter(t => !t.__whatIf);
+  // hide after real selection
+  datePicker.style.display = "none";
+  datePicker.onchange = null;
 
-      transactions.push({
-        description: "What If Saving",
-        amount: value,
-        type: "expense",
-        frequency: "monthly",
-        date: startDateInput,
-        category: "What If",
-        __whatIf: true
-      });
+  // create What If
+  transactions = transactions.filter(t => !t.__whatIf);
 
-      whatIfActive = true;
+  transactions.push({
+    description: "What If Saving",
+    amount: value,
+    type: "expense",
+    frequency: "monthly",
+    date: startDateInput,
+    category: "What If",
+    __whatIf: true
+  });
 
-      updateWhatIfUI();
-    };
+  whatIfActive = true;
+
+  updateWhatIfUI();
+};
 
     return; // IMPORTANT: stop here
 
