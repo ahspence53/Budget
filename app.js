@@ -1239,8 +1239,10 @@ Object.keys(dayMap).sort().forEach(iso => {
 const whatIfTx = transactions.find(t => t.__whatIf);
 
 if (whatIfTx) {
+  const startFormatted = formatDate(whatIfTx.date);
   summaryEl.innerHTML += `
     <br>🧪 What If active: £${whatIfTx.amount.toFixed(2)} / month
+    from ${startFormatted}
   `;
 }
       summaryEl.classList.remove(
