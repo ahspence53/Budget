@@ -33,6 +33,7 @@ let transactionFilterMode = null;
 let salaryFilter = "all"; // "all" | "monthly" | "4-weekly"
 let whatIfAmount = 0;
 let whatIfActive = false;
+let buffer = 20;
   
 
 
@@ -96,6 +97,66 @@ document.querySelectorAll(".tx-filter").forEach(el => {
     updateFilterUI();
   });
 });
+/* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
+function calculateMaxSaving(startDate, buffer = 20) {
+  let low = 0;
+  let high = 2000; // safe upper bound (adjust if needed)
+
+  let best = 0;
+
+  while (high - low > 0.5) { // precision ~50p
+    const mid = (low + high) / 2;
+
+    if (isSafe(mid, startDate, buffer)) {
+      best = mid;
+      low = mid;
+    } else {
+      high = mid;
+    }
+  }
+
+  return Math.floor(best);
+}
+  /* ================================ */
+  function isSafe(amount, whatIfStartDate, buffer) {
+
+  let balance = openingBalance;
+
+  const start = new Date(startDate); // ✅ ALWAYS from app start
+  const end = new Date(start);
+  end.setMonth(end.getMonth() + 24);
+
+  const startRef = new Date(whatIfStartDate); // ✅ when What If begins
+
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+
+    const iso = toISO(d);
+
+    getTransactionsSortedByDate().forEach(tx => {
+      if (occursOn(tx, iso)) {
+        balance += tx.type === "income" ? tx.amount : -tx.amount;
+      }
+    });
+
+    const current = new Date(iso);
+
+    const monthsDiff =
+      (current.getFullYear() - startRef.getFullYear()) * 12 +
+      (current.getMonth() - startRef.getMonth());
+
+    if (monthsDiff >= 0 && current.getDate() === startRef.getDate()) {
+      balance -= amount;
+    }
+/*alert(`Max safe saving: £${max}/month (buffer £${buffer})`);*/
+    if (balance < buffer) return false;
+  }
+
+  return true;
+}
+
+/* ============================= */
+
+  
 
 /* ================= WHAT IF ================= */
 
@@ -104,6 +165,25 @@ const whatIfPopup = document.getElementById("whatif-popup");
 const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
 
+  console.log("CALCULATE MAX CLICKED");
+document.getElementById("whatif-auto").onclick = () => {
+
+  const start = dateInput.value;
+
+  if (!start) {
+    alert("Select a start date");
+    return;
+  }
+
+  const buffer = 20; // your safety buffer
+
+  const max = calculateMaxSaving(start, buffer);
+
+  // put result into modal input
+  amountInput.value = max;
+
+  console.log("Max saving:", max);
+};
 /* ---------- BUTTON ---------- */
 
 whatIfBtn.onclick = () => {
