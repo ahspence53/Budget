@@ -121,7 +121,7 @@ function calculateMaxSaving(startDate, buffer = 20) {
   function isSafe(amount, startDate, buffer) {
   let balance = openingBalance;
 
-  const start = new Date(startDate);
+  const start = new Date(startDateGlobal); // or your main startDate variable
   const end = new Date(start);
   end.setMonth(end.getMonth() + 24);
 
