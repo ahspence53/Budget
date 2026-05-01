@@ -147,7 +147,7 @@ function calculateMaxSaving(startDate, buffer = 20) {
     if (monthsDiff >= 0 && current.getDate() === startRef.getDate()) {
       balance -= amount;
     }
-alert(`Max safe saving: £${max}/month (buffer £${buffer})`);
+/*alert(`Max safe saving: £${max}/month (buffer £${buffer})`);*/
     if (balance < buffer) return false;
   }
 
