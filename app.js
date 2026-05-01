@@ -154,6 +154,18 @@ function calculateMaxSaving(startDate, buffer = 20) {
 }
 
 /* ============================= */
+document.getElementById("whatif-auto").onclick = () => {
+  const start = dateInput.value;
+
+  if (!start) {
+    alert("Select a start date");
+    return;
+  }
+
+  const max = calculateMaxSaving(start, 20);
+
+  amountInput.value = max;
+};
   
 
 /* ================= WHAT IF ================= */
