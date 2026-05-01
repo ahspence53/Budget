@@ -1050,3 +1050,17 @@ t  100% { transform: scale(1); }
   margin-bottom: 12px;
   color: #444;
 }
+
+#whatif-confirm {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+#whatif-cancel {
+  background-color: #ddd;
+}
+
+#whatif-auto {
+  background-color: #f0f0f0;
+}
