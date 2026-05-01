@@ -105,19 +105,41 @@ const whatIfBtn = document.getElementById("whatif-btn");
 whatIfBtn.onclick = () => {
 
   if (!whatIfActive) {
+    // create What If
+    const input = prompt("Monthly saving amount (£):", "50");
+if (input === null) return;
 
-  const whatIfPopup = document.getElementById("whatif-popup");
-  const amountInput = document.getElementById("whatif-amount");
-  const dateInput = document.getElementById("whatif-date");
-
-  amountInput.value = "";
-  dateInput.value = toISO(new Date());
-
-  document.body.classList.add("modal-open");
-  whatIfPopup.classList.remove("hidden");
-
-  return; // 🔴 IMPORTANT
+const value = parseFloat(input);
+if (isNaN(value) || value <= 0) {
+  alert("Enter a valid amount");
+  return;
 }
+
+// 👉 new: ask for start date (default = today)
+const defaultDate = toISO(new Date());
+const dateInput = prompt("Start date (YYYY-MM-DD):", defaultDate);
+if (dateInput === null) return;
+
+const startDateInput = dateInput.trim();
+
+// quick validation
+if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateInput)) {
+  alert("Enter date as YYYY-MM-DD");
+  return;
+}
+    transactions = transactions.filter(t => !t.__whatIf);
+
+transactions.push({
+  description: "What If Saving",
+  amount: value,
+  type: "expense",
+  frequency: "monthly",
+  date: startDateInput,   // 👈 key change
+  category: "What If",
+  __whatIf: true
+});
+
+    whatIfActive = true;
 
   } else {
     // clear What If
@@ -160,56 +182,6 @@ function updateFilterUI() {
     el.classList.toggle("active", isActive);
   });
 }
-
-const whatIfPopup = document.getElementById("whatif-popup");
-const amountInput = document.getElementById("whatif-amount");
-const dateInput = document.getElementById("whatif-date");
-
-document.getElementById("whatif-confirm").onclick = () => {
-
-  const value = parseFloat(amountInput.value);
-  const start = dateInput.value;
-
-  if (!value || value <= 0) {
-    alert("Enter valid amount");
-    return;
-  }
-
-  if (!start) {
-    alert("Select a date");
-    return;
-  }
-
-  transactions = transactions.filter(t => !t.__whatIf);
-
-  transactions.push({
-    description: "What If Saving",
-    amount: value,
-    type: "expense",
-    frequency: "monthly",
-    date: start,
-    category: "What If",
-    __whatIf: true
-  });
-
-  whatIfActive = true;
-
-  whatIfPopup.classList.add("hidden");
-  document.body.classList.remove("modal-open");
-
-  renderProjectionTable();
-
-  const whatIfTx = transactions.find(t => t.__whatIf);
-
-  whatIfBtn.textContent = whatIfTx
-    ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
-    : "✏️ What If";
-};
-
-document.getElementById("whatif-cancel").onclick = () => {
-  whatIfPopup.classList.add("hidden");
-  document.body.classList.remove("modal-open");
-};
   /* ======icon helper=== */
  function frequencyIcon(tx) {
   // 🎯 Targeted ALWAYS wins
