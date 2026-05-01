@@ -77,43 +77,6 @@
     </div>
   </div>
 
-    <div id="whatif-popup" class="modal hidden">
-  <div class="modal-content">
-
-    <h3>What If Saving</h3>
-
-    <p class="modal-desc">
-      Estimate how regular monthly savings will affect your projected balance.
-    </p>
-
-    <!-- Monthly amount -->
-    <label for="whatif-amount">Monthly amount (£)</label>
-    <input id="whatif-amount" type="number">
-    <div class="field-help">
-      Amount to transfer into savings each month.
-    </div>
-
-    <!-- Start date -->
-    <label for="whatif-date">Start date</label>
-    <input id="whatif-date" type="date">
-    <div class="field-help">
-      When the monthly savings should begin.
-    </div>
-
-    <!-- Actions -->
-    <div class="button-row">
-      <button id="calcMaxBtn">Calculate max (auto-fill)</button>
-      <button id="whatif-confirm">OK</button>
-      <button id="whatif-cancel">Cancel</button>
-    </div>
-
-    <div class="field-help">
-      Calculates the maximum monthly saving that keeps your balance above £0.
-    </div>
-
-  </div>
-</div>
-
   <div id="savings-popup" class="popup hidden">
   <div class="popup-content">
     <h3>Savings Projection (24 months)</h3>
@@ -312,7 +275,23 @@ In the <b>24 Month Projection table </b>you can <b>Nudge</b> Expenses forward by
   </div>
 </div>
   
+<!-- what if modal -->
+<div id="whatif-popup" class="modal hidden">
+  <div class="modal-content">
+    <h3>What If Saving</h3>
 
+    <label>Monthly amount (£)</label>
+    <input id="whatif-amount" type="number">
+
+    <label>Start date</label>
+    <input id="whatif-date" type="date">
+
+    <div style="margin-top:10px;">
+      <button id="whatif-confirm">OK</button>
+      <button id="whatif-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <button id="back-to-top" class="floating-top">📅24 Month Projection ⬆️</button>
   
