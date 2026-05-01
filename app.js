@@ -164,6 +164,8 @@ const whatIfBtn = document.getElementById("whatif-btn");
 const whatIfPopup = document.getElementById("whatif-popup");
 const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
+
+  console.log("CALCULATE MAX CLICKED");
 document.getElementById("whatif-auto").onclick = () => {
 
   const start = dateInput.value;
