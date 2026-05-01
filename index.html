@@ -79,38 +79,38 @@
 
     <div id="whatif-popup" class="modal hidden">
   <div class="modal-content">
+
     <h3>What If Saving</h3>
+
     <p class="modal-desc">
+      Estimate how regular monthly savings will affect your projected balance.
+    </p>
 
-  Estimate how regular monthly savings will affect your projected balance.
-
-</p>
-
-    <label>Monthly amount (£)</label>
+    <!-- Monthly amount -->
+    <label for="whatif-amount">Monthly amount (£)</label>
     <input id="whatif-amount" type="number">
     <div class="field-help">
-
-  How much you plan to save each month.
-
+      Amount to transfer into savings each month.
     </div>
 
-    <label>Start date</label>
+    <!-- Start date -->
+    <label for="whatif-date">Start date</label>
     <input id="whatif-date" type="date">
-<div class="field-help">
+    <div class="field-help">
+      When the monthly savings should begin.
+    </div>
 
-  When the monthly savings should begin.
-
-</div>
-    <div style="margin-top:10px;">
+    <!-- Actions -->
+    <div class="button-row">
       <button id="whatif-auto">Calculate max</button>
       <button id="whatif-confirm">OK</button>
-      <div class="field-help">
-
-  Finds the highest monthly saving you can afford without your balance going below zero.
-
-</div>
       <button id="whatif-cancel">Cancel</button>
     </div>
+
+    <div class="field-help">
+      Calculates the maximum monthly saving that keeps your balance above £0.
+    </div>
+
   </div>
 </div>
 
