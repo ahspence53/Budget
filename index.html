@@ -87,28 +87,35 @@
     </p>
 
     <!-- Monthly amount -->
-    <label for="whatif-amount">Monthly amount (£)</label>
-    <input id="whatif-amount" type="number">
-    <div class="field-help">
-      Amount to transfer into savings each month.
+    <div class="form-group">
+      <label for="whatif-amount">Monthly amount (£)</label>
+      <input id="whatif-amount" type="number">
+      <div class="field-help">
+        Amount to transfer into savings each month.
+      </div>
     </div>
 
     <!-- Start date -->
-    <label for="whatif-date">Start date</label>
-    <input id="whatif-date" type="date">
-    <div class="field-help">
-      When the monthly savings should begin.
+    <div class="form-group">
+      <label for="whatif-date">Start date</label>
+      <input id="whatif-date" type="date">
+      <div class="field-help">
+        When the monthly savings should begin.
+      </div>
     </div>
 
-    <!-- Actions -->
-    <div class="button-row">
+    <!-- Calculate -->
+    <div class="action-group">
       <button id="whatif-auto">Calculate max</button>
+      <div class="field-help">
+        Calculates the maximum monthly saving that keeps your balance above £0.
+      </div>
+    </div>
+
+    <!-- Confirm / Cancel -->
+    <div class="button-row confirm-row">
       <button id="whatif-confirm">OK</button>
       <button id="whatif-cancel">Cancel</button>
-    </div>
-
-    <div class="field-help">
-      Calculates the maximum monthly saving that keeps your balance above £0.
     </div>
 
   </div>
