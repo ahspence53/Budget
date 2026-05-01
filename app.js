@@ -155,6 +155,15 @@ function calculateMaxSaving(startDate, buffer = 20) {
 }
 
 /* ============================= */
+
+  
+
+/* ================= WHAT IF ================= */
+
+const whatIfBtn = document.getElementById("whatif-btn");
+const whatIfPopup = document.getElementById("whatif-popup");
+const amountInput = document.getElementById("whatif-amount");
+const dateInput = document.getElementById("whatif-date");
 document.getElementById("whatif-auto").onclick = () => {
 
   const start = dateInput.value;
@@ -173,15 +182,6 @@ document.getElementById("whatif-auto").onclick = () => {
 
   console.log("Max saving:", max);
 };
-  
-
-/* ================= WHAT IF ================= */
-
-const whatIfBtn = document.getElementById("whatif-btn");
-const whatIfPopup = document.getElementById("whatif-popup");
-const amountInput = document.getElementById("whatif-amount");
-const dateInput = document.getElementById("whatif-date");
-
 /* ---------- BUTTON ---------- */
 
 whatIfBtn.onclick = () => {
