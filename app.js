@@ -96,6 +96,65 @@ document.querySelectorAll(".tx-filter").forEach(el => {
     updateFilterUI();
   });
 });
+/* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
+function calculateMaxSaving(startDate, buffer = 20) {
+  let low = 0;
+  let high = 2000; // safe upper bound (adjust if needed)
+
+  let best = 0;
+
+  while (high - low > 0.5) { // precision ~50p
+    const mid = (low + high) / 2;
+
+    if (isSafe(mid, startDate, buffer)) {
+      best = mid;
+      low = mid;
+    } else {
+      high = mid;
+    }
+  }
+
+  return Math.floor(best);
+}
+  /* ================================ */
+  function isSafe(amount, startDate, buffer) {
+  let balance = openingBalance;
+
+  const start = new Date(startDate);
+  const end = new Date(start);
+  end.setMonth(end.getMonth() + 24);
+
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const iso = toISO(d);
+
+    // apply real transactions
+    getTransactionsSortedByDate().forEach(tx => {
+      if (occursOn(tx, iso)) {
+        balance += tx.type === "income" ? tx.amount : -tx.amount;
+      }
+    });
+
+    // apply hypothetical monthly saving
+    const current = new Date(iso);
+    const startRef = new Date(startDate);
+
+    const monthsDiff =
+      (current.getFullYear() - startRef.getFullYear()) * 12 +
+      (current.getMonth() - startRef.getMonth());
+
+    if (monthsDiff >= 0 && current.getDate() === startRef.getDate()) {
+      balance -= amount;
+    }
+
+    // 🚨 constraint
+    if (balance < buffer) return false;
+  }
+
+  return true;
+}
+
+/* ============================= */
+  
 
 /* ================= WHAT IF ================= */
 
