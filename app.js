@@ -97,58 +97,40 @@ document.querySelectorAll(".tx-filter").forEach(el => {
   });
 });
 
-/* click handler for what-if button */
+/* ================= WHAT IF ================= */
 
-  
 const whatIfBtn = document.getElementById("whatif-btn");
-
-whatIfBtn.onclick = () => {
-
-  if (!whatIfActive) {
-
-  const whatIfPopup = document.getElementById("whatif-popup");
-  const amountInput = document.getElementById("whatif-amount");
-  const dateInput = document.getElementById("whatif-date");
-
-  amountInput.value = "";
-  dateInput.value = toISO(new Date());
-
-  document.body.classList.add("modal-open");
-  whatIfPopup.classList.remove("hidden");
-
-  return; // 🔴 IMPORTANT
-}
-
-    whatIfActive = true;
-
-  } else {
-    // clear What If
-    transactions = transactions.filter(t => !t.__whatIf);
-    whatIfActive = false;
-  }
-
-  renderProjectionTable();
-
-  // ✅ update button AFTER state change
-  const whatIfTx = transactions.find(t => t.__whatIf);
-
-whatIfBtn.textContent = whatIfTx
-  ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
-  : "✏️ What If";
-
-// persistent state
-whatIfBtn.classList.toggle("whatif-on", !!whatIfTx);
-
-// click feedback
-whatIfBtn.classList.remove("whatif-active");
-void whatIfBtn.offsetWidth;
-whatIfBtn.classList.add("whatif-active");
-};
-
-/*====*/
 const whatIfPopup = document.getElementById("whatif-popup");
 const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
+
+/* ---------- BUTTON ---------- */
+
+whatIfBtn.onclick = () => {
+
+  // sync state
+  whatIfActive = transactions.some(t => t.__whatIf);
+
+  if (!whatIfActive) {
+    // OPEN MODAL
+    amountInput.value = "";
+    dateInput.value = toISO(new Date());
+
+    document.body.classList.add("modal-open");
+    whatIfPopup.classList.remove("hidden");
+
+    return; // 🔴 IMPORTANT — stop here
+  }
+
+  // CLEAR What If
+  transactions = transactions.filter(t => !t.__whatIf);
+  whatIfActive = false;
+
+  updateWhatIfUI();
+};
+
+
+/* ---------- CONFIRM ---------- */
 
 document.getElementById("whatif-confirm").onclick = () => {
 
@@ -182,6 +164,21 @@ document.getElementById("whatif-confirm").onclick = () => {
   whatIfPopup.classList.add("hidden");
   document.body.classList.remove("modal-open");
 
+  updateWhatIfUI();
+};
+
+
+/* ---------- CANCEL ---------- */
+
+document.getElementById("whatif-cancel").onclick = () => {
+  whatIfPopup.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+};
+
+
+/* ---------- UI UPDATE ---------- */
+
+function updateWhatIfUI() {
   renderProjectionTable();
 
   const whatIfTx = transactions.find(t => t.__whatIf);
@@ -189,16 +186,20 @@ document.getElementById("whatif-confirm").onclick = () => {
   whatIfBtn.textContent = whatIfTx
     ? `❌ Clear What If (£${whatIfTx.amount.toFixed(2)})`
     : "✏️ What If";
-};
 
-document.getElementById("whatif-cancel").onclick = () => {
-  whatIfPopup.classList.add("hidden");
-  document.body.classList.remove("modal-open");
-};
-/* ================ */
-  function clearWhatIf() {
+  whatIfBtn.classList.toggle("whatif-on", !!whatIfTx);
+
+  whatIfBtn.classList.remove("whatif-active");
+  void whatIfBtn.offsetWidth;
+  whatIfBtn.classList.add("whatif-active");
+}
+
+
+/* ---------- OPTIONAL CLEAR ---------- */
+
+function clearWhatIf() {
   transactions = transactions.filter(tx => !tx.__whatIf);
-  renderProjectionTable();
+  updateWhatIfUI();
 }
 /*document.getElementById("clear-whatif-btn").onclick = clearWhatIf;*/
 /*.  */
