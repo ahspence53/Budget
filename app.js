@@ -118,26 +118,27 @@ function calculateMaxSaving(startDate, buffer = 20) {
   return Math.floor(best);
 }
   /* ================================ */
-  function isSafe(amount, startDate, buffer) {
+  function isSafe(amount, whatIfStartDate, buffer) {
+
   let balance = openingBalance;
 
-  const start = new Date(startDateGlobal); // or your main startDate variable
+  const start = new Date(startDate); // ✅ ALWAYS from app start
   const end = new Date(start);
   end.setMonth(end.getMonth() + 24);
 
+  const startRef = new Date(whatIfStartDate); // ✅ when What If begins
+
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+
     const iso = toISO(d);
 
-    // apply real transactions
     getTransactionsSortedByDate().forEach(tx => {
       if (occursOn(tx, iso)) {
         balance += tx.type === "income" ? tx.amount : -tx.amount;
       }
     });
 
-    // apply hypothetical monthly saving
     const current = new Date(iso);
-    const startRef = new Date(startDate);
 
     const monthsDiff =
       (current.getFullYear() - startRef.getFullYear()) * 12 +
@@ -147,7 +148,6 @@ function calculateMaxSaving(startDate, buffer = 20) {
       balance -= amount;
     }
 
-    // 🚨 constraint
     if (balance < buffer) return false;
   }
 
