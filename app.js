@@ -181,13 +181,7 @@ document.getElementById("whatif-auto").onclick = () => {
 
   // put result into modal input
   amountInput.value = max;
-amountInput.style.backgroundColor = '#e6ffe6';
 
-  setTimeout(() => {
-
-    amountInput.style.backgroundColor = '';
-
-  }, 800);
   console.log("Max saving:", max);
 };
 /* ---------- BUTTON ---------- */
