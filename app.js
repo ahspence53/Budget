@@ -156,6 +156,7 @@ function calculateMaxSaving(startDate, buffer = 20) {
 
 /* ============================= */
 document.getElementById("whatif-auto").onclick = () => {
+
   const start = dateInput.value;
 
   if (!start) {
@@ -163,9 +164,14 @@ document.getElementById("whatif-auto").onclick = () => {
     return;
   }
 
-  const max = calculateMaxSaving(start, 20);
+  const buffer = 20; // your safety buffer
 
+  const max = calculateMaxSaving(start, buffer);
+
+  // put result into modal input
   amountInput.value = max;
+
+  console.log("Max saving:", max);
 };
   
 
