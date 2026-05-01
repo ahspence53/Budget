@@ -1008,7 +1008,7 @@ r  text-align: center;
 @keyframes whatif-flash {
   0%   { transform: scale(1); }
   40%  { transform: scale(1.05); background-color: #d1f7d6; }
-  100% { transform: scale(1); }
+t  100% { transform: scale(1); }
 }
 
 .whatif-active {
@@ -1019,4 +1019,34 @@ r  text-align: center;
 .whatif-on {
   background-color: #2e7d32;
   color: white;
+}
+
+.form-group {
+  margin-bottom: 18px; /* creates space between amount and start date */
+}
+
+.action-group {
+  margin-top: 16px;   /* space above Calculate max */
+}
+
+.confirm-row {
+  margin-top: 16px;   /* space above OK/Cancel row */
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.field-help {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: 4px;
+}
+
+.modal-desc {
+  font-size: 0.9em;
+  margin-bottom: 12px;
+  color: #444;
 }
