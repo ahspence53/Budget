@@ -1020,3 +1020,9 @@ r  text-align: center;
   background-color: #2e7d32;
   color: white;
 }
+
+.field-help {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: 4px;
+}
