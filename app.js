@@ -100,7 +100,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
-  let high = 2000; // safe upper bound (adjust if needed)
+  let high = openingBalance || 2000; // safe upper bound (adjust if needed)
 
   let best = 0;
 
