@@ -202,7 +202,27 @@ const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
 
   console.log("CALCULATE MAX CLICKED");
-document.getElementById("whatif-auto").onclick = () => {
+const autoBtn = document.getElementById("whatif-auto");
+
+if (autoBtn) {
+  autoBtn.onclick = () => {
+    const start = dateInput.value;
+
+    console.log("Auto clicked, date =", start);
+console.log("dateInput.value =", dateInput.value);
+    if (!start) {
+      alert("Select a start date");
+      return;
+    }
+
+    const buffer = 20;
+    const max = calculateMaxSaving(start, buffer);
+
+    amountInput.value = max;
+
+    debugLog("Max saving: " + max);
+  };
+}
 
   const start = dateInput.value;
   
