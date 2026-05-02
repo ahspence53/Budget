@@ -33,7 +33,7 @@ let transactionFilterMode = null;
 let salaryFilter = "all"; // "all" | "monthly" | "4-weekly"
 let whatIfAmount = 0;
 let whatIfActive = false;
-
+let buffer = 20;
   
 
 
@@ -68,7 +68,7 @@ const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 
 
-  const CACHE_VERSION = "v1.6.2";
+  const CACHE_VERSION = "v1.6.3";
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
 const APP_VERSION = `budget-app-${CACHE_VERSION}`;
 
@@ -100,7 +100,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
-  let high = openingBalance || 2000; // safe upper bound (adjust if needed)
+  let high = 2000; // safe upper bound (adjust if needed)
 
   let best = 0;
 
@@ -129,15 +129,13 @@ function calculateMaxSaving(startDate, buffer = 20) {
   const startRef = new Date(whatIfStartDate); // ✅ when What If begins
 /* added to debug */
     console.log("App startDate:", startDate);
-console.log("WhatIf start:", startRef);
+console.log("WhatIf start:", start);
 console.log("Opening balance:", openingBalance);
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
 
     const iso = toISO(d);
-    const txList = getTransactionsSortedByDate();
-    const iso = toISO(d);
-   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-    txList.forEach(tx => {
+
+    getTransactionsSortedByDate().forEach(tx => {
       if (occursOn(tx, iso)) {
         balance += tx.type === "income" ? tx.amount : -tx.amount;
       }
@@ -170,7 +168,7 @@ const whatIfPopup = document.getElementById("whatif-popup");
 const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
 
-  
+  console.log("CALCULATE MAX CLICKED");
 document.getElementById("whatif-auto").onclick = () => {
 
   const start = dateInput.value;
