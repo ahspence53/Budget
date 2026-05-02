@@ -205,6 +205,7 @@ const dateInput = document.getElementById("whatif-date");
 document.getElementById("whatif-auto").onclick = () => {
 
   const start = dateInput.value;
+  dateInput.value = "";
 
   if (!start) {
     alert("Select a start date");
