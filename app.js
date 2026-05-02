@@ -453,7 +453,7 @@ function getTransactionsSortedByDate() {
       return dA - dB;
     });
 }
-}
+
 /* ----------Diary button ----------------------- */
 const diaryBtn = document.getElementById("diary-popup-btn");
 
