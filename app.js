@@ -129,7 +129,7 @@ function calculateMaxSaving(startDate, buffer = 20) {
   const startRef = new Date(whatIfStartDate); // ✅ when What If begins
 /* added to debug */
     console.log("App startDate:", startDate);
-console.log("WhatIf start:", start);
+console.log("WhatIf start:", startRef);
 console.log("Opening balance:", openingBalance);
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
 
