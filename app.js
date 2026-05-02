@@ -72,6 +72,8 @@ const txEndDate = document.getElementById("tx-end-date");
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
 const APP_VERSION = `budget-app-${CACHE_VERSION}`;
 
+  debugLog("App version: " + APP_VERSION);
+
   const versionEl = document.getElementById("app-version");
 if (versionEl) {
   versionEl.textContent = `Version: ${APP_VERSION}`;
@@ -82,6 +84,46 @@ if (versionEl) {
   `Home Budget App v${APP_VERSION} (${new Date().toISOString()})`
 );
 /* ===================== */
+/* ========= */
+  function debugLog(msg) {
+  const panel = document.getElementById("debug-panel");
+  if (!panel) return;
+
+  const line = document.createElement("div");
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+
+  panel.appendChild(line);
+  panel.scrollTop = panel.scrollHeight;
+}
+
+  /* ======== */
+  console.log("Max saving:", max);
+debugLog("Max saving: " + max);
+  debugLog(`startDate: ${startDate}`);
+debugLog(`whatIfStart: ${start}`);
+debugLog(`openingBalance: ${openingBalance}`);
+debugLog(`calculated max: ${max}`);
+
+  document.addEventListener("dblclick", () => {
+  const panel = document.getElementById("debug-panel");
+  panel.style.display =
+    panel.style.display === "none" ? "block" : "none";
+});
+
+  function debugLog(msg) {
+  if (!DEBUG) return;
+
+  const panel = document.getElementById("debug-panel");
+  if (!panel) return;
+
+  const line = document.createElement("div");
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+
+  panel.appendChild(line);
+  panel.scrollTop = panel.scrollHeight;
+}
+
+  /* ======= */
 document.querySelectorAll(".tx-filter").forEach(el => {
   el.addEventListener("click", () => {
     const mode = el.dataset.filter;
