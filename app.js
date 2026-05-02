@@ -97,13 +97,7 @@ if (versionEl) {
 }
 
   /* ======== */
-  console.log("Max saving:", max);
-debugLog("Max saving: " + max);
-  debugLog(`startDate: ${startDate}`);
-debugLog(`whatIfStart: ${start}`);
-debugLog(`openingBalance: ${openingBalance}`);
-debugLog(`calculated max: ${max}`);
-
+  
   document.addEventListener("dblclick", () => {
   const panel = document.getElementById("debug-panel");
   panel.style.display =
@@ -170,9 +164,7 @@ function calculateMaxSaving(startDate, buffer = 20) {
 
   const startRef = new Date(whatIfStartDate); // ✅ when What If begins
 /* added to debug */
-    console.log("App startDate:", startDate);
-console.log("WhatIf start:", start);
-console.log("Opening balance:", openingBalance);
+    
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
 
     const iso = toISO(d);
@@ -228,6 +220,16 @@ document.getElementById("whatif-auto").onclick = () => {
   amountInput.value = max;
 
   console.log("Max saving:", max);
+  console.log("Max saving:", max);
+debugLog("Max saving: " + max);
+  debugLog(`startDate: ${startDate}`);
+debugLog(`whatIfStart: ${start}`);
+debugLog(`openingBalance: ${openingBalance}`);
+debugLog(`calculated max: ${max}`);
+  console.log("App startDate:", startDate);
+console.log("WhatIf start:", start);
+console.log("Opening balance:", openingBalance);
+
 };
 /* ---------- BUTTON ---------- */
 
