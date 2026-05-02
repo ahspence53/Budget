@@ -33,7 +33,7 @@ let transactionFilterMode = null;
 let salaryFilter = "all"; // "all" | "monthly" | "4-weekly"
 let whatIfAmount = 0;
 let whatIfActive = false;
-let buffer = 20;
+
   
 
 
