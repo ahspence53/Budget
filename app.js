@@ -104,8 +104,7 @@ if (versionEl) {
     panel.style.display === "none" ? "block" : "none";
 });
 
-  function debugLog(msg) {
-  if (!DEBUG) return;
+  
 
   const panel = document.getElementById("debug-panel");
   if (!panel) return;
