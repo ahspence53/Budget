@@ -134,8 +134,10 @@ console.log("Opening balance:", openingBalance);
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
 
     const iso = toISO(d);
-
-    getTransactionsSortedByDate().forEach(tx => {
+    const txList = getTransactionsSortedByDate();
+    const iso = toISO(d);
+   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    txList.forEach(tx => {
       if (occursOn(tx, iso)) {
         balance += tx.type === "income" ? tx.amount : -tx.amount;
       }
