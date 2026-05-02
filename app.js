@@ -68,11 +68,9 @@ const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 
 
-  const CACHE_VERSION = "v1.6.1";
+  const CACHE_VERSION = "v1.6.0";
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
 const APP_VERSION = `budget-app-${CACHE_VERSION}`;
-
-  debugLog("App version: " + APP_VERSION);
 
   const versionEl = document.getElementById("app-version");
 if (versionEl) {
@@ -84,39 +82,6 @@ if (versionEl) {
   `Home Budget App v${APP_VERSION} (${new Date().toISOString()})`
 );
 /* ===================== */
-/* ========= */
-  function debugLog(msg) {
-  const panel = document.getElementById("debug-panel");
-  if (!panel) return;
-
-  const line = document.createElement("div");
-  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-
-  panel.appendChild(line);
-  panel.scrollTop = panel.scrollHeight;
-}
-
-  /* ======== */
-  
-  document.addEventListener("dblclick", () => {
-  const panel = document.getElementById("debug-panel");
-  panel.style.display =
-    panel.style.display === "none" ? "block" : "none";
-});
-
-  
-
-  const panel = document.getElementById("debug-panel");
-  if (!panel) return;
-
-  const line = document.createElement("div");
-  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-
-  panel.appendChild(line);
-  panel.scrollTop = panel.scrollHeight;
-}
-
-  /* ======= */
 document.querySelectorAll(".tx-filter").forEach(el => {
   el.addEventListener("click", () => {
     const mode = el.dataset.filter;
@@ -163,7 +128,9 @@ function calculateMaxSaving(startDate, buffer = 20) {
 
   const startRef = new Date(whatIfStartDate); // ✅ when What If begins
 /* added to debug */
-    
+    console.log("App startDate:", startDate);
+console.log("WhatIf start:", start);
+console.log("Opening balance:", openingBalance);
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
 
     const iso = toISO(d);
@@ -202,30 +169,9 @@ const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
 
   console.log("CALCULATE MAX CLICKED");
-const autoBtn = document.getElementById("whatif-auto");
-
-if (autoBtn) {
-  autoBtn.onclick = () => {
-    const start = dateInput.value;
-
-    console.log("Auto clicked, date =", start);
-console.log("dateInput.value =", dateInput.value);
-    if (!start) {
-      alert("Select a start date");
-      return;
-    }
-
-    const buffer = 20;
-    const max = calculateMaxSaving(start, buffer);
-
-    amountInput.value = max;
-
-    debugLog("Max saving: " + max);
-  };
-}
+document.getElementById("whatif-auto").onclick = () => {
 
   const start = dateInput.value;
-  
 
   if (!start) {
     alert("Select a start date");
@@ -240,16 +186,6 @@ console.log("dateInput.value =", dateInput.value);
   amountInput.value = max;
 
   console.log("Max saving:", max);
-  console.log("Max saving:", max);
-debugLog("Max saving: " + max);
-  debugLog(`startDate: ${startDate}`);
-debugLog(`whatIfStart: ${start}`);
-debugLog(`openingBalance: ${openingBalance}`);
-debugLog(`calculated max: ${max}`);
-  console.log("App startDate:", startDate);
-console.log("WhatIf start:", start);
-console.log("Opening balance:", openingBalance);
-
 };
 /* ---------- BUTTON ---------- */
 
