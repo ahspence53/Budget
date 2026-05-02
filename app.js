@@ -35,7 +35,16 @@ let whatIfAmount = 0;
 let whatIfActive = false;
 let buffer = 20;
   
+function debugLog(msg) {
+  const panel = document.getElementById("debug-panel");
+  if (!panel) return; // ✅ SAFE here (inside function)
 
+  const line = document.createElement("div");
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+
+  panel.appendChild(line);
+  panel.scrollTop = panel.scrollHeight;
+}
 
 
   
