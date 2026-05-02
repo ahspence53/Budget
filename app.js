@@ -444,12 +444,15 @@ document.addEventListener("click", e => {
   }
 });
 /* -------- helper function for popups salary -1 and negative balances -------- */
-  function getTransactionsSortedByDate() {
-  return [...transactions].sort((a, b) => {
-    const dA = new Date(a.date);
-    const dB = new Date(b.date);
-    return dA - dB;
-  });
+function getTransactionsSortedByDate() {
+  return transactions
+    .filter(tx => !tx.__whatIf)   // ✅ EXCLUDE What If
+    .sort((a, b) => {
+      const dA = new Date(a.date);
+      const dB = new Date(b.date);
+      return dA - dB;
+    });
+}
 }
 /* ----------Diary button ----------------------- */
 const diaryBtn = document.getElementById("diary-popup-btn");
