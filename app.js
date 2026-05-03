@@ -169,6 +169,7 @@ txList.forEach(tx => {
 
     // ✅ Apply What If AFTER transactions (end-of-day model)
     const current = new Date(iso);
+current.setHours(12, 0, 0, 0);
 
     const monthsDiff =
       (current.getFullYear() - startRef.getFullYear()) * 12 +
