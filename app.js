@@ -182,7 +182,18 @@ balance = Math.round(balance * 100) / 100;
 
   const targetDay = Math.min(startRef.getDate(), lastDay);
 
-  
+  if (current.getDate() === targetDay) {
+    balance -= amount;
+
+    // 🔴 CRITICAL: keep rounding consistent
+    balance = Math.round(balance * 100) / 100;
+
+    // 🔴 CRITICAL: track lowest AFTER deduction
+    if (balance < lowest) {
+      lowest = balance;
+      lowestDate = new Date(iso);
+    }
+  }
 }
 
     // ✅ Track lowest AND date
