@@ -100,42 +100,48 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
-  let high = 2000; // safe upper bound (adjust if needed)
+  let high = openingBalance || 2000;
 
   let best = 0;
+  let bestLowest = 0;
 
-  while (high - low > 0.5) { // precision ~50p
+  while (high - low > 0.5) {
     const mid = (low + high) / 2;
 
-    if (isSafe(mid, startDate, buffer)) {
+    const result = isSafe(mid, startDate, buffer);
+
+    if (result.safe) {
       best = mid;
+      bestLowest = result.lowest;
       low = mid;
     } else {
       high = mid;
     }
   }
 
-  return Math.floor(best);
+  return {
+    max: Math.floor(best),
+    lowest: bestLowest
+  };
 }
   /* ================================ */
-  function isSafe(amount, whatIfStartDate, buffer) {
-
+function isSafe(amount, whatIfStartDate, buffer) {
   let balance = openingBalance;
+  let lowest = Infinity;
 
-  const start = new Date(startDate); // ✅ ALWAYS from app start
+  const start = new Date(startDate);
   const end = new Date(start);
   end.setMonth(end.getMonth() + 24);
 
-  const startRef = new Date(whatIfStartDate); // ✅ when What If begins
-/* added to debug */
-    console.log("App startDate:", startDate);
-console.log("WhatIf start:", start);
-console.log("Opening balance:", openingBalance);
+  const startRef = new Date(whatIfStartDate);
+
+  const txList = getTransactionsSortedByDate();
+
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
 
     const iso = toISO(d);
 
-    getTransactionsSortedByDate().forEach(tx => {
+    txList.forEach(tx => {
       if (occursOn(tx, iso)) {
         balance += tx.type === "income" ? tx.amount : -tx.amount;
       }
@@ -150,11 +156,13 @@ console.log("Opening balance:", openingBalance);
     if (monthsDiff >= 0 && current.getDate() === startRef.getDate()) {
       balance -= amount;
     }
-/*alert(`Max safe saving: £${max}/month (buffer £${buffer})`);*/
-    if (balance < buffer) return false;
+
+    if (balance < lowest) lowest = balance;
+
+    if (balance < buffer) return { safe: false, lowest };
   }
 
-  return true;
+  return { safe: true, lowest };
 }
 
 /* ============================= */
