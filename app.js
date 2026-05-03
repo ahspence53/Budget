@@ -134,64 +134,44 @@ function isSafe(amount, whatIfStartDate, buffer) {
   const end = new Date(start);
   end.setMonth(end.getMonth() + 24);
 
-  
-
   const txList = getTransactionsSortedByDate();
 
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
 
     const iso = toISO(d);
 
-    // ✅ Apply ALL transactions for the day (income first)
-    const todaysTx = [];
+    // ✅ Use SAME transaction logic as projection table
+    const todaysTx = getTransactionsForDate(iso, txList);
 
-// Build transactions exactly like projection table
-txList.forEach(tx => {
-  if (!occursOn(tx, iso)) return;
-
-  const id = txId(tx);
-  const nudgeKey = `${id}|${iso}`;
-
-  if (nudges[nudgeKey]) {
-    if (nudges[nudgeKey] === iso) {
-      todaysTx.push(tx);
-    }
-  } else {
-    todaysTx.push(tx);
-  }
-});
-
+    // Apply transactions (income first)
     todaysTx.forEach(tx => {
       balance += tx.type === "income" ? tx.amount : -tx.amount;
       balance = Math.round(balance * 100) / 100;
     });
 
-    // ✅ Apply What If AFTER transactions (end-of-day model)
-    // ===== WHAT IF (ISO-based, matches projection exactly) =====
+    // ===== WHAT IF (ISO-based, no Date objects) =====
+    const [y, m, dDay] = iso.split("-").map(Number);
+    const [sy, sm, sDay] = whatIfStartDate.split("-").map(Number);
 
-// iso = "YYYY-MM-DD"
-const [y, m, dDay] = iso.split("-").map(Number);
-const [sy, sm, sDay] = whatIfStartDate.split("-").map(Number);
+    const monthsDiff = (y - sy) * 12 + (m - sm);
 
-const monthsDiff = (y - sy) * 12 + (m - sm);
+    if (monthsDiff >= 0) {
+      const lastDay = new Date(y, m, 0).getDate();
+      const targetDay = Math.min(sDay, lastDay);
 
-if (monthsDiff >= 0) {
-  const lastDay = new Date(y, m, 0).getDate();
-  const targetDay = Math.min(sDay, lastDay);
+      if (dDay === targetDay) {
+        balance -= amount;
+        balance = Math.round(balance * 100) / 100;
+      }
+    }
 
-  if (dDay === targetDay) {
-    balance -= amount;
-    balance = Math.round(balance * 100) / 100;
-  }
-}
-
-    // ✅ Track lowest ONLY at end-of-day (matches table)
+    // ✅ Track lowest (end-of-day, matches table)
     if (balance < lowest) {
       lowest = balance;
       lowestDate = new Date(iso);
     }
 
-    // ✅ Safety check
+    // ✅ Stop if below buffer
     if (balance < buffer) {
       return { safe: false, lowest, lowestDate };
     }
@@ -199,7 +179,6 @@ if (monthsDiff >= 0) {
 
   return { safe: true, lowest, lowestDate };
 }
-
 /* ============================= */
 
   
