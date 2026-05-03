@@ -159,12 +159,23 @@ balance = Math.round(balance * 100) / 100;
       (current.getFullYear() - startRef.getFullYear()) * 12 +
       (current.getMonth() - startRef.getMonth());
 
-    if (monthsDiff >= 0 && current.getDate() === startRef.getDate()) {
-      balance -= amount;
-      // ✅ ADD AGAIN
+    if (monthsDiff >= 0) {
 
-balance = Math.round(balance * 100) / 100;
-    }
+  const lastDay = new Date(
+    current.getFullYear(),
+    current.getMonth() + 1,
+    0
+  ).getDate();
+
+  const targetDay = Math.min(startRef.getDate(), lastDay);
+
+  if (current.getDate() === targetDay) {
+    balance -= amount;
+
+    // keep your rounding
+    balance = Math.round(balance * 100) / 100;
+  }
+}
 
     // ✅ Track lowest AND date
     if (balance < lowest) {
