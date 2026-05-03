@@ -128,6 +128,7 @@ function calculateMaxSaving(startDate, buffer = 20) {
 function isSafe(amount, whatIfStartDate, buffer) {
   let balance = openingBalance;
   let lowest = Infinity;
+  let lowestDate = null;
 
   const start = new Date(startDate);
   const end = new Date(start);
@@ -141,28 +142,53 @@ function isSafe(amount, whatIfStartDate, buffer) {
 
     const iso = toISO(d);
 
-    txList.forEach(tx => {
-      if (occursOn(tx, iso)) {
-        balance += tx.type === "income" ? tx.amount : -tx.amount;
-      }
+    // ✅ Apply ALL transactions for the day (income first)
+    const todaysTx = txList
+      .filter(tx => occursOn(tx, iso))
+      .sort((a, b) =>
+        a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+      );
+
+    todaysTx.forEach(tx => {
+      balance += tx.type === "income" ? tx.amount : -tx.amount;
+      balance = Math.round(balance * 100) / 100;
     });
 
+    // ✅ Apply What If AFTER transactions (end-of-day model)
     const current = new Date(iso);
 
     const monthsDiff =
       (current.getFullYear() - startRef.getFullYear()) * 12 +
       (current.getMonth() - startRef.getMonth());
 
-    if (monthsDiff >= 0 && current.getDate() === startRef.getDate()) {
-      balance -= amount;
+    if (monthsDiff >= 0) {
+      const lastDay = new Date(
+        current.getFullYear(),
+        current.getMonth() + 1,
+        0
+      ).getDate();
+
+      const targetDay = Math.min(startRef.getDate(), lastDay);
+
+      if (current.getDate() === targetDay) {
+        balance -= amount;
+        balance = Math.round(balance * 100) / 100;
+      }
     }
 
-    if (balance < lowest) lowest = balance;
+    // ✅ Track lowest ONLY at end-of-day (matches table)
+    if (balance < lowest) {
+      lowest = balance;
+      lowestDate = new Date(iso);
+    }
 
-    if (balance < buffer) return { safe: false, lowest };
+    // ✅ Safety check
+    if (balance < buffer) {
+      return { safe: false, lowest, lowestDate };
+    }
   }
 
-  return { safe: true, lowest };
+  return { safe: true, lowest, lowestDate };
 }
 
 /* ============================= */
