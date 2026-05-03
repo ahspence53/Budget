@@ -256,11 +256,11 @@ document.getElementById("whatif-auto").onclick = () => {
 
   // ✅ Show lowest balance insight
   const info = document.getElementById("whatif-info");
-  if (info) {
+/*if (info) {
     info.textContent =
    info.textContent =
   "Calculated maximum saving based on current projection";
-  }
+  }*/
 
   console.log("Max saving:", result.max);
 };
