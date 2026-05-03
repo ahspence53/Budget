@@ -168,27 +168,23 @@ txList.forEach(tx => {
     });
 
     // ✅ Apply What If AFTER transactions (end-of-day model)
-    const current = new Date(iso);
-current.setHours(12, 0, 0, 0);
+    // ===== WHAT IF (ISO-based, matches projection exactly) =====
 
-    const monthsDiff =
-      (current.getFullYear() - startRef.getFullYear()) * 12 +
-      (current.getMonth() - startRef.getMonth());
+// iso = "YYYY-MM-DD"
+const [y, m, dDay] = iso.split("-").map(Number);
+const [sy, sm, sDay] = whatIfStartDate.split("-").map(Number);
 
-    if (monthsDiff >= 0) {
-      const lastDay = new Date(
-        current.getFullYear(),
-        current.getMonth() + 1,
-        0
-      ).getDate();
+const monthsDiff = (y - sy) * 12 + (m - sm);
 
-      const targetDay = Math.min(startRef.getDate(), lastDay);
+if (monthsDiff >= 0) {
+  const lastDay = new Date(y, m, 0).getDate();
+  const targetDay = Math.min(sDay, lastDay);
 
-      if (current.getDate() === targetDay) {
-        balance -= amount;
-        balance = Math.round(balance * 100) / 100;
-      }
-    }
+  if (dDay === targetDay) {
+    balance -= amount;
+    balance = Math.round(balance * 100) / 100;
+  }
+}
 
     // ✅ Track lowest ONLY at end-of-day (matches table)
     if (balance < lowest) {
