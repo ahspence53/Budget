@@ -134,8 +134,7 @@ function isSafe(amount, whatIfStartDate, buffer) {
   const end = new Date(start);
   end.setMonth(end.getMonth() + 24);
 
-  const startRef = new Date(whatIfStartDate);
-startRef.setHours(12, 0, 0, 0);
+  
 
   const txList = getTransactionsSortedByDate();
 
