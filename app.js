@@ -204,18 +204,30 @@ document.getElementById("whatif-auto").onclick = () => {
 
   // ✅ Show lowest balance insight
   const info = document.getElementById("whatif-info");
-  if (info) {
-    info.textContent =
-      `Lowest balance during projection £${result.lowest.toFixed(2)}`;
+
+if (info) {
+
+  const d = result.date;
+
+  const formattedDate = d
+    ? d.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      })
+    : "";
+
+  info.textContent =
+    `Lowest balance £${result.lowest.toFixed(2)} on ${formattedDate}`;
+
+  // 🎨 Colour logic (keep yours)
+  if (result.lowest < 20) {
+    info.style.color = "red";
+  } else if (result.lowest < 100) {
+    info.style.color = "orange";
+  } else {
+    info.style.color = "green";
   }
-/* ========= NEXT FEW LINES ADDED TO APPLY COLOUR LOGIC ============ */
-info.style.color = ""; // reset
-if (result.lowest < 20) {
-  info.style.color = "red";
-} else if (result.lowest < 100) {
-  info.style.color = "orange";
-} else {
-  info.style.color = "green";
 }
 /* ================================================================== */
   
