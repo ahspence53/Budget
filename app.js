@@ -1377,6 +1377,7 @@ Object.keys(dayMap).sort().forEach(iso => {
     const isIncome = tx.type === "income";
 
     tempBalance += isIncome ? tx.amount : -tx.amount;
+tempBalance = Math.round(tempBalance * 100) / 100;
 
     const isMajorIncome = isIncome && tx.amount >= 200;
 
