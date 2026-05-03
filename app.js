@@ -104,6 +104,7 @@ function calculateMaxSaving(startDate, buffer = 20) {
 
   let best = 0;
   let bestLowest = 0;
+  let bestDate = null; // ✅ NEW
 
   while (high - low > 0.5) {
     const mid = (low + high) / 2;
@@ -113,6 +114,7 @@ function calculateMaxSaving(startDate, buffer = 20) {
     if (result.safe) {
       best = mid;
       bestLowest = result.lowest;
+      bestDate = result.lowestDate; // ✅ capture date
       low = mid;
     } else {
       high = mid;
@@ -121,20 +123,21 @@ function calculateMaxSaving(startDate, buffer = 20) {
 
   return {
     max: Math.floor(best),
-    lowest: bestLowest
+    lowest: bestLowest,
+    date: bestDate // ✅ return it
   };
 }
   /* ================================ */
 function isSafe(amount, whatIfStartDate, buffer) {
   let balance = openingBalance;
   let lowest = Infinity;
+  let lowestDate = null; // ✅ NEW
 
   const start = new Date(startDate);
   const end = new Date(start);
   end.setMonth(end.getMonth() + 24);
 
   const startRef = new Date(whatIfStartDate);
-
   const txList = getTransactionsSortedByDate();
 
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
@@ -157,12 +160,18 @@ function isSafe(amount, whatIfStartDate, buffer) {
       balance -= amount;
     }
 
-    if (balance < lowest) lowest = balance;
+    // ✅ Track lowest AND date
+    if (balance < lowest) {
+      lowest = balance;
+      lowestDate = new Date(iso);
+    }
 
-    if (balance < buffer) return { safe: false, lowest };
+    if (balance < buffer) {
+      return { safe: false, lowest, lowestDate };
+    }
   }
 
-  return { safe: true, lowest };
+  return { safe: true, lowest, lowestDate };
 }
 
 /* ============================= */
@@ -223,6 +232,16 @@ whatIfBtn.onclick = () => {
     // OPEN MODAL
     amountInput.value = "";
     dateInput.value = toISO(new Date());
+    // ✅ ADD THIS
+
+  const info = document.getElementById("whatif-info");
+
+  if (info) {
+
+    info.textContent = "";
+
+    info.style.color = ""; // reset colour too
+  }
 
     document.body.classList.add("modal-open");
     whatIfPopup.classList.remove("hidden");
