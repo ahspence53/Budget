@@ -258,7 +258,8 @@ document.getElementById("whatif-auto").onclick = () => {
   const info = document.getElementById("whatif-info");
   if (info) {
     info.textContent =
-      "Calculated maximum saving based on current projection”;
+   info.textContent =
+  "Calculated maximum saving based on current projection";
   }
 
   console.log("Max saving:", result.max);
