@@ -1503,6 +1503,7 @@ if (whatIfTx) {
 
   const isIncome = tx.type === "income";
   balance += isIncome ? tx.amount : -tx.amount;
+balance = Math.round(balance * 100) / 100;
 
   const tr = document.createElement("tr");
 
