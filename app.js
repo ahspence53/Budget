@@ -180,7 +180,28 @@ function isSafe(amount, whatIfStartDate, buffer) {
   return { safe: true, lowest, lowestDate };
 }
 /* ============================= */
+function getTransactionsForDate(iso, txList) {
+  const todaysTx = [];
 
+  txList.forEach(tx => {
+    if (!occursOn(tx, iso)) return;
+
+    const id = txId(tx);
+    const nudgeKey = `${id}|${iso}`;
+
+    if (nudges[nudgeKey]) {
+      if (nudges[nudgeKey] === iso) {
+        todaysTx.push(tx);
+      }
+    } else {
+      todaysTx.push(tx);
+    }
+  });
+
+  return todaysTx.sort((a, b) =>
+    a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+  );
+}
   
 
 /* ================= WHAT IF ================= */
