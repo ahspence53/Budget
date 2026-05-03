@@ -218,7 +218,7 @@ if (info) {
     : "";
 
   info.textContent =
-    `Lowest balance £${result.lowest.toFixed(2)} on ${formattedDate}`;
+    `Lowest balance: £${result.lowest.toFixed(2)}  (${formattedDate})`;
 
   // 🎨 Colour logic (keep yours)
   if (result.lowest < 20) {
