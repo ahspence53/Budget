@@ -168,10 +168,32 @@ function isSafe(amount, whatIfStartDate, buffer) {
     );
 
     // Apply normal transactions
-    todaysTx.forEach(tx => {
-      balance += tx.type === "income" ? tx.amount : -tx.amount;
-      balance = Math.round(balance * 100) / 100;
-    });
+    let dayBalance = balance;
+
+todaysTx.forEach(tx => {
+  dayBalance += tx.type === "income" ? tx.amount : -tx.amount;
+});
+
+// Apply What If to dayBalance
+const [y, m, dDay] = iso.split("-").map(Number);
+const [sy, sm, sDay] = whatIfStartDate.split("-").map(Number);
+
+const monthsDiff = (y - sy) * 12 + (m - sm);
+
+if (monthsDiff >= 0) {
+  const lastDay = new Date(y, m, 0).getDate();
+  const targetDay = Math.min(sDay, lastDay);
+
+  if (dDay === targetDay) {
+    dayBalance -= amount;
+  }
+}
+
+// Round once at end of day
+dayBalance = Math.round(dayBalance * 100) / 100;
+
+// Commit final balance
+balance = dayBalance;
 
     // ===== WHAT IF (same rule as table) =====
     const [y, m, dDay] = iso.split("-").map(Number);
