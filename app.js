@@ -192,12 +192,19 @@ document.getElementById("whatif-auto").onclick = () => {
 
   // ✅ Set amount
   amountInput.value = result.max;
-
+/* added VALUE colors */
+if (result.lowest < 20) {
+  info.style.color = "red";
+} else if (result.lowest < 100) {
+  info.style.color = "orange";
+} else {
+  info.style.color = "green";
+}
   // ✅ Show lowest balance insight
   const info = document.getElementById("whatif-info");
   if (info) {
     info.textContent =
-      `Lowest balance stays at £${result.lowest.toFixed(2)}`;
+      `Lowest balance during peojection £${result.lowest.toFixed(2)}`;
   }
 
   console.log("Max saving:", result.max);
