@@ -176,7 +176,7 @@ const whatIfPopup = document.getElementById("whatif-popup");
 const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
 
-  console.log("CALCULATE MAX CLICKED");
+  
 document.getElementById("whatif-auto").onclick = () => {
 
   const start = dateInput.value;
@@ -186,14 +186,21 @@ document.getElementById("whatif-auto").onclick = () => {
     return;
   }
 
-  const buffer = 20; // your safety buffer
+  const buffer = 20;
 
-  const max = calculateMaxSaving(start, buffer);
+  const result = calculateMaxSaving(start, buffer);
 
-  // put result into modal input
-  amountInput.value = max;
+  // ✅ Set amount
+  amountInput.value = result.max;
 
-  console.log("Max saving:", max);
+  // ✅ Show lowest balance insight
+  const info = document.getElementById("whatif-info");
+  if (info) {
+    info.textContent =
+      `Lowest balance stays at £${result.lowest.toFixed(2)}`;
+  }
+
+  console.log("Max saving:", result.max);
 };
 /* ---------- BUTTON ---------- */
 
