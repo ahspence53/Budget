@@ -246,7 +246,7 @@ document.getElementById("whatif-auto").onclick = () => {
     return;
   }
 
-  const buffer = 20;
+  
 
   const result = calculateMaxSaving(start, buffer);
 
