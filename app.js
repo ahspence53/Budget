@@ -136,66 +136,46 @@ function isSafe(amount, whatIfStartDate, buffer) {
 
   const txList = getTransactionsSortedByDate();
 
-  /* ---------- Build SAME dayMap as projection ---------- */
-  const dayMap = {};
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-    dayMap[toISO(d)] = [];
-  }
 
-  txList.forEach(tx => {
-    for (let iso in dayMap) {
-      if (!occursOn(tx, iso)) continue;
+    const iso = toISO(d);
 
-      const id = txId(tx);
-      const nudgeKey = `${id}|${iso}`;
+    // ✅ Use SAME transaction logic as projection table
+    const todaysTx = [];
 
-      if (nudges[nudgeKey]) {
-        const targetIso = nudges[nudgeKey];
-        if (dayMap[targetIso]) {
-          dayMap[targetIso].push(tx);
-        }
-      } else {
-        dayMap[iso].push(tx);
+// EXACT same logic as renderProjectionTable
+txList.forEach(tx => {
+  for (let checkIso = iso; checkIso === iso; ) {
+    if (!occursOn(tx, iso)) break;
+
+    const id = txId(tx);
+    const nudgeKey = `${id}|${iso}`;
+
+    if (nudges[nudgeKey]) {
+      const targetIso = nudges[nudgeKey];
+      if (targetIso === iso) {
+        todaysTx.push(tx);
       }
+    } else {
+      todaysTx.push(tx);
     }
-  });
 
-  /* ---------- Simulation ---------- */
-  for (let iso of Object.keys(dayMap)) {
-
-    const todaysTx = [...dayMap[iso]].sort((a, b) =>
-      a.type === b.type ? 0 : a.type === "income" ? -1 : 1
-    );
-
-    // Apply normal transactions
-    let dayBalance = balance;
-
-todaysTx.forEach(tx => {
-  dayBalance += tx.type === "income" ? tx.amount : -tx.amount;
+    break;
+  }
 });
 
-// Apply What If to dayBalance
-const [y, m, dDay] = iso.split("-").map(Number);
-const [sy, sm, sDay] = whatIfStartDate.split("-").map(Number);
+// sort same as table
+todaysTx.sort((a, b) =>
+  a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+);
 
-const monthsDiff = (y - sy) * 12 + (m - sm);
+    // Apply transactions (income first)
+    todaysTx.forEach(tx => {
+      balance += tx.type === "income" ? tx.amount : -tx.amount;
+      balance = Math.round(balance * 100) / 100;
+    });
 
-if (monthsDiff >= 0) {
-  const lastDay = new Date(y, m, 0).getDate();
-  const targetDay = Math.min(sDay, lastDay);
-
-  if (dDay === targetDay) {
-    dayBalance -= amount;
-  }
-}
-
-// Round once at end of day
-dayBalance = Math.round(dayBalance * 100) / 100;
-
-// Commit final balance
-balance = dayBalance;
-
-    // ===== WHAT IF (same rule as table) =====
+    // ===== WHAT IF (ISO-based, no Date objects) =====
     const [y, m, dDay] = iso.split("-").map(Number);
     const [sy, sm, sDay] = whatIfStartDate.split("-").map(Number);
 
@@ -211,13 +191,13 @@ balance = dayBalance;
       }
     }
 
-    // Track lowest
+    // ✅ Track lowest (end-of-day, matches table)
     if (balance < lowest) {
       lowest = balance;
       lowestDate = new Date(iso);
     }
 
-    // Buffer check
+    // ✅ Stop if below buffer
     if (balance < buffer) {
       return { safe: false, lowest, lowestDate };
     }
