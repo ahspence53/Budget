@@ -141,7 +141,33 @@ function isSafe(amount, whatIfStartDate, buffer) {
     const iso = toISO(d);
 
     // ✅ Use SAME transaction logic as projection table
-    const todaysTx = getTransactionsForDate(iso, txList);
+    const todaysTx = [];
+
+// EXACT same logic as renderProjectionTable
+txList.forEach(tx => {
+  for (let checkIso = iso; checkIso === iso; ) {
+    if (!occursOn(tx, iso)) break;
+
+    const id = txId(tx);
+    const nudgeKey = `${id}|${iso}`;
+
+    if (nudges[nudgeKey]) {
+      const targetIso = nudges[nudgeKey];
+      if (targetIso === iso) {
+        todaysTx.push(tx);
+      }
+    } else {
+      todaysTx.push(tx);
+    }
+
+    break;
+  }
+});
+
+// sort same as table
+todaysTx.sort((a, b) =>
+  a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+);
 
     // Apply transactions (income first)
     todaysTx.forEach(tx => {
