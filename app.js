@@ -199,7 +199,17 @@ document.getElementById("whatif-auto").onclick = () => {
     info.textContent =
       `Lowest balance during projection £${result.lowest.toFixed(2)}`;
   }
-
+/* ========= NEXT FEW LINES ADDED TO APPLY COLOUR LOGIC ============ */
+info.style.color = ""; // reset
+if (result.lowest < 20) {
+  info.style.color = "red";
+} else if (result.lowest < 100) {
+  info.style.color = "orange";
+} else {
+  info.style.color = "green";
+}
+/* ================================================================== */
+  
   console.log("Max saving:", result.max);
 };
 /* ---------- BUTTON ---------- */
