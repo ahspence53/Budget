@@ -190,17 +190,16 @@ todaysTx.sort((a, b) =>
         balance = Math.round(balance * 100) / 100;
       }
     }
+// 🚨 FIRST: enforce buffer rule
+if (balance < buffer) {
+  return { safe: false, lowest, lowestDate };
+}
 
-    // ✅ Track lowest (end-of-day, matches table)
-    if (balance < lowest) {
-      lowest = balance;
-      lowestDate = new Date(iso);
-    }
-
-    // ✅ Stop if below buffer
-    if (balance < buffer) {
-      return { safe: false, lowest, lowestDate };
-    }
+// ✅ ONLY track lowest if still valid
+if (balance < lowest) {
+  lowest = balance;
+  lowestDate = new Date(iso);
+}
   }
 
   return { safe: true, lowest, lowestDate };
