@@ -100,11 +100,10 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
-  let high = Math.max(openingBalance, 500);
+  let high = openingBalance || 2000;
 
   let best = 0;
   let bestLowest = 0;
-  let bestDate = null; // ✅ NEW
 
   while (high - low > 0.5) {
     const mid = (low + high) / 2;
@@ -114,7 +113,6 @@ function calculateMaxSaving(startDate, buffer = 20) {
     if (result.safe) {
       best = mid;
       bestLowest = result.lowest;
-      bestDate = result.lowestDate; // ✅ capture date
       low = mid;
     } else {
       high = mid;
@@ -123,48 +121,31 @@ function calculateMaxSaving(startDate, buffer = 20) {
 
   return {
     max: Math.floor(best),
-    lowest: bestLowest,
-    date: bestDate // ✅ return it
+    lowest: bestLowest
   };
 }
   /* ================================ */
 function isSafe(amount, whatIfStartDate, buffer) {
   let balance = openingBalance;
   let lowest = Infinity;
-  let lowestDate = null; // ✅ NEW
 
   const start = new Date(startDate);
   const end = new Date(start);
   end.setMonth(end.getMonth() + 24);
 
   const startRef = new Date(whatIfStartDate);
+
   const txList = getTransactionsSortedByDate();
 
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
 
     const iso = toISO(d);
 
-    const todaysTx = txList
-  .filter(tx => occursOn(tx, iso))
-  .sort((a, b) =>
-    a.type === b.type ? 0 : a.type === "income" ? -1 : 1
-  );
-
-todaysTx.forEach(tx => {
-  balance += tx.type === "income" ? tx.amount : -tx.amount;
-
-  // keep rounding after EACH transaction
-  balance = Math.round(balance * 100) / 100;
-
-  // track lowest DURING the day (important!)
-  if (balance < lowest) {
-    lowest = balance;
-    lowestDate = new Date(iso);
-  }
-});
-    // ✅ ADD THIS
-
-balance = Math.round(balance * 100) / 100;
+    txList.forEach(tx => {
+      if (occursOn(tx, iso)) {
+        balance += tx.type === "income" ? tx.amount : -tx.amount;
+      }
+    });
 
     const current = new Date(iso);
 
@@ -172,47 +153,16 @@ balance = Math.round(balance * 100) / 100;
       (current.getFullYear() - startRef.getFullYear()) * 12 +
       (current.getMonth() - startRef.getMonth());
 
-    if (monthsDiff >= 0) {
-
-  const lastDay = new Date(
-    current.getFullYear(),
-    current.getMonth() + 1,
-    0
-  ).getDate();
-
-  const targetDay = Math.min(startRef.getDate(), lastDay);
-
-  if (current.getDate() === targetDay) {
-    balance -= amount;
-
-    // 🔴 CRITICAL: keep rounding consistent
-    balance = Math.round(balance * 100) / 100;
-
-    // 🔴 CRITICAL: track lowest AFTER deduction
-    if (balance < lowest) {
-      lowest = balance;
-      lowestDate = new Date(iso);
-    }
-  }
-}
-
-    // ✅ Track lowest AND date
-    if (balance < lowest) {
-      lowest = balance;
-      lowestDate = new Date(iso);
+    if (monthsDiff >= 0 && current.getDate() === startRef.getDate()) {
+      balance -= amount;
     }
 
-    if (balance < buffer) {
-      return { safe: false, lowest, lowestDate };
-    }
+    if (balance < lowest) lowest = balance;
+
+    if (balance < buffer) return { safe: false, lowest };
   }
 
-  if (lowest === Infinity) {
-  lowest = balance;
-  lowestDate = new Date(start);
-}
-
-return { safe: true, lowest, lowestDate };
+  return { safe: true, lowest };
 }
 
 /* ============================= */
@@ -245,33 +195,11 @@ document.getElementById("whatif-auto").onclick = () => {
 
   // ✅ Show lowest balance insight
   const info = document.getElementById("whatif-info");
-
-if (info) {
-
-  const d = result.date;
-
-  const formattedDate = d
-    ? d.toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-      })
-    : "";
-
-  info.textContent =
-    `Lowest balance: £${result.lowest.toFixed(2)}  (${formattedDate})`;
-
-  // 🎨 Colour logic (keep yours)
-  if (result.lowest < 20) {
-    info.style.color = "red";
-  } else if (result.lowest < 100) {
-    info.style.color = "orange";
-  } else {
-    info.style.color = "green";
+  if (info) {
+    info.textContent =
+      `Lowest balance during projection £${result.lowest.toFixed(2)}`;
   }
-}
-/* ================================================================== */
-  
+
   console.log("Max saving:", result.max);
 };
 /* ---------- BUTTON ---------- */
@@ -285,16 +213,6 @@ whatIfBtn.onclick = () => {
     // OPEN MODAL
     amountInput.value = "";
     dateInput.value = toISO(new Date());
-    // ✅ ADD THIS
-
-  const info = document.getElementById("whatif-info");
-
-  if (info) {
-
-    info.textContent = "";
-
-    info.style.color = ""; // reset colour too
-  }
 
     document.body.classList.add("modal-open");
     whatIfPopup.classList.remove("hidden");
@@ -1361,71 +1279,37 @@ window.renderProjectionTable = function () {
   });
 
   /* ===== PRE-PASS: find lowest balance until next income ===== */
-  let tempBalance = openingBalance;
-  let lowestUpcomingBalance = Infinity;
-  let lowestUpcomingIso = null;
-  let foundNextIncome = false;
+let tempBalance = openingBalance;
+let lowestUpcomingBalance = Infinity;
+let lowestUpcomingIso = null;
+let foundNextIncome = false;
 
-  Object.keys(dayMap).sort().forEach(iso => {
-    const todaysTx = [...dayMap[iso]];
+Object.keys(dayMap).sort().forEach(iso => {
+  const todaysTx = [...dayMap[iso]].sort((a, b) =>
+    a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+  );
 
-    // 👉 Inject What If (same logic as main loop)
-    const whatIfTx = transactions.find(t => t.__whatIf);
-    if (whatIfTx) {
-      const start = new Date(whatIfTx.date);
-      const current = new Date(iso);
+  const isTrackingWindow = iso >= todayIso;
 
-      if (current >= start) {
-        const monthsDiff =
-          (current.getFullYear() - start.getFullYear()) * 12 +
-          (current.getMonth() - start.getMonth());
+  todaysTx.forEach(tx => {
+    const isIncome = tx.type === "income";
 
-        if (monthsDiff >= 0) {
-          const lastDay = new Date(
-            current.getFullYear(),
-            current.getMonth() + 1,
-            0
-          ).getDate();
+    tempBalance += isIncome ? tx.amount : -tx.amount;
 
-          const targetDay = Math.min(start.getDate(), lastDay);
+    const isMajorIncome = isIncome && tx.amount >= 200;
 
-          if (current.getDate() === targetDay) {
-            todaysTx.push({
-              ...whatIfTx,
-              type: "expense",
-              __whatIf: true
-            });
-          }
-        }
+    if (isTrackingWindow && !foundNextIncome) {
+      if (tempBalance < lowestUpcomingBalance) {
+        lowestUpcomingBalance = tempBalance;
+        lowestUpcomingIso = iso;
       }
     }
 
-    todaysTx.sort((a, b) =>
-      a.type === b.type ? 0 : a.type === "income" ? -1 : 1
-    );
-
-    const isTrackingWindow = iso >= todayIso;
-
-    todaysTx.forEach(tx => {
-      const isIncome = tx.type === "income";
-
-      tempBalance += isIncome ? tx.amount : -tx.amount;
-      tempBalance = Math.round(tempBalance * 100) / 100;
-
-      const isMajorIncome = isIncome && tx.amount >= 200;
-
-      if (isTrackingWindow && !foundNextIncome) {
-        if (tempBalance < lowestUpcomingBalance) {
-          lowestUpcomingBalance = tempBalance;
-          lowestUpcomingIso = iso;
-        }
-      }
-
-      if (iso > todayIso && isMajorIncome) {
-        foundNextIncome = true;
-      }
-    });
+    if (iso > todayIso && isMajorIncome) {
+      foundNextIncome = true;
+    }
   });
+});
 
   /* ===== SUMMARY ===== */
   const summaryEl = document.getElementById("projection-summary");
@@ -1450,16 +1334,23 @@ window.renderProjectionTable = function () {
         ${bufferNeeded > 0 ? ` — <strong>Buffer needed:</strong> £${bufferNeeded.toFixed(2)}` : ""}
       `;
 
-      const whatIfTx = transactions.find(t => t.__whatIf);
-      if (whatIfTx) {
-        const startFormatted = formatDate(whatIfTx.date);
-        summaryEl.innerHTML += `
-          <br>🧪 What If active: £${whatIfTx.amount.toFixed(2)} / month
-          from ${startFormatted}
-        `;
-      }
+/*      if (transactions.some(t => t.__whatIf)) {*/
+ /* summaryEl.innerHTML += `<br>🧪 What If active`;*/
+/*}*/
+const whatIfTx = transactions.find(t => t.__whatIf);
 
-      summaryEl.classList.remove("summary-danger", "summary-warning", "summary-ok");
+if (whatIfTx) {
+  const startFormatted = formatDate(whatIfTx.date);
+  summaryEl.innerHTML += `
+    <br>🧪 What If active: £${whatIfTx.amount.toFixed(2)} / month
+    from ${startFormatted}
+  `;
+}
+      summaryEl.classList.remove(
+        "summary-danger",
+        "summary-warning",
+        "summary-ok"
+      );
 
       if (lowestUpcomingBalance < 0) {
         summaryEl.classList.add("summary-danger");
@@ -1470,45 +1361,18 @@ window.renderProjectionTable = function () {
       }
     } else {
       summaryEl.innerHTML = "";
-      summaryEl.classList.remove("summary-danger", "summary-warning", "summary-ok");
+      summaryEl.classList.remove(
+        "summary-danger",
+        "summary-warning",
+        "summary-ok"
+      );
     }
   }
 
   /* ---------- Render day by day ---------- */
   Object.keys(dayMap).forEach(iso => {
-    let todaysTx = [...dayMap[iso]];
+    const todaysTx = dayMap[iso];
     let dateRendered = false;
-
-    // 👉 Inject What If
-    const whatIfTx = transactions.find(t => t.__whatIf);
-    if (whatIfTx) {
-      const start = new Date(whatIfTx.date);
-      const current = new Date(iso);
-
-      if (current >= start) {
-        const monthsDiff =
-          (current.getFullYear() - start.getFullYear()) * 12 +
-          (current.getMonth() - start.getMonth());
-
-        if (monthsDiff >= 0) {
-          const lastDay = new Date(
-            current.getFullYear(),
-            current.getMonth() + 1,
-            0
-          ).getDate();
-
-          const targetDay = Math.min(start.getDate(), lastDay);
-
-          if (current.getDate() === targetDay) {
-            todaysTx.push({
-              ...whatIfTx,
-              type: "expense",
-              __whatIf: true
-            });
-          }
-        }
-      }
-    }
 
     /* ===== NO TRANSACTIONS ===== */
     if (todaysTx.length === 0) {
@@ -1518,8 +1382,23 @@ window.renderProjectionTable = function () {
       if ([0, 6].includes(new Date(iso).getDay()))
         tr.classList.add("weekend-row");
 
+      if (iso === lowestUpcomingIso) {
+        tr.classList.add("lowest-balance");
+      }
+
       tr.innerHTML = `
-        <td>${formatDate(iso)}</td>
+        <td>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span>${formatDate(iso)}</span>
+            ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
+            ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ""}
+            ${
+              hasDiaryNote(iso)
+                ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
+                : ""
+            }
+          </div>
+        </td>
         <td></td><td></td><td></td>
         <td><strong>${balance.toFixed(2)}</strong></td>
       `;
@@ -1528,40 +1407,152 @@ window.renderProjectionTable = function () {
       return;
     }
 
-    /* ---------- Sort ---------- */
+    /* ---------- Income first ---------- */
     todaysTx.sort((a, b) =>
       a.type === b.type ? 0 : a.type === "income" ? -1 : 1
     );
+    /* added what-if processing */
+    // WHAT IF: add monthly saving on same day-of-month as startDate (today)
 
+
+   
     /* ===== TRANSACTIONS ===== */
     todaysTx.forEach((tx, index) => {
 
-      const isIncome = tx.type === "income";
+  const isIncome = tx.type === "income";
+  balance += isIncome ? tx.amount : -tx.amount;
 
-      balance += isIncome ? tx.amount : -tx.amount;
-      balance = Math.round(balance * 100) / 100;
+  const tr = document.createElement("tr");
 
-      const tr = document.createElement("tr");
+if (tx.__whatIf) {
+  const start = new Date(tx.date);
+  const current = new Date(iso);
 
-      if (tx.__whatIf) {
-        tr.classList.add("whatif-row");
+  // Not before start date
+  if (current < start) return;
+
+  // Work out month difference
+  const monthsDiff =
+    (current.getFullYear() - start.getFullYear()) * 12 +
+    (current.getMonth() - start.getMonth());
+
+  if (monthsDiff < 0) return;
+
+  // Only trigger once per month on same day-of-month
+  const lastDay = new Date(
+  current.getFullYear(),
+  current.getMonth() + 1,
+  0
+).getDate();
+
+const targetDay = Math.min(start.getDate(), lastDay);
+
+if (current.getDate() !== targetDay) return;
+
+  // ✅ Styling ONLY after it passes checks
+  tr.classList.add("whatif-row");
+}
+
+  if (iso === todayIso) tr.classList.add("today-row");
+  if ([0, 6].includes(new Date(iso).getDay()))
+    tr.classList.add("weekend-row");
+  if (balance < 0) tr.classList.add("negative");
+      const today = new Date(toISO(new Date()));
+      const diffDays = Math.round((new Date(iso) - today) / 86400000);
+
+      const showNudge =
+        (diffDays >= 0 && diffDays <= 7) ||
+        (diffDays < 0 && diffDays >= -MAX_PAST_NUDGE_DAYS);
+
+      if (
+        tx.description.toLowerCase().includes("pension") ||
+        tx.description.toLowerCase().includes("salary")
+      ) {
+        tr.classList.add("highlight-pension");
+      }
+
+      if (tx.description.toLowerCase().includes("savings")) {
+        tr.classList.add("highlight-savings");
+      }
+
+      if (
+        iso === lowestUpcomingIso &&
+        index === todaysTx.length - 1
+      ) {
+        tr.classList.add("lowest-balance");
       }
 
       tr.innerHTML = `
-        <td>${!dateRendered ? formatDate(iso) : ""}</td>
-        <td>${tx.description}</td>
+        <td>
+          ${
+            !dateRendered
+              ? (() => {
+                  dateRendered = true;
+                  return `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <span>${formatDate(iso)}</span>
+                      ${iso === todayIso ? '<span class="today-label">Today</span>' : ""}
+                      ${iso === lowestUpcomingIso ? '<span class="low-label">Low</span>' : ""}
+                      ${
+                        hasDiaryNote(iso)
+                          ? `<span class="diary-icon" data-iso="${iso}">📅</span>`
+                          : ""
+                      }
+                    </div>
+                  `;
+                })()
+              : ""
+          }
+        </td>
+
+        <td>
+          <div class="projection-item ${tx.type}">
+            <span class="desc">
+              ${frequencyIcon(tx)}${tx.description}
+              ${
+                isFinalOccurrence(tx, iso) && tx.endDate
+                  ? `<span class="tx-ends"
+                       data-end="${tx.endDate}"
+                       data-name="${tx.description}">
+                       🎯 ends</span>`
+                  : ""
+              }
+            </span>
+            <span class="cat">${tx.category || ""}</span>
+            ${
+              showNudge
+                ? `<button class="nudge-btn"
+                     data-id="${txId(tx)}"
+                     data-iso="${iso}">+1</button>`
+                : ""
+            }
+          </div>
+        </td>
+
         <td>${isIncome ? tx.amount.toFixed(2) : ""}</td>
         <td>${!isIncome ? tx.amount.toFixed(2) : ""}</td>
-        <td>${index === todaysTx.length - 1
-          ? `<strong>${balance.toFixed(2)}</strong>`
-          : balance.toFixed(2)
+        <td>${
+          index === todaysTx.length - 1
+            ? `<strong>${balance.toFixed(2)}</strong>`
+            : balance.toFixed(2)
         }</td>
       `;
 
-      dateRendered = true;
       projectionTbody.appendChild(tr);
     });
   });
+
+  /* ===== FINAL PASS: highlight last transaction today ===== */
+  projectionTbody
+    .querySelectorAll("tr.auto-highlight")
+    .forEach(row => row.classList.remove("auto-highlight"));
+
+  const todayRows = projectionTbody.querySelectorAll("tr.today-row");
+
+  if (todayRows.length > 0) {
+    const lastRow = todayRows[todayRows.length - 1];
+    lastRow.classList.add("auto-highlight");
+  }
 };
 /* ================= STICKY FIND CUMULATIVE TOTAL HELPER ======== */
   function extractRowAmount(row) {
