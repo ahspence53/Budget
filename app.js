@@ -258,7 +258,7 @@ document.getElementById("whatif-auto").onclick = () => {
   const info = document.getElementById("whatif-info");
   if (info) {
     info.textContent =
-      `Lowest balance during the day £${result.lowest.toFixed(2)}`;
+      "Calculated maximum saving based on current projection”;
   }
 
   console.log("Max saving:", result.max);
