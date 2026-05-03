@@ -143,11 +143,23 @@ function isSafe(amount, whatIfStartDate, buffer) {
     const iso = toISO(d);
 
     // ✅ Apply ALL transactions for the day (income first)
-    const todaysTx = txList
-      .filter(tx => occursOn(tx, iso))
-      .sort((a, b) =>
-        a.type === b.type ? 0 : a.type === "income" ? -1 : 1
-      );
+    const todaysTx = [];
+
+// Build transactions exactly like projection table
+txList.forEach(tx => {
+  if (!occursOn(tx, iso)) return;
+
+  const id = txId(tx);
+  const nudgeKey = `${id}|${iso}`;
+
+  if (nudges[nudgeKey]) {
+    if (nudges[nudgeKey] === iso) {
+      todaysTx.push(tx);
+    }
+  } else {
+    todaysTx.push(tx);
+  }
+});
 
     todaysTx.forEach(tx => {
       balance += tx.type === "income" ? tx.amount : -tx.amount;
