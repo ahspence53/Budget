@@ -207,7 +207,12 @@ balance = Math.round(balance * 100) / 100;
     }
   }
 
-  return { safe: true, lowest, lowestDate };
+  if (lowest === Infinity) {
+  lowest = balance;
+  lowestDate = new Date(start);
+}
+
+return { safe: true, lowest, lowestDate };
 }
 
 /* ============================= */
