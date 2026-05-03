@@ -144,11 +144,24 @@ function isSafe(amount, whatIfStartDate, buffer) {
 
     const iso = toISO(d);
 
-    txList.forEach(tx => {
-      if (occursOn(tx, iso)) {
-        balance += tx.type === "income" ? tx.amount : -tx.amount;
-      }
-    });
+    const todaysTx = txList
+  .filter(tx => occursOn(tx, iso))
+  .sort((a, b) =>
+    a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+  );
+
+todaysTx.forEach(tx => {
+  balance += tx.type === "income" ? tx.amount : -tx.amount;
+
+  // keep rounding after EACH transaction
+  balance = Math.round(balance * 100) / 100;
+
+  // track lowest DURING the day (important!)
+  if (balance < lowest) {
+    lowest = balance;
+    lowestDate = new Date(iso);
+  }
+});
     // ✅ ADD THIS
 
 balance = Math.round(balance * 100) / 100;
