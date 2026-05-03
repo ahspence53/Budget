@@ -149,6 +149,9 @@ function isSafe(amount, whatIfStartDate, buffer) {
         balance += tx.type === "income" ? tx.amount : -tx.amount;
       }
     });
+    // ✅ ADD THIS
+
+balance = Math.round(balance * 100) / 100;
 
     const current = new Date(iso);
 
