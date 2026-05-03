@@ -136,46 +136,44 @@ function isSafe(amount, whatIfStartDate, buffer) {
 
   const txList = getTransactionsSortedByDate();
 
+  /* ---------- Build SAME dayMap as projection ---------- */
+  const dayMap = {};
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-
-    const iso = toISO(d);
-
-    // ✅ Use SAME transaction logic as projection table
-    const todaysTx = [];
-
-// EXACT same logic as renderProjectionTable
-txList.forEach(tx => {
-  for (let checkIso = iso; checkIso === iso; ) {
-    if (!occursOn(tx, iso)) break;
-
-    const id = txId(tx);
-    const nudgeKey = `${id}|${iso}`;
-
-    if (nudges[nudgeKey]) {
-      const targetIso = nudges[nudgeKey];
-      if (targetIso === iso) {
-        todaysTx.push(tx);
-      }
-    } else {
-      todaysTx.push(tx);
-    }
-
-    break;
+    dayMap[toISO(d)] = [];
   }
-});
 
-// sort same as table
-todaysTx.sort((a, b) =>
-  a.type === b.type ? 0 : a.type === "income" ? -1 : 1
-);
+  txList.forEach(tx => {
+    for (let iso in dayMap) {
+      if (!occursOn(tx, iso)) continue;
 
-    // Apply transactions (income first)
+      const id = txId(tx);
+      const nudgeKey = `${id}|${iso}`;
+
+      if (nudges[nudgeKey]) {
+        const targetIso = nudges[nudgeKey];
+        if (dayMap[targetIso]) {
+          dayMap[targetIso].push(tx);
+        }
+      } else {
+        dayMap[iso].push(tx);
+      }
+    }
+  });
+
+  /* ---------- Simulation ---------- */
+  for (let iso of Object.keys(dayMap)) {
+
+    const todaysTx = [...dayMap[iso]].sort((a, b) =>
+      a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+    );
+
+    // Apply normal transactions
     todaysTx.forEach(tx => {
       balance += tx.type === "income" ? tx.amount : -tx.amount;
       balance = Math.round(balance * 100) / 100;
     });
 
-    // ===== WHAT IF (ISO-based, no Date objects) =====
+    // ===== WHAT IF (same rule as table) =====
     const [y, m, dDay] = iso.split("-").map(Number);
     const [sy, sm, sDay] = whatIfStartDate.split("-").map(Number);
 
@@ -191,13 +189,13 @@ todaysTx.sort((a, b) =>
       }
     }
 
-    // ✅ Track lowest (end-of-day, matches table)
+    // Track lowest
     if (balance < lowest) {
       lowest = balance;
       lowestDate = new Date(iso);
     }
 
-    // ✅ Stop if below buffer
+    // Buffer check
     if (balance < buffer) {
       return { safe: false, lowest, lowestDate };
     }
