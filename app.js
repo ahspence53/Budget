@@ -161,6 +161,9 @@ balance = Math.round(balance * 100) / 100;
 
     if (monthsDiff >= 0 && current.getDate() === startRef.getDate()) {
       balance -= amount;
+      // ✅ ADD AGAIN
+
+balance = Math.round(balance * 100) / 100;
     }
 
     // ✅ Track lowest AND date
