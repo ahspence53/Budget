@@ -313,7 +313,7 @@ document.getElementById("whatif-confirm").onclick = () => {
   whatIfPopup.classList.add("hidden");
 
   showToast(
-  `Max safe saving £${result.max} (lowest £${result.lowest.toFixed(2)})`,
+  `Max safe saving £${result.max} `,
   result.lowest < 50 ? "warning" : "success"
 );
 
