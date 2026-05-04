@@ -269,7 +269,7 @@ whatIfBtn.onclick = () => {
 
   // sync state
   whatIfActive = transactions.some(t => t.__whatIf);
-
+  console.log("WhatIf clicked"); // 👈 add this
   if (!whatIfActive) {
     // OPEN MODAL
     amountInput.value = "";
