@@ -293,24 +293,25 @@ whatIfBtn.onclick = () => {
 
 document.getElementById("whatif-confirm").onclick = () => {
 
-  const value = parseFloat(amountInput.value);
   const start = dateInput.value;
 
-  if (!value || value <= 0) {
-    alert("Enter valid amount");
-    return;
-  }
-
   if (!start) {
-    alert("Select a date");
+    alert("Select a start date");
     return;
   }
 
+  const buffer = 20;
+
+  // 🔥 Calculate automatically
+  const result = calculateMaxSaving(start, buffer);
+
+  // 🔥 Remove any existing What If
   transactions = transactions.filter(t => !t.__whatIf);
 
+  // 🔥 Add new What If transaction
   transactions.push({
     description: "What If Saving",
-    amount: value,
+    amount: result.max,
     type: "expense",
     frequency: "monthly",
     date: start,
@@ -320,9 +321,13 @@ document.getElementById("whatif-confirm").onclick = () => {
 
   whatIfActive = true;
 
-  whatIfPopup.classList.add("hidden");
+  // Close modal
   document.body.classList.remove("modal-open");
+  whatIfPopup.classList.add("hidden");
 
+  alert(`Max safe saving: £${result.max}`);
+
+  // Refresh UI
   updateWhatIfUI();
 };
 
