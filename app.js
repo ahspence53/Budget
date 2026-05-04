@@ -312,7 +312,10 @@ document.getElementById("whatif-confirm").onclick = () => {
   document.body.classList.remove("modal-open");
   whatIfPopup.classList.add("hidden");
 
-  alert(`Max safe saving: £${result.max}`);
+  showToast(
+  `Max safe saving £${result.max} (lowest £${result.lowest.toFixed(2)})`,
+  result.lowest < 50 ? "warning" : "success"
+);
 
   // Refresh UI
   updateWhatIfUI();
