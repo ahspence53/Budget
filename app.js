@@ -180,14 +180,19 @@ function renderSummaryReport() {
   rows.forEach(r => {
     const tr = document.createElement("tr");
 
-    tr.innerHTML = `
-      <td>${r.category}</td>
-      <td>${r.description}</td>
-      <td>${r.income ? r.income.toFixed(2) : ""}</td>
-      <td>${r.expense ? r.expense.toFixed(2) : ""}</td>
-      <td>${monthlyIncome ? monthlyIncome.toFixed(2) : ""}</td>
-<td>${monthlyExpense ? monthlyExpense.toFixed(2) : ""}</td>
-    `;
+    const months = 24;
+
+const monthlyIncome = r.income ? r.income / months : 0;
+const monthlyExpense = r.expense ? r.expense / months : 0;
+
+tr.innerHTML = `
+  <td>${r.category}</td>
+  <td>${r.description}</td>
+  <td>${r.income ? r.income.toFixed(2) : ""}</td>
+  <td>${r.expense ? r.expense.toFixed(2) : ""}</td>
+  <td>${monthlyIncome ? monthlyIncome.toFixed(2) : ""}</td>
+  <td>${monthlyExpense ? monthlyExpense.toFixed(2) : ""}</td>
+`;
 
     tbody.appendChild(tr);
   });
