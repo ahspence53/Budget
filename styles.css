@@ -1064,3 +1064,31 @@ t  100% { transform: scale(1); }
 #whatif-auto {
   background-color: #f0f0f0;
 }
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #333;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+  background: #2e7d32;
+}
+
+.toast.warning {
+  background: #ed6c02;
+}
