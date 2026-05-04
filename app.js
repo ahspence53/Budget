@@ -1829,35 +1829,32 @@ if (!startDate) {
   end.setMonth(end.getMonth() + 24);
 
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-    const iso = toISO(d);
+  const iso = toISO(d);
 
-    let inc = 0;
-    let exp = 0;
-    const descs = [];
-    const cats = [];
+  // Get transactions for this day (same logic as projection)
+  const todaysTx = transactions.filter(tx => occursOn(tx, iso));
 
-    transactions.forEach(tx => {
-      if (occursOn(tx, iso)) {
-        if (tx.type === "income") inc += tx.amount;
-        else exp += tx.amount;
+  // Sort income first (same as table)
+  todaysTx.sort((a, b) =>
+    a.type === b.type ? 0 : a.type === "income" ? -1 : 1
+  );
 
-        descs.push(tx.description);
-        cats.push(tx.category);
-      }
-    });
+  todaysTx.forEach(tx => {
+    const isIncome = tx.type === "income";
 
-    balance += inc - exp;
+    balance += isIncome ? tx.amount : -tx.amount;
+    balance = Math.round(balance * 100) / 100;
 
     csv += [
       iso,
-      `"${descs.join(" | ")}"`,
-      `"${cats.join(" | ")}"`,
-      inc ? inc.toFixed(2) : "",
-      exp ? exp.toFixed(2) : "",
+      `"${tx.description.replace(/"/g, '""')}"`,
+      `"${(tx.category || "").replace(/"/g, '""')}"`,
+      isIncome ? tx.amount.toFixed(2) : "",
+      !isIncome ? tx.amount.toFixed(2) : "",
       balance.toFixed(2)
     ].join(",") + "\n";
-  }
-
+  });
+}
   const blob = new Blob([csv], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
 
