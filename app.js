@@ -1328,6 +1328,9 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
     transactionTableBody.appendChild(tr);
   });
   updateFilterBadge();
+
+  console.log("Frequencies:", [...new Set(transactions.map(t => t.frequency))]);
+  
 }
 /* ================= RECURRENCE ================= */
 function occursOn(tx, iso) {
