@@ -1067,7 +1067,7 @@ t  100% { transform: scale(1); }
 
 .toast {
   position: fixed;
-  bottom: 20px;
+  bottom: 60px;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
   background: #333;
