@@ -156,6 +156,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 /* =============== */
 function renderSummaryReport() {
   const rows = generateSummaryReport();
+  console.log("Summary clicked");
   if (!rows) return;
 
   const tbody = document.getElementById("summary-table-body");
