@@ -247,7 +247,7 @@ whatIfBtn.onclick = () => {
   console.log("WhatIf clicked"); // 👈 add this
   if (!whatIfActive) {
     // OPEN MODAL
-    amountInput.value = "";
+    
     dateInput.value = toISO(new Date());
 
     document.body.classList.add("modal-open");
