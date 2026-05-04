@@ -151,6 +151,8 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 
   return rows;
 } 
+  /* ------- */
+  document.getElementById("summary-btn").onclick = renderSummaryReport;
 /* =============== */
 function renderSummaryReport() {
   const rows = generateSummaryReport();
