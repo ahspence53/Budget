@@ -159,6 +159,12 @@ function renderSummaryReport() {
   if (!rows) return;
 
   const tbody = document.getElementById("summary-table-body");
+
+  if (!tbody) {
+    console.error("summary-table-body not found");
+    return;
+  }
+
   tbody.innerHTML = "";
 
   rows.forEach(r => {
@@ -173,7 +179,10 @@ function renderSummaryReport() {
 
     tbody.appendChild(tr);
   });
-}  
+
+  // 🔥 THIS IS WHAT YOU WERE MISSING
+  document.getElementById("summary-view").style.display = "block";
+}
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
