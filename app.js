@@ -185,6 +185,8 @@ function renderSummaryReport() {
       <td>${r.description}</td>
       <td>${r.income ? r.income.toFixed(2) : ""}</td>
       <td>${r.expense ? r.expense.toFixed(2) : ""}</td>
+      <td>${monthlyIncome ? monthlyIncome.toFixed(2) : ""}</td>
+<td>${monthlyExpense ? monthlyExpense.toFixed(2) : ""}</td>
     `;
 
     tbody.appendChild(tr);
