@@ -97,6 +97,81 @@ document.querySelectorAll(".tx-filter").forEach(el => {
     updateFilterUI();
   });
 });
+/* ================= AGGREGATE REPORT ============ */
+ function generateSummaryReport() {
+  if (!startDate) {
+    alert("Start date not set");
+    return;
+  }
+
+  const start = new Date(startDate);
+  start.setHours(12, 0, 0, 0);
+
+  const end = new Date(start);
+  end.setMonth(end.getMonth() + 24);
+
+  // Key: category||description
+  const summaryMap = {};
+
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const iso = toISO(d);
+
+    transactions.forEach(tx => {
+      // ❌ exclude irregular (adjust if your flag differs)
+      if (tx.frequency === "once") return;
+
+      if (!occursOn(tx, iso)) return;
+
+      const key = `${tx.category || "Uncategorised"}||${tx.description}`;
+
+      if (!summaryMap[key]) {
+        summaryMap[key] = {
+          category: tx.category || "Uncategorised",
+          description: tx.description,
+          income: 0,
+          expense: 0
+        };
+      }
+
+      if (tx.type === "income") {
+        summaryMap[key].income += tx.amount;
+      } else {
+        summaryMap[key].expense += tx.amount;
+      }
+    });
+  }
+
+  // Convert to array + sort
+  const rows = Object.values(summaryMap).sort((a, b) => {
+    if (a.category !== b.category) {
+      return a.category.localeCompare(b.category);
+    }
+    return a.description.localeCompare(b.description);
+  });
+
+  return rows;
+} 
+/* =============== */
+function renderSummaryReport() {
+  const rows = generateSummaryReport();
+  if (!rows) return;
+
+  const tbody = document.getElementById("summary-table-body");
+  tbody.innerHTML = "";
+
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${r.category}</td>
+      <td>${r.description}</td>
+      <td>${r.income ? r.income.toFixed(2) : ""}</td>
+      <td>${r.expense ? r.expense.toFixed(2) : ""}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}  
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
