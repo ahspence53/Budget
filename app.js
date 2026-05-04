@@ -184,6 +184,19 @@ function renderSummaryReport() {
   document.getElementById("summary-popup").classList.remove("hidden");
   document.body.classList.add("modal-open");
 }
+  /* ----- close handler ------ */
+  document.getElementById("summary-close").onclick = () => {
+  document.getElementById("summary-popup").classList.add("hidden");
+  document.body.classList.remove("modal-open");
+};
+
+// click outside to close
+document.getElementById("summary-popup").addEventListener("click", e => {
+  if (e.target.id === "summary-popup") {
+    e.target.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  }
+});
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
