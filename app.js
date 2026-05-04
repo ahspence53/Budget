@@ -237,32 +237,7 @@ const amountInput = document.getElementById("whatif-amount");
 const dateInput = document.getElementById("whatif-date");
 
   
-document.getElementById("whatif-auto").onclick = () => {
 
-  const start = dateInput.value;
-
-  if (!start) {
-    alert("Select a start date");
-    return;
-  }
-
-  
-
-  const result = calculateMaxSaving(start, buffer);
-
-  // ✅ Set amount
-  amountInput.value = result.max;
-
-  // ✅ Show lowest balance insight
-  const info = document.getElementById("whatif-info");
-/*if (info) {
-    info.textContent =
-   info.textContent =
-  "Calculated maximum saving based on current projection";
-  }*/
-
-  console.log("Max saving:", result.max);
-};
 /* ---------- BUTTON ---------- */
 
 whatIfBtn.onclick = () => {
