@@ -156,15 +156,14 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 /* =============== */
 function renderSummaryReport() {
   const rows = generateSummaryReport();
-  console.log("Summary clicked");
-  if (!rows) return;
+  console.log("Summary clicked", rows?.length);
 
-  const tbody = document.getElementById("summary-table-body");
-
-  if (!tbody) {
-    console.error("summary-table-body not found");
+  if (!rows || rows.length === 0) {
+    alert("No summary data found");
     return;
   }
+
+  const tbody = document.getElementById("summary-table-body");
 
   tbody.innerHTML = "";
 
@@ -181,8 +180,9 @@ function renderSummaryReport() {
     tbody.appendChild(tr);
   });
 
-  // 🔥 THIS IS WHAT YOU WERE MISSING
-  document.getElementById("summary-view").style.display = "block";
+  // 🔥 show popup (same pattern as others)
+  document.getElementById("summary-popup").classList.remove("hidden");
+  document.body.classList.add("modal-open");
 }
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
