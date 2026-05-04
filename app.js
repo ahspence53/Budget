@@ -233,7 +233,7 @@ function getTransactionsForDate(iso, txList) {
 
 const whatIfBtn = document.getElementById("whatif-btn");
 const whatIfPopup = document.getElementById("whatif-popup");
-const amountInput = document.getElementById("whatif-amount");
+
 const dateInput = document.getElementById("whatif-date");
 
   
