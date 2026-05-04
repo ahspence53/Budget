@@ -125,7 +125,7 @@ function calculateMaxSaving(startDate, buffer = 20) {
   };
 }
   /* ====TOAST======*/
-  function showToast(message, type = "success", duration = 2500) {
+  function showToast(message, type = "success", duration = 5000) {
   const toast = document.getElementById("toast");
   if (!toast) return;
 
