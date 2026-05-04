@@ -126,7 +126,12 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 if (!isRecurring) return;
 
       if (!occursOn(tx, iso)) return;
+const months = 24;
 
+/* ------ added to show monthly cost ------- */
+      const monthlyIncome = r.income ? r.income / months : 0;
+      const monthlyExpense = r.expense ? r.expense / months : 0;
+/*---------*/      
       const key = `${tx.category || "Uncategorised"}||${tx.description}`;
 
       if (!summaryMap[key]) {
