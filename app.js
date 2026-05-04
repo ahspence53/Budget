@@ -1828,18 +1828,40 @@ if (!startDate) {
   const end = new Date(start);
   end.setMonth(end.getMonth() + 24);
 
-  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-  const iso = toISO(d);
+  // ===== BUILD dayMap EXACTLY like projection =====
+const dayMap = {};
 
-  // Get transactions for this day (same logic as projection)
-  const todaysTx = transactions.filter(tx => occursOn(tx, iso));
+for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+  dayMap[toISO(d)] = [];
+}
 
-  // Sort income first (same as table)
-  todaysTx.sort((a, b) =>
+transactions.forEach(tx => {
+  for (let iso in dayMap) {
+    if (!occursOn(tx, iso)) continue;
+
+    const id = txId(tx);
+    const nudgeKey = `${id}|${iso}`;
+
+    if (nudges[nudgeKey]) {
+      const targetIso = nudges[nudgeKey];
+      if (dayMap[targetIso]) {
+        dayMap[targetIso].push(tx);
+      }
+    } else {
+      dayMap[iso].push(tx);
+    }
+  }
+});
+
+// ===== EXPORT per transaction =====
+Object.keys(dayMap).forEach(iso => {
+
+  const todaysTx = [...dayMap[iso]].sort((a, b) =>
     a.type === b.type ? 0 : a.type === "income" ? -1 : 1
   );
 
   todaysTx.forEach(tx => {
+
     const isIncome = tx.type === "income";
 
     balance += isIncome ? tx.amount : -tx.amount;
@@ -1853,8 +1875,9 @@ if (!startDate) {
       !isIncome ? tx.amount.toFixed(2) : "",
       balance.toFixed(2)
     ].join(",") + "\n";
+
   });
-}
+});
   const blob = new Blob([csv], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
 
