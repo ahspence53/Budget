@@ -118,7 +118,12 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 
     transactions.forEach(tx => {
       // ❌ exclude irregular (adjust if your flag differs)
-      if (tx.frequency === "once") return;
+      const isRecurring =
+  tx.frequency === "monthly" ||
+  tx.frequency === "4-weekly" ||
+  tx.frequency === "weekly";
+
+if (!isRecurring) return;
 
       if (!occursOn(tx, iso)) return;
 
