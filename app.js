@@ -124,6 +124,18 @@ function calculateMaxSaving(startDate, buffer = 20) {
     lowest: bestLowest
   };
 }
+  /* ====TOAST======*/
+  function showToast(message, type = "success", duration = 2500) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, duration);
+}
   /* ================================ */
 function isSafe(amount, whatIfStartDate, buffer) {
   let balance = openingBalance;
