@@ -306,7 +306,20 @@ In the <b>24 Month Projection table </b>you can <b>Nudge</b> Expenses forward by
     <button id="close-upcoming-diary">Close</button>
   </div>
 </div>
-  
+
+  <div id="summary-view" style="display:none; margin-top:20px;">
+  <table border="1" style="width:100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Income</th>
+        <th>Expense</th>
+      </tr>
+    </thead>
+    <tbody id="summary-table-body"></tbody>
+  </table>
+</div>
 <div id="toast" class="toast hidden"></div>
 
 <button id="back-to-top" class="floating-top">📅24 Month Projection ⬆️</button>
