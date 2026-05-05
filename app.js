@@ -281,6 +281,24 @@ function renderSummaryReport() {
 
   tbody.appendChild(grandRow);
 
+  const netTotal = grandIncome - grandExpense;
+const monthlyNet = grandMonthlyIncome - grandMonthlyExpense;
+
+const netRow = document.createElement("tr");
+
+netRow.style.fontWeight = "bold";
+netRow.style.background = "#fff7e6"; // light highlight
+
+netRow.innerHTML = `
+  <td colspan="2">UNALLOCATED (NET)</td>
+  <td>${netTotal.toFixed(2)}</td>
+  <td></td>
+  <td>${monthlyNet.toFixed(2)}</td>
+  <td></td>
+`;
+
+tbody.appendChild(netRow);
+
   // ---- Show popup ----
   document.getElementById("summary-popup").classList.remove("hidden");
   document.body.classList.add("modal-open");
