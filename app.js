@@ -181,17 +181,25 @@ function renderSummaryReport() {
 
   let catIncome = 0;
   let catExpense = 0;
+  let catMonthlyIncome = 0;
+  let catMonthlyExpense = 0;
 
   let grandIncome = 0;
   let grandExpense = 0;
+  let grandMonthlyIncome = 0;
+  let grandMonthlyExpense = 0;
 
   rows.forEach((r, idx) => {
 
-    // Grand totals
+    const divisor = r.frequency === "4-weekly" ? 26 : 24;
+
+    // ---- Grand totals ----
     grandIncome += r.income || 0;
     grandExpense += r.expense || 0;
+    grandMonthlyIncome += (r.income || 0) / divisor;
+    grandMonthlyExpense += (r.expense || 0) / divisor;
 
-    // Category change → insert subtotal
+    // ---- Category change → insert subtotal ----
     if (currentCategory && r.category !== currentCategory) {
       const subtotalRow = document.createElement("tr");
       subtotalRow.style.fontWeight = "bold";
@@ -201,26 +209,29 @@ function renderSummaryReport() {
         <td colspan="2">Total ${currentCategory}</td>
         <td>${catIncome ? catIncome.toFixed(2) : ""}</td>
         <td>${catExpense ? catExpense.toFixed(2) : ""}</td>
-        <td>${(catIncome / 24).toFixed(2)}</td>
-        <td>${(catExpense / 24).toFixed(2)}</td>
+        <td>${catMonthlyIncome.toFixed(2)}</td>
+        <td>${catMonthlyExpense.toFixed(2)}</td>
       `;
 
       tbody.appendChild(subtotalRow);
 
+      // reset
       catIncome = 0;
       catExpense = 0;
+      catMonthlyIncome = 0;
+      catMonthlyExpense = 0;
     }
 
     currentCategory = r.category;
 
-    // Category totals
+    // ---- Category totals ----
     catIncome += r.income || 0;
     catExpense += r.expense || 0;
+    catMonthlyIncome += (r.income || 0) / divisor;
+    catMonthlyExpense += (r.expense || 0) / divisor;
 
-    const divisor = r.frequency === "4-weekly" ? 26 : 24;
-
-const monthlyIncome = r.income ? r.income / divisor : 0;
-const monthlyExpense = r.expense ? r.expense / divisor : 0;
+    const monthlyIncome = r.income ? r.income / divisor : 0;
+    const monthlyExpense = r.expense ? r.expense / divisor : 0;
 
     const tr = document.createElement("tr");
 
@@ -235,7 +246,7 @@ const monthlyExpense = r.expense ? r.expense / divisor : 0;
 
     tbody.appendChild(tr);
 
-    // Last row → final category subtotal
+    // ---- Final category subtotal ----
     if (idx === rows.length - 1) {
       const subtotalRow = document.createElement("tr");
       subtotalRow.style.fontWeight = "bold";
@@ -245,34 +256,32 @@ const monthlyExpense = r.expense ? r.expense / divisor : 0;
         <td colspan="2">Total ${currentCategory}</td>
         <td>${catIncome ? catIncome.toFixed(2) : ""}</td>
         <td>${catExpense ? catExpense.toFixed(2) : ""}</td>
-        <td>${(catIncome / 24).toFixed(2)}</td>
-        <td>${(catExpense / 24).toFixed(2)}</td>
+        <td>${catMonthlyIncome.toFixed(2)}</td>
+        <td>${catMonthlyExpense.toFixed(2)}</td>
       `;
 
       tbody.appendChild(subtotalRow);
     }
   });
 
-  // ✅ GRAND TOTAL — OUTSIDE loop
+  // ---- GRAND TOTAL ----
   const grandRow = document.createElement("tr");
 
   grandRow.style.fontWeight = "bold";
   grandRow.style.background = "#dfefff";
   grandRow.style.borderTop = "3px solid #333";
 
-  const months = 24;
-
   grandRow.innerHTML = `
     <td colspan="2">GRAND TOTAL</td>
     <td>${grandIncome.toFixed(2)}</td>
     <td>${grandExpense.toFixed(2)}</td>
-    <td>${(grandIncome / months).toFixed(2)}</td>
-    <td>${(grandExpense / months).toFixed(2)}</td>
+    <td>${grandMonthlyIncome.toFixed(2)}</td>
+    <td>${grandMonthlyExpense.toFixed(2)}</td>
   `;
 
   tbody.appendChild(grandRow);
 
-  // Show popup
+  // ---- Show popup ----
   document.getElementById("summary-popup").classList.remove("hidden");
   document.body.classList.add("modal-open");
 }
