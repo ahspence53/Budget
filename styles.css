@@ -327,7 +327,8 @@ table button {
 }
 /* Styling the What If  popup button */
 #whatif-btn {
-  background-color: #FF9933;
+  background-color: #FF6666;
+  color: #FFFFFF;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
