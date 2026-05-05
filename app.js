@@ -174,118 +174,106 @@ function renderSummaryReport() {
   }
 
   const tbody = document.getElementById("summary-table-body");
-
   tbody.innerHTML = "";
 
   let currentCategory = null;
 
-let catIncome = 0;
-let catExpense = 0;
+  let catIncome = 0;
+  let catExpense = 0;
+
   let grandIncome = 0;
-let grandExpense = 0;
+  let grandExpense = 0;
 
-rows.forEach((r, idx) => {
-grandIncome += r.income || 0;
-grandExpense += r.expense || 0;
-  // When category changes → insert subtotal BEFORE new category
-  if (currentCategory && r.category !== currentCategory) {
+  rows.forEach((r, idx) => {
 
-    const subtotalRow = document.createElement("tr");
-    subtotalRow.style.fontWeight = "bold";
-    subtotalRow.style.background = "#f0f0f0";
+    // Grand totals
+    grandIncome += r.income || 0;
+    grandExpense += r.expense || 0;
 
-    subtotalRow.innerHTML = `
-      <td colspan="2">Total ${currentCategory}</td>
-      <td>${catIncome ? catIncome.toFixed(2) : ""}</td>
-      <td>${catExpense ? catExpense.toFixed(2) : ""}</td>
-      <td>${(catIncome / 24).toFixed(2)}</td>
-      <td>${(catExpense / 24).toFixed(2)}</td>
+    // Category change → insert subtotal
+    if (currentCategory && r.category !== currentCategory) {
+      const subtotalRow = document.createElement("tr");
+      subtotalRow.style.fontWeight = "bold";
+      subtotalRow.style.background = "#f0f0f0";
+
+      subtotalRow.innerHTML = `
+        <td colspan="2">Total ${currentCategory}</td>
+        <td>${catIncome ? catIncome.toFixed(2) : ""}</td>
+        <td>${catExpense ? catExpense.toFixed(2) : ""}</td>
+        <td>${(catIncome / 24).toFixed(2)}</td>
+        <td>${(catExpense / 24).toFixed(2)}</td>
+      `;
+
+      tbody.appendChild(subtotalRow);
+
+      catIncome = 0;
+      catExpense = 0;
+    }
+
+    currentCategory = r.category;
+
+    // Category totals
+    catIncome += r.income || 0;
+    catExpense += r.expense || 0;
+
+    const months = 24;
+    const monthlyIncome = r.income ? r.income / months : 0;
+    const monthlyExpense = r.expense ? r.expense / months : 0;
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${r.category}</td>
+      <td>${r.description}</td>
+      <td>${r.income ? r.income.toFixed(2) : ""}</td>
+      <td>${r.expense ? r.expense.toFixed(2) : ""}</td>
+      <td>${monthlyIncome ? monthlyIncome.toFixed(2) : ""}</td>
+      <td>${monthlyExpense ? monthlyExpense.toFixed(2) : ""}</td>
     `;
 
-    tbody.appendChild(subtotalRow);
+    tbody.appendChild(tr);
 
-    // Reset for next category
-    catIncome = 0;
-    catExpense = 0;
-  }
-const grandRow = document.createElement("tr");
+    // Last row → final category subtotal
+    if (idx === rows.length - 1) {
+      const subtotalRow = document.createElement("tr");
+      subtotalRow.style.fontWeight = "bold";
+      subtotalRow.style.background = "#f0f0f0";
 
-grandRow.style.fontWeight = "bold";
-grandRow.style.background = "#dfefff";
-grandRow.style.borderTop = "3px solid #333";
+      subtotalRow.innerHTML = `
+        <td colspan="2">Total ${currentCategory}</td>
+        <td>${catIncome ? catIncome.toFixed(2) : ""}</td>
+        <td>${catExpense ? catExpense.toFixed(2) : ""}</td>
+        <td>${(catIncome / 24).toFixed(2)}</td>
+        <td>${(catExpense / 24).toFixed(2)}</td>
+      `;
 
-const months = 24;
+      tbody.appendChild(subtotalRow);
+    }
+  });
 
-grandRow.innerHTML = `
-  <td colspan="2">GRAND TOTAL</td>
-  <td>${grandIncome.toFixed(2)}</td>
-  <td>${grandExpense.toFixed(2)}</td>
-  <td>${(grandIncome / months).toFixed(2)}</td>
-  <td>${(grandExpense / months).toFixed(2)}</td>
-`;
+  // ✅ GRAND TOTAL — OUTSIDE loop
+  const grandRow = document.createElement("tr");
 
-tbody.appendChild(grandRow);
-  currentCategory = r.category;
+  grandRow.style.fontWeight = "bold";
+  grandRow.style.background = "#dfefff";
+  grandRow.style.borderTop = "3px solid #333";
 
-  // Accumulate category totals
-  catIncome += r.income || 0;
-  catExpense += r.expense || 0;
-catIncome += r.income || 0;
-catExpense += r.expense || 0;
   const months = 24;
-  const monthlyIncome = r.income ? r.income / months : 0;
-  const monthlyExpense = r.expense ? r.expense / months : 0;
 
-  const tr = document.createElement("tr");
-
-  tr.innerHTML = `
-    <td>${r.category}</td>
-    <td>${r.description}</td>
-    <td>${r.income ? r.income.toFixed(2) : ""}</td>
-    <td>${r.expense ? r.expense.toFixed(2) : ""}</td>
-    <td>${monthlyIncome ? monthlyIncome.toFixed(2) : ""}</td>
-    <td>${monthlyExpense ? monthlyExpense.toFixed(2) : ""}</td>
+  grandRow.innerHTML = `
+    <td colspan="2">GRAND TOTAL</td>
+    <td>${grandIncome.toFixed(2)}</td>
+    <td>${grandExpense.toFixed(2)}</td>
+    <td>${(grandIncome / months).toFixed(2)}</td>
+    <td>${(grandExpense / months).toFixed(2)}</td>
   `;
 
-  tbody.appendChild(tr);
+  tbody.appendChild(grandRow);
 
-  // If last row → add final subtotal
-  if (idx === rows.length - 1) {
-    const subtotalRow = document.createElement("tr");
-    subtotalRow.style.fontWeight = "bold";
-    subtotalRow.style.background = "#f0f0f0";
-
-    subtotalRow.innerHTML = `
-      <td colspan="2">Total ${currentCategory}</td>
-      <td>${catIncome ? catIncome.toFixed(2) : ""}</td>
-      <td>${catExpense ? catExpense.toFixed(2) : ""}</td>
-      <td>${(catIncome / 24).toFixed(2)}</td>
-      <td>${(catExpense / 24).toFixed(2)}</td>
-    `;
-
-    tbody.appendChild(subtotalRow);
-  }
-});
-
-  /*subtotalRow.style.borderTop = "2px solid #999";*/
- /* subtotalRow.style.background = "#e8f4ff";*/
-  // 🔥 show popup (same pattern as others)
+  // Show popup
   document.getElementById("summary-popup").classList.remove("hidden");
   document.body.classList.add("modal-open");
 }
-  /* ----- close handler ------ */
-  document.getElementById("summary-close").onclick = () => {
-  document.getElementById("summary-popup").classList.add("hidden");
-  document.body.classList.remove("modal-open");
-};
-
-// click outside to close
-document.getElementById("summary-popup").addEventListener("click", e => {
-  if (e.target.id === "summary-popup") {
-    e.target.classList.add("hidden");
-    document.body.classList.remove("modal-open");
-  }
-});
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
