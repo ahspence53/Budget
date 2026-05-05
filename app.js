@@ -2702,7 +2702,33 @@ document.getElementById("close-upcoming-diary").addEventListener("click", () => 
 window.addEventListener("online", updateOnlineStatus);
 window.addEventListener("offline", updateOnlineStatus);
 updateOnlineStatus();
+
   
+/* ------- CLOSE HAMDLER FOR AGGREGATE REPORT --------- */
+  document.addEventListener("DOMContentLoaded", () => {
+
+  const popup = document.getElementById("summary-popup");
+  const closeBtn = document.getElementById("summary-close");
+
+  if (closeBtn) {
+    closeBtn.onclick = () => {
+      popup.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    };
+  }
+
+  // Click outside to close
+  if (popup) {
+    popup.addEventListener("click", e => {
+      if (e.target.id === "summary-popup") {
+        popup.classList.add("hidden");
+        document.body.classList.remove("modal-open");
+      }
+    });
+  }
+
+});
+
 /* ================= INIT ================= */
   const hash = window.location.hash;
 if (hash.startsWith("#jump=")) {
