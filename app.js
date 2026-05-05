@@ -511,7 +511,10 @@ document.getElementById("whatif-confirm").onclick = () => {
     return;
   }
 
-  const buffer = 20;
+  const targetMonthlyBuffer = 40; // or whatever feels right
+
+// Convert monthly buffer → balance buffer
+const buffer = targetMonthlyBuffer * 1.5;
 
   // 🔥 Calculate automatically
   const result = calculateMaxSaving(start, buffer);
