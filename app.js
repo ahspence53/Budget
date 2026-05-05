@@ -181,9 +181,12 @@ function renderSummaryReport() {
 
 let catIncome = 0;
 let catExpense = 0;
+  let grandIncome = 0;
+let grandExpense = 0;
 
 rows.forEach((r, idx) => {
-
+grandIncome += r.income || 0;
+grandExpense += r.expense || 0;
   // When category changes → insert subtotal BEFORE new category
   if (currentCategory && r.category !== currentCategory) {
 
@@ -205,13 +208,30 @@ rows.forEach((r, idx) => {
     catIncome = 0;
     catExpense = 0;
   }
+const grandRow = document.createElement("tr");
 
+grandRow.style.fontWeight = "bold";
+grandRow.style.background = "#dfefff";
+grandRow.style.borderTop = "3px solid #333";
+
+const months = 24;
+
+grandRow.innerHTML = `
+  <td colspan="2">GRAND TOTAL</td>
+  <td>${grandIncome.toFixed(2)}</td>
+  <td>${grandExpense.toFixed(2)}</td>
+  <td>${(grandIncome / months).toFixed(2)}</td>
+  <td>${(grandExpense / months).toFixed(2)}</td>
+`;
+
+tbody.appendChild(grandRow);
   currentCategory = r.category;
 
   // Accumulate category totals
   catIncome += r.income || 0;
   catExpense += r.expense || 0;
-
+catIncome += r.income || 0;
+catExpense += r.expense || 0;
   const months = 24;
   const monthlyIncome = r.income ? r.income / months : 0;
   const monthlyExpense = r.expense ? r.expense / months : 0;
