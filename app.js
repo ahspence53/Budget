@@ -247,8 +247,8 @@ rows.forEach((r, idx) => {
   }
 });
 
-  subtotalRow.style.borderTop = "2px solid #999";
-  subtotalRow.style.background = "#e8f4ff";
+  /*subtotalRow.style.borderTop = "2px solid #999";*/
+ /* subtotalRow.style.background = "#e8f4ff";*/
   // 🔥 show popup (same pattern as others)
   document.getElementById("summary-popup").classList.remove("hidden");
   document.body.classList.add("modal-open");
