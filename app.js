@@ -511,7 +511,7 @@ document.getElementById("whatif-confirm").onclick = () => {
     return;
   }
 
-  const targetMonthlyBuffer = 40; // or whatever feels right
+  const targetMonthlyBuffer = 10; // or whatever feels right
 
 // Convert monthly buffer → balance buffer
 const buffer = targetMonthlyBuffer * 1.5;
