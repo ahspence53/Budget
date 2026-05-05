@@ -140,6 +140,7 @@ if (!isRecurring) return;
           description: tx.description,
           income: 0,
           expense: 0
+          frequency: tx.frequency   // ✅ ADD THIS
         };
       }
 
