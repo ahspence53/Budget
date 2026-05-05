@@ -316,24 +316,21 @@ function calculateMaxSaving(startDate, buffer = 20) {
   /* ======= AGGREGATE CLOSE HANDLER =======-*/
   // ===== SUMMARY POPUP CLOSE =====
 
-const summaryPopup = document.getElementById("summary-popup");
-const summaryClose = document.getElementById("summary-close");
+document.addEventListener("click", (e) => {
 
-if (summaryClose) {
-  summaryClose.onclick = () => {
-    summaryPopup.classList.add("hidden");
+  // Close button
+  if (e.target.id === "summary-close") {
+    document.getElementById("summary-popup").classList.add("hidden");
     document.body.classList.remove("modal-open");
-  };
-}
+  }
 
-if (summaryPopup) {
-  summaryPopup.addEventListener("click", e => {
-    if (e.target === summaryPopup) {
-      summaryPopup.classList.add("hidden");
-      document.body.classList.remove("modal-open");
-    }
-  });
-}
+  // Click outside (backdrop)
+  if (e.target.id === "summary-popup") {
+    e.target.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  }
+
+});
   /* ====TOAST======*/
   function showToast(message, type = "success", duration = 5000) {
   const toast = document.getElementById("toast");
