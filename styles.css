@@ -326,7 +326,7 @@ table button {
   cursor: pointer;
 }
 /* Styling the What If  popup button */
-#summary-btn {
+#whatif-btn {
   background-color: #FF9933;
   padding: 10px 20px;
   border: none;
