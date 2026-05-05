@@ -282,6 +282,7 @@ function renderSummaryReport() {
   tbody.appendChild(grandRow);
 
   const netTotal = grandIncome - grandExpense;
+const avgMonthlyNet = netTotal / 24;
 
 const netRow = document.createElement("tr");
 
@@ -292,7 +293,7 @@ netRow.innerHTML = `
   <td colspan="2">UNALLOCATED (NET)</td>
   <td>${netTotal.toFixed(2)}</td>
   <td></td>
-  <td></td>
+  <td>${avgMonthlyNet.toFixed(2)}</td>
   <td></td>
 `;
 
