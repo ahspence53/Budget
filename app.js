@@ -301,6 +301,28 @@ function calculateMaxSaving(startDate, buffer = 20) {
     lowest: bestLowest
   };
 }
+
+  /* ======= AGGREGATE CLOSE HANDLER =======-*/
+  // ===== SUMMARY POPUP CLOSE =====
+
+const summaryPopup = document.getElementById("summary-popup");
+const summaryClose = document.getElementById("summary-close");
+
+if (summaryClose) {
+  summaryClose.onclick = () => {
+    summaryPopup.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  };
+}
+
+if (summaryPopup) {
+  summaryPopup.addEventListener("click", e => {
+    if (e.target === summaryPopup) {
+      summaryPopup.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    }
+  });
+}
   /* ====TOAST======*/
   function showToast(message, type = "success", duration = 5000) {
   const toast = document.getElementById("toast");
