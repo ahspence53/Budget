@@ -325,6 +325,14 @@ table button {
   border-radius: 4px;
   cursor: pointer;
 }
+/* Styling the What If  popup button */
+#summary-btn {
+  background-color: #FF9933;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
 /* Adding a hover effect */
 #salary-popup-btn:hover {
