@@ -217,9 +217,10 @@ function renderSummaryReport() {
     catIncome += r.income || 0;
     catExpense += r.expense || 0;
 
-    const months = 24;
-    const monthlyIncome = r.income ? r.income / months : 0;
-    const monthlyExpense = r.expense ? r.expense / months : 0;
+    const divisor = r.frequency === "4-weekly" ? 26 : 24;
+
+const monthlyIncome = r.income ? r.income / divisor : 0;
+const monthlyExpense = r.expense ? r.expense / divisor : 0;
 
     const tr = document.createElement("tr");
 
