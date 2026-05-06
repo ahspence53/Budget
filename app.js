@@ -108,8 +108,8 @@ document.querySelectorAll(".tx-filter").forEach(el => {
   start.setHours(12, 0, 0, 0);
 
   const end = new Date(start);
-  end.setMonth(end.getMonth() + 24);
-
+ end.setMonth(end.getMonth() + summaryMonths);
+   
   // Key: category||description
   const summaryMap = {};
 
@@ -164,6 +164,15 @@ if (!isRecurring) return;
 } 
   /* ------- */
   document.getElementById("summary-btn").onclick = renderSummaryReport;
+  document.getElementById("summary-12-btn").onclick = () => {
+  summaryMonths = 12;
+  renderSummaryReport();
+};
+
+document.getElementById("summary-24-btn").onclick = () => {
+  summaryMonths = 24;
+  renderSummaryReport();
+};
 /* =============== */
 function renderSummaryReport() {
   const rows = generateSummaryReport();
@@ -191,7 +200,9 @@ function renderSummaryReport() {
 
   rows.forEach((r, idx) => {
 
-  const divisor = r.frequency === "4-weekly" ? 26 : 24;   
+  const divisor = r.frequency === "4-weekly"
+  ? (summaryMonths / 12) * 26
+  : summaryMonths; 
     
 
     // ---- Grand totals ----
