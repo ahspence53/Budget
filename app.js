@@ -191,7 +191,8 @@ function renderSummaryReport() {
 
   rows.forEach((r, idx) => {
 
-    const divisor = r.frequency === "4-weekly" ? 26 : 24;
+  /*  const divisor = r.frequency === "4-weekly" ? 26 : 24;   */
+    const divisor = r.frequency === "4-weekly" ? 13 : 12;
 
     // ---- Grand totals ----
     grandIncome += r.income || 0;
