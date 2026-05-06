@@ -177,6 +177,8 @@ document.getElementById("summary-24-btn").onclick = () => {
 function renderSummaryReport() {
   const rows = generateSummaryReport();
   console.log("Summary clicked", rows?.length);
+  document.getElementById("summary-title").textContent =
+  `Summary (${summaryMonths} months)`;
 
   if (!rows || rows.length === 0) {
     alert("No summary data found");
