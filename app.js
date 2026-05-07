@@ -299,7 +299,8 @@ const divisor =
   tbody.appendChild(grandRow);
 
   const netTotal = grandIncome - grandExpense;
-const avgMonthlyNet = netTotal / 24;
+/*const avgMonthlyNet = netTotal / 24;*/
+  const avgMonthlyNet = netTotal / summaryMonths;
 
 const netRow = document.createElement("tr");
 
