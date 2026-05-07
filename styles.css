@@ -1139,12 +1139,12 @@ h2 {
 
 .summary-toggle button.active-12 {
   background: #c1e1c1;
-  color: white;
+  color: black;
 }
 
 /* Active 24 month */
 
 .summary-toggle button.active-24 {
   background: #d1dff6;
-  color: white;
+  color: black;
 }
