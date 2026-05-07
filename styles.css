@@ -1131,8 +1131,8 @@ h2 {
   cursor: pointer;
   font-weight: bold;
   transition: all 0.2s ease;
-  background: #c1e1c1;
-  color: #d1dff6
+  background: black;
+  color: white;
 }
 
 /* Active 12 month */
