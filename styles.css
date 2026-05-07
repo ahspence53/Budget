@@ -1115,11 +1115,11 @@ h2 {
 /* ===== SUMMARY THEMES ===== */
 
 .summary-theme-12 {
-  background: #2f6fed;
+  background: #c1e1c1;
 }
 
 .summary-theme-24 {
-  background: #2f8f46;
+  background: #d1dff6;
 }
 
 /* Buttons */
@@ -1138,13 +1138,13 @@ h2 {
 /* Active 12 month */
 
 .summary-toggle button.active-12 {
-  background: #2f6fed;
+  background: #c1e1c1;
   color: white;
 }
 
 /* Active 24 month */
 
 .summary-toggle button.active-24 {
-  background: #2f8f46;
+  background: #d1dff6;
   color: white;
 }
