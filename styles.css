@@ -1138,13 +1138,13 @@ h2 {
 /* Active 12 month */
 
 .summary-toggle button.active-12 {
-  background: #2f6fed;
+  background: #e0f527;
   color: white;
 }
 
 /* Active 24 month */
 
 .summary-toggle button.active-24 {
-  background: #2f8f46;
+  background: #27f56f;
   color: white;
 }
