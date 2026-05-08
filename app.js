@@ -164,13 +164,43 @@ if (!isRecurring) return;
 } 
   /* ------- */
   document.getElementById("summary-btn").onclick = renderSummaryReport;
-  document.getElementById("summary-12-btn").onclick = () => {
+/* ===== SUMMARY BUTTONS + THEMES ===== */
+
+const btn12 = document.getElementById("summary-12-btn");
+const btn24 = document.getElementById("summary-24-btn");
+
+/* THIS is the pale yellow popup box */
+const summaryBox = document.querySelector("#summary-popup .modal-content");
+
+
+btn12.onclick = () => {
+
   summaryMonths = 12;
+
+  /* button styles */
+  btn12.classList.add("active");
+  btn24.classList.remove("active");
+
+  /* popup background */
+  summaryBox.classList.remove("summary-theme-24");
+  summaryBox.classList.add("summary-theme-12");
+
   renderSummaryReport();
 };
 
-document.getElementById("summary-24-btn").onclick = () => {
+
+btn24.onclick = () => {
+
   summaryMonths = 24;
+
+  /* button styles */
+  btn24.classList.add("active");
+  btn12.classList.remove("active");
+
+  /* popup background */
+  summaryBox.classList.remove("summary-theme-12");
+  summaryBox.classList.add("summary-theme-24");
+
   renderSummaryReport();
 };
 /* =============== */
