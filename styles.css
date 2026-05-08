@@ -1138,6 +1138,6 @@ h2 {
 /* ACTIVE BUTTON */
 
 .summary-toggle button.active {
-  background: black;
-  color: white;
+  background: white;
+  color: black;
 }
