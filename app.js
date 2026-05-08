@@ -398,7 +398,7 @@ document.addEventListener("click", (e) => {
 
 });
   /* ====TOAST======*/
-  function showToast(message, type = "success", duration = 5000) {
+  function showToast(message, type = "success", duration = 2000) {
   const toast = document.getElementById("toast");
   if (!toast) return;
 
