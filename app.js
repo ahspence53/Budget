@@ -162,42 +162,15 @@ if (!isRecurring) return;
 
   return rows;
 } 
-/
   /* ------- */
   document.getElementById("summary-btn").onclick = renderSummaryReport;
   document.getElementById("summary-12-btn").onclick = () => {
   summaryMonths = 12;
-
-  const popupContent =
-    document.querySelector("#summary-popup .modal-content");
-
-  popupContent.classList.remove("summary-theme-24");
-  popupContent.classList.add("summary-theme-12");
-
-  const btn12 = document.getElementById("summary-12-btn");
-  const btn24 = document.getElementById("summary-24-btn");
-
-  btn12.classList.add("active-12");
-  btn24.classList.remove("active-24");
-
   renderSummaryReport();
 };
 
 document.getElementById("summary-24-btn").onclick = () => {
   summaryMonths = 24;
-
-  const popupContent =
-    document.querySelector("#summary-popup .modal-content");
-
-  popupContent.classList.remove("summary-theme-12");
-  popupContent.classList.add("summary-theme-24");
-
-  const btn12 = document.getElementById("summary-12-btn");
-  const btn24 = document.getElementById("summary-24-btn");
-
-  btn24.classList.add("active-24");
-  btn12.classList.remove("active-12");
-
   renderSummaryReport();
 };
 /* =============== */
@@ -206,19 +179,6 @@ function renderSummaryReport() {
   console.log("Summary clicked", rows?.length);
   document.getElementById("summary-title").textContent =
   `Summary (${summaryMonths} months)`;
-
-  const popupContent =
-  document.querySelector("#summary-popup .modal-content");
-
-popupContent.classList.toggle(
-  "summary-theme-12",
-  summaryMonths === 12
-);
-
-popupContent.classList.toggle(
-  "summary-theme-24",
-  summaryMonths === 24
-);
 
   if (!rows || rows.length === 0) {
     alert("No summary data found");
