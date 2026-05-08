@@ -1131,8 +1131,8 @@ h2 {
   cursor: pointer;
   font-weight: bold;
   transition: all 0.2s ease;
-  background: black;
-  color: white;
+  background: grey;
+  color: yellow;
 }
 
 /* Active 12 month */
@@ -1145,6 +1145,6 @@ h2 {
 /* Active 24 month */
 
 .summary-toggle button.active-24 {
-  background: white;
-  color: black;
+  background: black;
+  color: white;
 }
