@@ -162,6 +162,9 @@ if (!isRecurring) return;
 
   return rows;
 } 
+/* ------- */
+  btn24.classList.add("active-24");
+  btn12.classList.remove("active-12");
   /* ------- */
   document.getElementById("summary-btn").onclick = renderSummaryReport;
   document.getElementById("summary-12-btn").onclick = () => {
