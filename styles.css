@@ -1142,3 +1142,9 @@ h2 {
   background: black;
   color: white;
 }
+
+.spacer {
+    display: inline-block;
+    width: 20px;
+}
+
