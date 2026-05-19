@@ -988,6 +988,45 @@ function normalizeSearch(str) {
     .replace(/\s+/g, "");
 }
 /* ===================================================*/
+
+function highlightMatch(row, searchText) {
+
+  if (!searchText) return;
+
+  const walker = document.createTreeWalker(
+    row,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+
+  const nodes = [];
+
+  while (walker.nextNode()) {
+    nodes.push(walker.currentNode);
+  }
+
+  nodes.forEach(node => {
+
+    const text = node.textContent;
+    const idx = text.toLowerCase()
+      .indexOf(searchText.toLowerCase());
+
+    if (idx === -1) return;
+
+    const before = text.slice(0, idx);
+    const match = text.slice(idx, idx + searchText.length);
+    const after = text.slice(idx + searchText.length);
+
+    const span = document.createElement("span");
+
+    span.innerHTML =
+      `${before}<mark class="find-highlight">${match}</mark>${after}`;
+
+    node.parentNode.replaceChild(span, node);
+  });
+}
+/* =================== */
 /*function hasNudgedAwayTransaction(iso) {
   return Object.keys(nudges).some(key => key.endsWith("|" + iso));
 }*/
