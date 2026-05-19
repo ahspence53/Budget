@@ -1834,12 +1834,29 @@ const findClear = document.getElementById("projection-find-clear");
 
 let matches=[], findIdx=-1;
 let matchTotals = [];
-function collectMatches(){
+function collectMatches() {
+
+  // Clear previous highlights
+  document.querySelectorAll("mark.find-highlight")
+    .forEach(mark => {
+      mark.replaceWith(
+        document.createTextNode(mark.textContent)
+      );
+    });
+
+  document.querySelectorAll("#projection-table tbody tr")
+    .forEach(r => {
+      r.classList.remove("projection-match-highlight");
+      r.normalize();
+    });
+
   matches = [];
   matchTotals = [];
   findIdx = -1;
 
-  const q = normalizeSearch(findInput.value);
+  const rawQuery = findInput.value.trim();
+  const q = normalizeSearch(rawQuery);
+
   if (!q) {
     updateCounter();
     return;
@@ -1847,21 +1864,52 @@ function collectMatches(){
 
   let runningTotal = 0;
 
-document
-  .querySelectorAll("#projection-table tbody tr")
-  .forEach(r => {
-    if (normalizeSearch(r.textContent).includes(q)) {
-      matches.push(r);
+  document
+    .querySelectorAll("#projection-table tbody tr")
+    .forEach(r => {
 
-      const amt = extractRowAmount(r);
+      const rowText = normalizeSearch(r.textContent);
 
-      if (amt !== null) {
-        runningTotal += amt;
+      // ===== DATE SUPPORT =====
+      let isoMatch = false;
+
+      const dateCell = r.querySelector("td");
+
+      if (dateCell) {
+
+        const displayedDate = dateCell.textContent.trim();
+
+        const parsed = new Date(displayedDate);
+
+        if (!isNaN(parsed)) {
+
+          const iso =
+            parsed.getFullYear() + "-" +
+            String(parsed.getMonth() + 1).padStart(2, "0") + "-" +
+            String(parsed.getDate()).padStart(2, "0");
+
+          if (normalizeSearch(iso).includes(q)) {
+            isoMatch = true;
+          }
+        }
       }
 
-      matchTotals.push(runningTotal);
-    }
-  });
+      if (rowText.includes(q) || isoMatch) {
+
+        matches.push(r);
+
+        // Highlight visible text only
+        highlightMatch(r, rawQuery);
+
+        const amt = extractRowAmount(r);
+
+        if (amt !== null) {
+          runningTotal += amt;
+        }
+
+        matchTotals.push(runningTotal);
+      }
+    });
 
   updateCounter();
 }
