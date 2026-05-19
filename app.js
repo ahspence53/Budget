@@ -993,37 +993,22 @@ function highlightMatch(row, searchText) {
 
   if (!searchText) return;
 
-  const walker = document.createTreeWalker(
-    row,
-    NodeFilter.SHOW_TEXT,
-    null,
-    false
+  const escaped = searchText.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&"
   );
 
-  const nodes = [];
+  const regex = new RegExp(`(${escaped})`, "gi");
 
-  while (walker.nextNode()) {
-    nodes.push(walker.currentNode);
-  }
+  row.querySelectorAll("td").forEach(td => {
 
-  nodes.forEach(node => {
+    // Skip cells already processed
+    if (td.querySelector("mark.find-highlight")) return;
 
-    const text = node.textContent;
-    const idx = text.toLowerCase()
-      .indexOf(searchText.toLowerCase());
-
-    if (idx === -1) return;
-
-    const before = text.slice(0, idx);
-    const match = text.slice(idx, idx + searchText.length);
-    const after = text.slice(idx + searchText.length);
-
-    const span = document.createElement("span");
-
-    span.innerHTML =
-      `${before}<mark class="find-highlight">${match}</mark>${after}`;
-
-    node.parentNode.replaceChild(span, node);
+    td.innerHTML = td.innerHTML.replace(
+      regex,
+      `<mark class="find-highlight">$1</mark>`
+    );
   });
 }
 /* =================== */
