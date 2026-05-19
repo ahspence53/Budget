@@ -988,28 +988,6 @@ function normalizeSearch(str) {
     .replace(/\s+/g, "");
 }
 /* ===================================================*/
-  function highlightMatch(row, searchText) {
-
-  if (!searchText) return;
-
-  const escaped = searchText.replace(
-    /[.*+?^${}()|[\]\\]/g,
-    "\\$&"
-  );
-
-  const regex = new RegExp(`(${escaped})`, "gi");
-
-  row.querySelectorAll("td").forEach(td => {
-
-    // Skip cells already processed
-    if (td.querySelector("mark.find-highlight")) return;
-
-    td.innerHTML = td.innerHTML.replace(
-      regex,
-      `<mark class="find-highlight">$1</mark>`
-    );
-  });
-}
 /*function hasNudgedAwayTransaction(iso) {
   return Object.keys(nudges).some(key => key.endsWith("|" + iso));
 }*/
@@ -1856,29 +1834,12 @@ const findClear = document.getElementById("projection-find-clear");
 
 let matches=[], findIdx=-1;
 let matchTotals = [];
-function collectMatches() {
-
-  // Clear previous highlights
-  document.querySelectorAll("mark.find-highlight")
-    .forEach(mark => {
-      mark.replaceWith(
-        document.createTextNode(mark.textContent)
-      );
-    });
-
-  document.querySelectorAll("#projection-table tbody tr")
-    .forEach(r => {
-      r.classList.remove("projection-match-highlight");
-      r.normalize();
-    });
-
+function collectMatches(){
   matches = [];
   matchTotals = [];
   findIdx = -1;
 
-  const rawQuery = findInput.value.trim();
-  const q = normalizeSearch(rawQuery);
-
+  const q = normalizeSearch(findInput.value);
   if (!q) {
     updateCounter();
     return;
@@ -1886,52 +1847,21 @@ function collectMatches() {
 
   let runningTotal = 0;
 
-  document
-    .querySelectorAll("#projection-table tbody tr")
-    .forEach(r => {
+document
+  .querySelectorAll("#projection-table tbody tr")
+  .forEach(r => {
+    if (normalizeSearch(r.textContent).includes(q)) {
+      matches.push(r);
 
-      const rowText = normalizeSearch(r.textContent);
+      const amt = extractRowAmount(r);
 
-      // ===== DATE SUPPORT =====
-      let isoMatch = false;
-
-      const dateCell = r.querySelector("td");
-
-      if (dateCell) {
-
-        const displayedDate = dateCell.textContent.trim();
-
-        const parsed = new Date(displayedDate);
-
-        if (!isNaN(parsed)) {
-
-          const iso =
-            parsed.getFullYear() + "-" +
-            String(parsed.getMonth() + 1).padStart(2, "0") + "-" +
-            String(parsed.getDate()).padStart(2, "0");
-
-          if (normalizeSearch(iso).includes(q)) {
-            isoMatch = true;
-          }
-        }
+      if (amt !== null) {
+        runningTotal += amt;
       }
 
-      if (rowText.includes(q) || isoMatch) {
-
-        matches.push(r);
-
-        // Highlight visible text only
-        highlightMatch(r, rawQuery);
-
-        const amt = extractRowAmount(r);
-
-        if (amt !== null) {
-          runningTotal += amt;
-        }
-
-        matchTotals.push(runningTotal);
-      }
-    });
+      matchTotals.push(runningTotal);
+    }
+  });
 
   updateCounter();
 }
