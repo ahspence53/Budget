@@ -1862,21 +1862,15 @@ function collectMatches() {
 
   // Clear previous highlights
   document.querySelectorAll("mark.find-highlight")
-  .forEach(mark => {
-    mark.replaceWith(document.createTextNode(mark.textContent));
-  });
+    .forEach(mark => {
+      mark.replaceWith(
+        document.createTextNode(mark.textContent)
+      );
+    });
 
-document.querySelectorAll("#projection-table tbody tr")
-  .forEach(r => {
-    r.classList.remove("projection-match-highlight");
-    r.normalize();
-  });
-
-      // remove old inline highlights
-      r.querySelectorAll("mark.find-highlight").forEach(m => {
-        m.replaceWith(document.createTextNode(m.textContent));
-      });
-
+  document.querySelectorAll("#projection-table tbody tr")
+    .forEach(r => {
+      r.classList.remove("projection-match-highlight");
       r.normalize();
     });
 
