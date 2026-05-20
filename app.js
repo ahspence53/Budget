@@ -2693,6 +2693,13 @@ document.addEventListener("mouseout", e => {
 
   URL.revokeObjectURL(a.href);
 };
+/* ========= */
+  localStorage.setItem(
+  "lastJsonBackup",
+  new Date().toISOString()
+);
+
+updateBackupStatus();
 
 /* ============ IMPORT TRANSACTIONS =========== */
 
