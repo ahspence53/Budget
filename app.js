@@ -1002,10 +1002,33 @@ function highlightMatch(row, searchText) {
 
   row.querySelectorAll("td").forEach(td => {
 
-    td.innerHTML = td.innerHTML.replace(
-      regex,
-      `<mark class="find-highlight">$1</mark>`
+    // ONLY process plain text nodes
+    const walker = document.createTreeWalker(
+      td,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
     );
+
+    const textNodes = [];
+
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode);
+    }
+
+    textNodes.forEach(node => {
+
+      if (!regex.test(node.textContent)) return;
+
+      const span = document.createElement("span");
+
+      span.innerHTML = node.textContent.replace(
+        regex,
+        `<mark class="find-highlight">$1</mark>`
+      );
+
+      node.parentNode.replaceChild(span, node);
+    });
   });
 }
   
