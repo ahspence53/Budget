@@ -81,6 +81,12 @@ if (versionEl) {
   console.info(
   `Home Budget App v${APP_VERSION} (${new Date().toISOString()})`
 );
+  /* ---- temporary code for last backup time ------- */
+  console.log(
+  "lastJsonBackup =",
+  localStorage.getItem("lastJsonBackup")
+);
+  
 /* ===================== */
 document.querySelectorAll(".tx-filter").forEach(el => {
   el.addEventListener("click", () => {
