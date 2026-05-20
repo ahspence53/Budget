@@ -133,7 +133,7 @@ function updateBackupStatus() {
     });
 
   el.textContent =
-    `Last JSON Backup: ${formatted}`;
+    `Last Transaction Backup: ${formatted}`;
 }
 /* ================= AGGREGATE REPORT ============ */
  function generateSummaryReport() {
