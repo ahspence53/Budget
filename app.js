@@ -101,7 +101,7 @@ document.querySelectorAll(".tx-filter").forEach(el => {
 
     renderTransactionTable();
     updateFilterUI();
-    updateBackupStatus();
+    
   });
 });
 /* ================ HELPER FUNCTION FOR BACKUP STATUS ================= */
