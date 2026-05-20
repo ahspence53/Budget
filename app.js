@@ -1880,12 +1880,18 @@ let matches=[], findIdx=-1;
 let matchTotals = [];
 function collectMatches() {
 
-  // Clear previous highlights
+  // ===== CLEAR OLD HIGHLIGHTS =====
+
   document.querySelectorAll("mark.find-highlight")
     .forEach(mark => {
       mark.replaceWith(
         document.createTextNode(mark.textContent)
       );
+    });
+
+  document.querySelectorAll(".date-search-highlight")
+    .forEach(el => {
+      el.classList.remove("date-search-highlight");
     });
 
   document.querySelectorAll("#projection-table tbody tr")
@@ -1915,13 +1921,15 @@ function collectMatches() {
       const rowText = normalizeSearch(r.textContent);
 
       // ===== DATE SUPPORT =====
+
       let isoMatch = false;
 
       const dateCell = r.querySelector("td");
 
       if (dateCell) {
 
-        const displayedDate = dateCell.textContent.trim();
+        const displayedDate =
+          dateCell.textContent.trim();
 
         const parsed = new Date(displayedDate);
 
@@ -1938,12 +1946,21 @@ function collectMatches() {
         }
       }
 
+      // ===== MATCH FOUND =====
+
       if (rowText.includes(q) || isoMatch) {
 
         matches.push(r);
 
-        // Highlight visible text only
-        highlightMatch(r, rawQuery);
+        // Text highlight
+        if (rowText.includes(q)) {
+          highlightMatch(r, rawQuery);
+        }
+
+        // Date highlight
+        if (isoMatch && dateCell) {
+          dateCell.classList.add("date-search-highlight");
+        }
 
         const amt = extractRowAmount(r);
 
