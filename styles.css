@@ -1154,3 +1154,10 @@ h2 {
   padding: 0 2px;
   border-radius: 2px;
 }
+
+.date-search-highlight {
+  background: #ffeb3b !important;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
