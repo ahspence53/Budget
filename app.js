@@ -905,6 +905,7 @@ diaryBtn.onclick = () => {
   updateEditCategoryDropdown();
   renderTransactionTable();
   renderProjectionTable();
+    updateBackupStatus();
 
   alert(`Category "${oldName}" renamed to "${newName}"`);
 };
