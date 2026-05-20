@@ -2702,16 +2702,19 @@ document.getElementById("export-transactions").onclick = () => {
   a.download = "transactions-backup.json";
   a.click();
 
+// Safari/iOS safe delay
+setTimeout(() => {
+
   URL.revokeObjectURL(a.href);
 
-  // ✅ SAVE BACKUP TIME ONLY AFTER EXPORT
   localStorage.setItem(
     "lastJsonBackup",
     new Date().toISOString()
   );
 
   updateBackupStatus();
-};
+
+}, 500);
 /* ============================================ */
 
 /* ============ IMPORT TRANSACTIONS =========== */
