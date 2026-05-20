@@ -97,6 +97,37 @@ document.querySelectorAll(".tx-filter").forEach(el => {
     updateFilterUI();
   });
 });
+/* ================ HELPER FUNCTION FOR BACKUP STATUS ================= */
+function updateBackupStatus() {
+
+  const el = document.getElementById("backup-status");
+  if (!el) return;
+
+  const lastBackup =
+    localStorage.getItem("lastJsonBackup");
+
+  if (!lastBackup) {
+    el.textContent = "Last JSON Backup: Never";
+    return;
+  }
+
+  const d = new Date(lastBackup);
+
+  const formatted =
+    d.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    }) +
+    " " +
+    d.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+  el.textContent =
+    `Last JSON Backup: ${formatted}`;
+}
 /* ================= AGGREGATE REPORT ============ */
  function generateSummaryReport() {
   if (!startDate) {
