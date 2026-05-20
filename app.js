@@ -1210,7 +1210,7 @@ addTxButton.onclick = () => {
   saveTransactions();
   renderTransactionTable();
   renderProjectionTable();
-  updateBackupStatus();
+  
 
   txDesc.value = txAmount.value = txDate.value = "";
   txEndDate.value = "";   // ← ADD THIS
