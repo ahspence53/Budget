@@ -114,7 +114,7 @@ function updateBackupStatus() {
     localStorage.getItem("lastJsonBackup");
 
   if (!lastBackup) {
-    el.textContent = "Last JSON Backup: Never";
+    el.textContent = "Last Transactions Backup: Never";
     return;
   }
 
