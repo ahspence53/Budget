@@ -988,6 +988,27 @@ function normalizeSearch(str) {
     .replace(/\s+/g, "");
 }
 /* ===================================================*/
+
+function highlightMatch(row, searchText) {
+
+  if (!searchText) return;
+
+  const escaped = searchText.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&"
+  );
+
+  const regex = new RegExp(`(${escaped})`, "gi");
+
+  row.querySelectorAll("td").forEach(td => {
+
+    td.innerHTML = td.innerHTML.replace(
+      regex,
+      `<mark class="find-highlight">$1</mark>`
+    );
+  });
+}
+  
 /*function hasNudgedAwayTransaction(iso) {
   return Object.keys(nudges).some(key => key.endsWith("|" + iso));
 }*/
