@@ -2700,21 +2700,25 @@ document.getElementById("export-transactions").onclick = () => {
 
   a.href = URL.createObjectURL(blob);
   a.download = "transactions-backup.json";
+
   a.click();
 
-// Safari/iOS safe delay
-setTimeout(() => {
+  // Safari/iOS safe delay
+  setTimeout(() => {
 
-  URL.revokeObjectURL(a.href);
+    URL.revokeObjectURL(a.href);
 
-  localStorage.setItem(
-    "lastJsonBackup",
-    new Date().toISOString()
-  );
+    localStorage.setItem(
+      "lastJsonBackup",
+      new Date().toISOString()
+    );
 
-  updateBackupStatus();
+    updateBackupStatus();
 
-}, 500);
+  }, 500);
+
+};
+/* ============================================ */
 /* ============================================ */
 
 /* ============ IMPORT TRANSACTIONS =========== */
