@@ -2677,7 +2677,8 @@ document.addEventListener("mouseout", e => {
 
 
 /* =========== EXPORT TRANSACTIONS ============ */
-  document.getElementById("export-transactions").onclick = () => {
+document.getElementById("export-transactions").onclick = () => {
+
   const transactions =
     JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
@@ -2687,19 +2688,22 @@ document.addEventListener("mouseout", e => {
   );
 
   const a = document.createElement("a");
+
   a.href = URL.createObjectURL(blob);
   a.download = "transactions-backup.json";
   a.click();
 
   URL.revokeObjectURL(a.href);
-};
-/* ========= */
-  localStorage.setItem(
-  "lastJsonBackup",
-  new Date().toISOString()
-);
 
-updateBackupStatus();
+  // ✅ SAVE BACKUP TIME ONLY AFTER EXPORT
+  localStorage.setItem(
+    "lastJsonBackup",
+    new Date().toISOString()
+  );
+
+  updateBackupStatus();
+};
+/* ============================================ */
 
 /* ============ IMPORT TRANSACTIONS =========== */
 
