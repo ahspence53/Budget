@@ -905,7 +905,7 @@ diaryBtn.onclick = () => {
   updateEditCategoryDropdown();
   renderTransactionTable();
   renderProjectionTable();
-    updateBackupStatus();
+    
 
   alert(`Category "${oldName}" renamed to "${newName}"`);
 };
@@ -2908,6 +2908,7 @@ renderProjectionTable();
 
 checkDiaryAlerts();
 setInterval(checkDiaryAlerts, 10 * 60 * 1000); // every 10 minutes
+updateBackupStatus();
 });
 
 setTimeout(() => {
