@@ -21,68 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
 const STORAGE_KEY = "budget";
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
 window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
-  transactions.forEach(tx => {
-
-  // Add missing property
-  if (!("savingsPotId" in tx)) {
-    tx.savingsPotId = null;
-  }
-
-  // Auto-link existing Savings transactions
-  if (!tx.savingsPotId && tx.category === "Savings") {
-
-    if (tx.description.includes("Car Lease")) {
-      tx.savingsPotId = "carLease";
-    }
-
-    else if (tx.description.includes("Funeral")) {
-      tx.savingsPotId = "funeral";
-    }
-
-    else if (tx.description.includes("Christmas")) {
-      tx.savingsPotId = "christmas";
-    }
-
-    else if (tx.description.includes("Car Budget")) {
-      tx.savingsPotId = "carBudget";
-    }
-
-  }
-
-});
 
 const SAVINGS_POTS_KEY = "savingsPots";
 
 let savingsPots =
   JSON.parse(localStorage.getItem(SAVINGS_POTS_KEY)) || [];
-if (savingsPots.length === 0) {
-
-  savingsPots = [
-    {
-      id: "carLease",
-      name: "Savings New Car Lease",
-      openingBalance: 0
-    },
-    {
-      id: "funeral",
-      name: "Savings Funeral",
-      openingBalance: 0
-    },
-    {
-      id: "christmas",
-      name: "Savings Christmas",
-      openingBalance: 0
-    },
-    {
-      id: "carBudget",
-      name: "Savings Car Budget",
-      openingBalance: 0
-    }
-  ];
-
-  saveSavingsPots();
-}
-  
   
 let startDate = localStorage.getItem("startDate") || "";
 let openingBalance = parseFloat(localStorage.getItem("openingBalance")) || 0;
@@ -167,31 +110,6 @@ document.querySelectorAll(".tx-filter").forEach(el => {
     
   });
 });
-/* ======= HELPER FUNCTION FOR SAVINGS POTS ========= */
-  function calculateSavingsPotBalance(potId) {
-
-  const pot = savingsPots.find(p => p.id === potId);
-
-  if (!pot) return 0;
-
-  let balance = pot.openingBalance || 0;
-
-  transactions.forEach(tx => {
-
-    if (tx.savingsPotId !== potId) return;
-
-    if (tx.type === "expense") {
-      balance += Number(tx.amount);
-    }
-
-    if (tx.type === "income") {
-      balance -= Number(tx.amount);
-    }
-
-  });
-
-  return Math.round(balance * 100) / 100;
-}
 /* ================ HELPER FUNCTION FOR BACKUP STATUS ================= */
 function updateBackupStatus() {
 
@@ -287,23 +205,7 @@ if (!isRecurring) return;
   });
 
   return rows;
-/* ====STEP 4D and 4E======== */
-/*document
-  .getElementById("savings-summary-btn")
-  .onclick = renderSavingsSummary;
-
-   document
-  .getElementById("close-savings-summary")
-  .onclick = () => {
-
-    document
-      .getElementById("savings-summary-popup")
-      .classList.add("hidden");
-
-    document.body.classList.remove("modal-open");
-};*/
-
-/* ============= */
+} 
   /* ------- */
   document.getElementById("summary-btn").onclick = renderSummaryReport;
 /* ===== SUMMARY BUTTONS + THEMES ===== */
@@ -493,46 +395,6 @@ tbody.appendChild(netRow);
   document.getElementById("summary-popup").classList.remove("hidden");
   document.body.classList.add("modal-open");
 }
-
-/* ========================== */
-/*  function renderSavingsSummary() {
-
-  const tbody =
-    document.getElementById("savings-summary-body");
-
-  const totalEl =
-    document.getElementById("savings-summary-total");
-
-  tbody.innerHTML = "";
-
-  let grandTotal = 0;
-
-  savingsPots.forEach(pot => {
-
-    const balance =
-      calculateSavingsPotBalance(pot.id);
-
-    grandTotal += balance;
-
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td>${pot.name}</td>
-      <td>£${balance.toFixed(2)}</td>
-    `;
-
-    tbody.appendChild(tr);
-  });
-
-  totalEl.textContent =
-    `£${grandTotal.toFixed(2)}`;
-
-  document
-    .getElementById("savings-summary-popup")
-    .classList.remove("hidden");
-
-  document.body.classList.add("modal-open");
-}*/
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
@@ -1327,12 +1189,6 @@ helpModal.addEventListener("click", e => {
 function saveTransactions() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
 }
-function saveSavingsPots() {
-  localStorage.setItem(
-    SAVINGS_POTS_KEY,
-    JSON.stringify(savingsPots)
-  );
-}
 
 addTxButton.onclick = () => {
   const tx = {
@@ -1342,9 +1198,7 @@ addTxButton.onclick = () => {
     frequency: txFrequency.value,
     date: txDate.value,
     endDate: txEndDate.value || null, // ← NEW
-    category: txCategorySelect.value,
-    savingsPotId: null
-    
+    category: txCategorySelect.value
   };
 
   if (!tx.description) return alert("Description required");
