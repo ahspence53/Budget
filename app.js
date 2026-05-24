@@ -31,6 +31,34 @@ const SAVINGS_POTS_KEY = "savingsPots";
 
 let savingsPots =
   JSON.parse(localStorage.getItem(SAVINGS_POTS_KEY)) || [];
+if (savingsPots.length === 0) {
+
+  savingsPots = [
+    {
+      id: "carLease",
+      name: "Savings New Car Lease",
+      openingBalance: 0
+    },
+    {
+      id: "funeral",
+      name: "Savings Funeral",
+      openingBalance: 0
+    },
+    {
+      id: "christmas",
+      name: "Savings Christmas",
+      openingBalance: 0
+    },
+    {
+      id: "carBudget",
+      name: "Savings Car Budget",
+      openingBalance: 0
+    }
+  ];
+
+  saveSavingsPots();
+}
+  
   
 let startDate = localStorage.getItem("startDate") || "";
 let openingBalance = parseFloat(localStorage.getItem("openingBalance")) || 0;
