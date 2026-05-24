@@ -495,7 +495,7 @@ tbody.appendChild(netRow);
 }
 
 /* ========================== */
-  function renderSavingsSummary() {
+/*  function renderSavingsSummary() {
 
   const tbody =
     document.getElementById("savings-summary-body");
@@ -532,7 +532,7 @@ tbody.appendChild(netRow);
     .classList.remove("hidden");
 
   document.body.classList.add("modal-open");
-}
+}*/
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
