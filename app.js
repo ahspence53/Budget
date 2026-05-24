@@ -1313,7 +1313,8 @@ addTxButton.onclick = () => {
     frequency: txFrequency.value,
     date: txDate.value,
     endDate: txEndDate.value || null, // ← NEW
-    category: txCategorySelect.value
+    category: txCategorySelect.value,
+    savingsPotId: null
   };
 
   if (!tx.description) return alert("Description required");
