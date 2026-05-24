@@ -1260,6 +1260,32 @@ function saveTransactions() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
 }
 
+
+  function saveOpeningBalances() {
+
+  const inputs = document.querySelectorAll(
+    ".opening-balance-input"
+  );
+
+  inputs.forEach(input => {
+
+    const potId = input.dataset.potId;
+
+    const pot = savingsPots.find(
+      p => p.id === potId
+    );
+
+    if (!pot) return;
+
+    pot.openingBalance =
+      parseFloat(input.value) || 0;
+
+  });
+
+  saveSavingsPots();
+
+  renderSavingsSummary();
+}
   function saveSavingsPots() {
   localStorage.setItem(
     SAVINGS_POTS_KEY,
