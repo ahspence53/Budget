@@ -143,6 +143,31 @@ document.querySelectorAll(".tx-filter").forEach(el => {
     
   });
 });
+/* ======= HELPER FUNCTION FOR SAVINGS POTS ========= */
+  function calculateSavingsPotBalance(potId) {
+
+  const pot = savingsPots.find(p => p.id === potId);
+
+  if (!pot) return 0;
+
+  let balance = pot.openingBalance || 0;
+
+  transactions.forEach(tx => {
+
+    if (tx.savingsPotId !== potId) return;
+
+    if (tx.type === "expense") {
+      balance += Number(tx.amount);
+    }
+
+    if (tx.type === "income") {
+      balance -= Number(tx.amount);
+    }
+
+  });
+
+  return Math.round(balance * 100) / 100;
+}
 /* ================ HELPER FUNCTION FOR BACKUP STATUS ================= */
 function updateBackupStatus() {
 
