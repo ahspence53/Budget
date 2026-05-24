@@ -265,17 +265,22 @@ btn24.onclick = () => {
 
   savingsPots.forEach(pot => {
 
-    const balance =
-      calculateSavingsPotBalance(pot.id);
+    const current =
+  calculateSavingsPotBalance(pot.id);
 
-    grandTotal += balance;
+const contributions =
+  current - (pot.openingBalance || 0);
 
-    const tr = document.createElement("tr");
+grandTotal += current;
 
-    tr.innerHTML = `
-      <td>${pot.name}</td>
-      <td>£${balance.toFixed(2)}</td>
-    `;
+const tr = document.createElement("tr");
+
+tr.innerHTML = `
+  <td>${pot.name}</td>
+  <td>£${(pot.openingBalance || 0).toFixed(2)}</td>
+  <td>£${contributions.toFixed(2)}</td>
+  <td>£${current.toFixed(2)}</td>
+`;
 
     tbody.appendChild(tr);
   });
