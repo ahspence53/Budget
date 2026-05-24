@@ -211,6 +211,10 @@ if (!isRecurring) return;
   document
   .getElementById("savings-summary-btn")
   .onclick = renderSavingsSummary;
+
+  document
+  .getElementById("save-opening-balances")
+  .onclick = saveOpeningBalances;
 /* ===== SUMMARY BUTTONS + THEMES ===== */
 
 const btn12 = document.getElementById("summary-12-btn");
