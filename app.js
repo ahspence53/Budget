@@ -1189,6 +1189,12 @@ helpModal.addEventListener("click", e => {
 function saveTransactions() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
 }
+function saveSavingsPots() {
+  localStorage.setItem(
+    SAVINGS_POTS_KEY,
+    JSON.stringify(savingsPots)
+  );
+}
 
 addTxButton.onclick = () => {
   const tx = {
