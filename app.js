@@ -248,6 +248,46 @@ btn24.onclick = () => {
   renderSummaryReport();
 };
 /* =============== */
+  function renderSavingsSummary() {
+
+  const tbody =
+    document.getElementById("savings-summary-body");
+
+  const totalEl =
+    document.getElementById("savings-summary-total");
+
+  tbody.innerHTML = "";
+
+  let grandTotal = 0;
+
+  savingsPots.forEach(pot => {
+
+    const balance =
+      calculateSavingsPotBalance(pot.id);
+
+    grandTotal += balance;
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${pot.name}</td>
+      <td>£${balance.toFixed(2)}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+
+  totalEl.textContent =
+    `£${grandTotal.toFixed(2)}`;
+
+  document
+    .getElementById("savings-summary-popup")
+    .classList.remove("hidden");
+
+  document.body.classList.add("modal-open");
+}
+
+/* =============== */
 function renderSummaryReport() {
   const rows = generateSummaryReport();
   console.log("Summary clicked", rows?.length);
