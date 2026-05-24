@@ -208,6 +208,9 @@ if (!isRecurring) return;
 } 
   /* ------- */
   document.getElementById("summary-btn").onclick = renderSummaryReport;
+  document
+  .getElementById("savings-summary-btn")
+  .onclick = renderSavingsSummary;
 /* ===== SUMMARY BUTTONS + THEMES ===== */
 
 const btn12 = document.getElementById("summary-12-btn");
