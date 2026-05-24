@@ -21,6 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
 const STORAGE_KEY = "budget";
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
 window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
+  transactions.forEach(tx => {
+  if (!("savingsPotId" in tx)) {
+    tx.savingsPotId = null;
+  }
+});
 
 const SAVINGS_POTS_KEY = "savingsPots";
 
