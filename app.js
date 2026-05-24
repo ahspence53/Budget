@@ -277,7 +277,17 @@ const tr = document.createElement("tr");
 
 tr.innerHTML = `
   <td>${pot.name}</td>
-  <td>£${(pot.openingBalance || 0).toFixed(2)}</td>
+  <td>
+  £
+  <input
+    type="number"
+    step="0.01"
+    class="opening-balance-input"
+    data-pot-id="${pot.id}"
+    value="${(pot.openingBalance || 0).toFixed(2)}"
+    style="width:90px;"
+  >
+</td>
   <td>£${contributions.toFixed(2)}</td>
   <td>£${current.toFixed(2)}</td>
 `;
