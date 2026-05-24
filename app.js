@@ -1245,6 +1245,66 @@ function saveTransactions() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
 }
 
+  function saveSavingsPots() {
+  localStorage.setItem(
+    SAVINGS_POTS_KEY,
+    JSON.stringify(savingsPots)
+  );
+}
+
+  if (savingsPots.length === 0) {
+
+  savingsPots = [
+    {
+      id: "carLease",
+      name: "Savings New Car Lease",
+      openingBalance: 0
+    },
+    {
+      id: "funeral",
+      name: "Savings Funeral",
+      openingBalance: 0
+    },
+    {
+      id: "christmas",
+      name: "Savings Christmas",
+      openingBalance: 0
+    },
+    {
+      id: "carBudget",
+      name: "Savings Car Budget",
+      openingBalance: 0
+    }
+  ];
+
+  saveSavingsPots();
+}
+
+  function calculateSavingsPotBalance(potId) {
+
+  const pot = savingsPots.find(p => p.id === potId);
+
+  if (!pot) return 0;
+
+  let balance = pot.openingBalance || 0;
+
+  transactions.forEach(tx => {
+
+    if (tx.savingsPotId !== potId) return;
+
+    if (tx.type === "expense") {
+      balance += Number(tx.amount);
+    }
+
+    if (tx.type === "income") {
+      balance -= Number(tx.amount);
+    }
+
+  });
+
+  return Math.round(balance * 100) / 100;
+}
+
 addTxButton.onclick = () => {
   const tx = {
     description: txDesc.value.trim(),
