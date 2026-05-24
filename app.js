@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
 const STORAGE_KEY = "budget";
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
 window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
+
+const SAVINGS_POTS_KEY = "savingsPots";
+
+let savingsPots =
+  JSON.parse(localStorage.getItem(SAVINGS_POTS_KEY)) || [];
+  
 let startDate = localStorage.getItem("startDate") || "";
 let openingBalance = parseFloat(localStorage.getItem("openingBalance")) || 0;
 let editingIndex = null;
