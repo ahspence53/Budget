@@ -287,7 +287,23 @@ if (!isRecurring) return;
   });
 
   return rows;
-} 
+/* ====STEP 4D and 4E======== */
+document
+  .getElementById("savings-summary-btn")
+  .onclick = renderSavingsSummary;
+
+   document
+  .getElementById("close-savings-summary")
+  .onclick = () => {
+
+    document
+      .getElementById("savings-summary-popup")
+      .classList.add("hidden");
+
+    document.body.classList.remove("modal-open");
+};
+
+/* ============= */
   /* ------- */
   document.getElementById("summary-btn").onclick = renderSummaryReport;
 /* ===== SUMMARY BUTTONS + THEMES ===== */
