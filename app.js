@@ -22,9 +22,33 @@ const STORAGE_KEY = "budget";
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
 window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
   transactions.forEach(tx => {
+
+  // Add missing property
   if (!("savingsPotId" in tx)) {
     tx.savingsPotId = null;
   }
+
+  // Auto-link existing Savings transactions
+  if (!tx.savingsPotId && tx.category === "Savings") {
+
+    if (tx.description.includes("Car Lease")) {
+      tx.savingsPotId = "carLease";
+    }
+
+    else if (tx.description.includes("Funeral")) {
+      tx.savingsPotId = "funeral";
+    }
+
+    else if (tx.description.includes("Christmas")) {
+      tx.savingsPotId = "christmas";
+    }
+
+    else if (tx.description.includes("Car Budget")) {
+      tx.savingsPotId = "carBudget";
+    }
+
+  }
+
 });
 
 const SAVINGS_POTS_KEY = "savingsPots";
