@@ -280,6 +280,30 @@ btn24.onclick = () => {
   renderSummaryReport();
 };
 /* =============== */
+function populateSavingsPotDropdown() {
+
+  const select =
+    document.getElementById("tx-savings-pot");
+
+  if (!select) return;
+
+  select.innerHTML =
+    `<option value="">-- Select Pot --</option>`;
+
+  savingsPots.forEach(pot => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = pot.id;
+
+    option.textContent = pot.name;
+
+    select.appendChild(option);
+
+  });
+}
+/* ----------- */
   function renderSavingsSummary() {
 
   const tbody =
