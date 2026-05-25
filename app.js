@@ -306,6 +306,7 @@ tr.innerHTML = `
     data-pot-id="${pot.id}"
     value="${(pot.openingBalance || 0).toFixed(2)}"
     onclick="this.select()"
+    onkeydown="handleOpeningBalanceKeydown(event)"
     style="width:90px;"
   >
 </td>
