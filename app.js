@@ -360,7 +360,28 @@ tr.innerHTML = `
 
   document.body.classList.add("modal-open");
 }
+/* ===== */
+  function toggleSavingsPotDropdown() {
 
+  const category =
+    document.getElementById("tx-category").value;
+
+  const row =
+    document.getElementById("savings-pot-row");
+
+  if (category === "Savings") {
+    row.style.display = "block";
+  } else {
+    row.style.display = "none";
+  }
+}
+/* ------ */
+document
+  .getElementById("tx-category")
+  .addEventListener(
+    "change",
+    toggleSavingsPotDropdown
+  );  
 /* =============== */
 function renderSummaryReport() {
   const rows = generateSummaryReport();
