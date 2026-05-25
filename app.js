@@ -1350,20 +1350,26 @@ function saveTransactions() {
 
   transactions.forEach(tx => {
 
-    if (tx.savingsPotId !== potId) return;
+  const txDate = new Date(tx.date);
 
-    if (tx.type === "expense") {
-      balance += Number(tx.amount);
-    }
+  const trackingDate =
+    new Date(savingsStartDate);
 
-    if (tx.type === "income") {
-      balance -= Number(tx.amount);
-    }
+  if (txDate < trackingDate) {
+    return;
+  }
 
-  });
+  if (tx.savingsPotId !== potId) return;
 
-  return Math.round(balance * 100) / 100;
-}
+  if (tx.type === "expense") {
+    balance += Number(tx.amount);
+  }
+
+  if (tx.type === "income") {
+    balance -= Number(tx.amount);
+  }
+
+});
 
 addTxButton.onclick = () => {
   const tx = {
