@@ -1396,8 +1396,9 @@ function saveTransactions() {
   ];
 
   saveSavingsPots();
-    populateSavingsPotDropdown();
+    
 }
+  populateSavingsPotDropdown();
 
   function calculateSavingsPotBalance(potId) {
 
