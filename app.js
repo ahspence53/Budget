@@ -1399,6 +1399,24 @@ addTxButton.onclick = () => {
     category: txCategorySelect.value,
     savingsPotId: null
   };
+  if (tx.category === "Savings") {
+
+  if (tx.description.includes("Car Lease")) {
+    tx.savingsPotId = "carLease";
+  }
+
+  else if (tx.description.includes("Funeral")) {
+    tx.savingsPotId = "funeral";
+  }
+
+  else if (tx.description.includes("Christmas")) {
+    tx.savingsPotId = "christmas";
+  }
+
+  else if (tx.description.includes("Car Budget")) {
+    tx.savingsPotId = "carBudget";
+  }
+}
 
   if (!tx.description) return alert("Description required");
   if (!tx.category) return alert("Category required");
