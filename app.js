@@ -300,10 +300,12 @@ tr.innerHTML = `
   £
   <input
     type="number"
+    inputmode="decimal"
     step="0.01"
     class="opening-balance-input"
     data-pot-id="${pot.id}"
     value="${(pot.openingBalance || 0).toFixed(2)}"
+    onclick="this.select()"
     style="width:90px;"
   >
 </td>
