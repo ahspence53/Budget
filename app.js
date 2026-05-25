@@ -156,6 +156,16 @@ function updateBackupStatus() {
   el.textContent =
     `Last Transaction Backup: ${formatted}`;
 }
+/* ================ */
+  window.handleOpeningBalanceKeydown = function(event) {
+
+  if (event.key === "Enter") {
+
+    event.preventDefault();
+
+    event.target.blur();
+  }
+};
 /* ================= AGGREGATE REPORT ============ */
  function generateSummaryReport() {
   if (!startDate) {
