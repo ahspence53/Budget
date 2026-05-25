@@ -1443,9 +1443,11 @@ addTxButton.onclick = () => {
     date: txDate.value,
     endDate: txEndDate.value || null, // ← NEW
     category: txCategorySelect.value,
-    savingsPotId: null
+    savingsPotId:
+  document.getElementById("tx-savings-pot")
+    .value || null
   };
-  if (tx.category === "Savings") {
+  /*if (tx.category === "Savings") {
 
   if (tx.description.includes("Car Lease")) {
     tx.savingsPotId = "carLease";
@@ -1462,7 +1464,7 @@ addTxButton.onclick = () => {
   else if (tx.description.includes("Car Budget")) {
     tx.savingsPotId = "carBudget";
   }
-}
+}*/
 
   if (!tx.description) return alert("Description required");
   if (!tx.category) return alert("Category required");
