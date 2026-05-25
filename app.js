@@ -1370,6 +1370,10 @@ function saveTransactions() {
   }
 
 });
+    
+  return Math.round(balance * 100) / 100;
+}
+
 
 addTxButton.onclick = () => {
   const tx = {
