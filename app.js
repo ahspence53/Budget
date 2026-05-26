@@ -1402,52 +1402,53 @@ function saveTransactions() {
 
   function calculateSavingsPotBalance(potId) {
 
-  const pot = savingsPots.find(p => p.id === potId);
+  const pot = savingsPots.find(
+    p => p.id === potId
+  );
 
   if (!pot) return 0;
 
   let balance = pot.openingBalance || 0;
 
-  transactions.forEach(tx => {
-
-  const txDate = new Date(tx.date);
-
   const trackingDate =
     new Date(savingsStartDate);
 
-  if (txDate < trackingDate) {
-    return;
+  trackingDate.setHours(12,0,0,0);
+
+  // same projection window as main app
+  const end = new Date();
+  end.setMonth(end.getMonth() + 24);
+
+  // loop day-by-day exactly like projection table
+  for (
+    let d = new Date(trackingDate);
+    d <= end;
+    d.setDate(d.getDate() + 1)
+  ) {
+
+    const iso = toISO(d);
+
+    transactions.forEach(tx => {
+
+      // wrong pot
+      if (tx.savingsPotId !== potId) return;
+
+      // does this recurring transaction occur today?
+      if (!occursOn(tx, iso)) return;
+
+      if (tx.type === "expense") {
+        balance += Number(tx.amount);
+      }
+
+      if (tx.type === "income") {
+        balance -= Number(tx.amount);
+      }
+
+    });
   }
 
-  if (tx.savingsPotId !== potId) return;
-
-  if (tx.type === "expense") {
-    balance += Number(tx.amount);
-  }
-
-  if (tx.type === "income") {
-    balance -= Number(tx.amount);
-  }
-
-});
-    
   return Math.round(balance * 100) / 100;
 }
-
-
-addTxButton.onclick = () => {
-  const tx = {
-    description: txDesc.value.trim(),
-    amount: parseFloat(txAmount.value) || 0,
-    type: txType.value,
-    frequency: txFrequency.value,
-    date: txDate.value,
-    endDate: txEndDate.value || null, // ← NEW
-    category: txCategorySelect.value,
-    savingsPotId:
-  document.getElementById("tx-savings-pot")
-    .value || null
-  };
   /*if (tx.category === "Savings") {
 
   if (tx.description.includes("Car Lease")) {
