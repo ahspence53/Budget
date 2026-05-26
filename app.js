@@ -23,6 +23,9 @@ let categories = JSON.parse(localStorage.getItem("categories")) || [];
 window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
 
 const SAVINGS_POTS_KEY = "savingsPots";
+  const SAVINGS_START_DATE_KEY =
+  "savingsTrackingStartDate";
+
 
 
 let savingsPots =
@@ -30,9 +33,7 @@ let savingsPots =
 let savingsStartDate =
   localStorage.getItem(SAVINGS_START_DATE_KEY);
 
-  let savingsStartDate =
-  localStorage.getItem(SAVINGS_START_DATE_KEY);
-
+  
 if (!savingsStartDate) {
 
   savingsStartDate =
@@ -89,8 +90,6 @@ const editCategoryInput = document.getElementById("edit-category-name");
 const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
-const SAVINGS_START_DATE_KEY =
-  "savingsTrackingStartDate";
 
   const CACHE_VERSION = "v1.8.0";
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
