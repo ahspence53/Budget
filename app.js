@@ -1416,47 +1416,78 @@ function saveTransactions() {
 
   if (!pot) return 0;
 
-  let contributions = 0;
+  const trackingStart =
+    new Date(
+      localStorage.getItem(
+        SAVINGS_START_DATE_KEY
+      )
+    );
+
+  trackingStart.setHours(0,0,0,0);
 
   const today = new Date();
-  today.setHours(12,0,0,0);
+  today.setHours(23,59,59,999);
+
+  let contributions = 0;
 
   transactions.forEach(tx => {
 
     if (tx.savingsPotId !== potId) return;
 
-    // only count occurrences UP TO TODAY
-    for (
-      let d = new Date(tx.date);
-      d <= today;
-      d.setDate(
-        d.getDate() +
-        (tx.frequency === "4-weekly" ? 28 : 31)
-      )
-    ) {
+    let occurrenceDate =
+      new Date(tx.date);
 
-      const iso = toISO(d);
+    occurrenceDate.setHours(12,0,0,0);
 
-      if (!occursOn(tx, iso)) continue;
+    while (occurrenceDate <= today) {
 
-      if (tx.type === "expense") {
-        contributions += Number(tx.amount);
+      // only count AFTER tracking started
+      if (occurrenceDate >= trackingStart) {
+
+        const iso =
+          occurrenceDate
+            .toISOString()
+            .split("T")[0];
+
+        if (occursOn(tx, iso)) {
+
+          if (tx.type === "expense") {
+            contributions += Number(tx.amount);
+          }
+
+          if (tx.type === "income") {
+            contributions -= Number(tx.amount);
+          }
+
+        }
       }
 
-      if (tx.type === "income") {
-        contributions -= Number(tx.amount);
-      }
-
-      // monthly advance
+      // advance recurrence
       if (tx.frequency === "monthly") {
-        d.setMonth(d.getMonth());
+
+        occurrenceDate.setMonth(
+          occurrenceDate.getMonth() + 1
+        );
+
+      } else if (
+        tx.frequency === "4-weekly"
+      ) {
+
+        occurrenceDate.setDate(
+          occurrenceDate.getDate() + 28
+        );
+
+      } else {
+
+        break;
       }
+
     }
 
   });
 
   return (
-    (pot.openingBalance || 0) +
+    Number(pot.openingBalance || 0) +
     contributions
   );
 }
