@@ -320,6 +320,18 @@ table button {
   border-radius: 4px;
   cursor: pointer;
 }
+/* savings popup */
+/*savings-summary-btn*/
+/* Styling the What If  popup button */
+#savings-summary-btn {
+  background-color: #ffff00;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 /* Styling the What If  popup button */
 #whatif-btn {
   background-color: #FF6666;
