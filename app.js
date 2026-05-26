@@ -31,6 +31,13 @@ let savingsPots =
 let savingsStartDate =
   localStorage.getItem(SAVINGS_START_DATE_KEY);
 
+  if (!localStorage.getItem(SAVINGS_START_DATE_KEY)) {
+  localStorage.setItem(
+    SAVINGS_START_DATE_KEY,
+    new Date().toISOString()
+  );
+}
+
 if (!savingsStartDate) {
 
   savingsStartDate =
