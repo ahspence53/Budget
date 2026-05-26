@@ -1449,7 +1449,19 @@ function saveTransactions() {
 
   return Math.round(balance * 100) / 100;
 }
+addTxButton.onclick = () => {
 
+  const tx = {
+    date: txDate.value,
+    endDate: txEndDate.value || null,
+    description: txDesc.value.trim(),
+    category: txCategorySelect.value,
+    amount: parseFloat(txAmount.value),
+    type: txType.value,
+    frequency: txFrequency.value,
+    savingsPotId:
+      document.getElementById("tx-savings-pot").value || null
+  };
 
   if (!tx.description) return alert("Description required");
   if (!tx.category) return alert("Category required");
