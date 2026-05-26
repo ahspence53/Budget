@@ -3047,7 +3047,11 @@ document.getElementById("export-transactions").onclick = () => {
 document
   .getElementById("import-transactions-btn")
   .addEventListener("click", () => {
-    document.getElementById("import-transactions").click();
+
+    document
+      .getElementById("import-transactions")
+      .click();
+
   });
 
 document
@@ -3055,84 +3059,195 @@ document
   .addEventListener("change", e => {
 
     const file = e.target.files[0];
-    // ✅ Filename guard
-  if (!file.name.toLowerCase().startsWith("transaction")) {
-    alert(
-      `Wrong file selected.\n\nExpected a transaction backup file.\n\nYou selected:\n${file.name}`
-    );
-    e.target.value = "";
-    return;
-  }
-
 
     if (!file) return;
+
+    // ✅ Filename guard
+    if (
+      !file.name
+        .toLowerCase()
+        .startsWith("transaction")
+    ) {
+
+      alert(
+        `Wrong file selected.\n\nExpected a transaction backup file.\n\nYou selected:\n${file.name}`
+      );
+
+      e.target.value = "";
+      return;
+    }
 
     const reader = new FileReader();
 
     reader.onload = () => {
-      try {
-        const imported = JSON.parse(reader.result);
 
-        if (!Array.isArray(imported)) {
+      try {
+
+        const imported =
+          JSON.parse(reader.result);
+
+        let importedTransactions = [];
+        let importedSavingsPots = [];
+        let importedSavingsStartDate = null;
+
+        // =========================
+        // OLD FORMAT
+        // =========================
+
+        if (Array.isArray(imported)) {
+
+          importedTransactions = imported;
+
+        // =========================
+        // NEW FORMAT
+        // =========================
+
+        } else if (
+          imported.transactions &&
+          Array.isArray(imported.transactions)
+        ) {
+
+          importedTransactions =
+            imported.transactions;
+
+          importedSavingsPots =
+            imported.savingsPots || [];
+
+          importedSavingsStartDate =
+            imported.savingsStartDate || null;
+
+        } else {
+
           alert("Invalid transactions file");
           return;
+
         }
-// 🔥 CLEAN the data
 
-transactions = imported.map(tx => ({
+        // =========================
+        // CLEAN TRANSACTIONS
+        // =========================
 
-  description: tx.description || "",
+        transactions =
+          importedTransactions.map(tx => ({
 
-  amount: parseFloat(tx.amount) || 0,
+            description:
+              tx.description || "",
 
-  type: tx.type === "income" ? "income" : "expense",
+            amount:
+              parseFloat(tx.amount) || 0,
 
-  frequency: (tx.frequency || "irregular").toLowerCase().trim(),
+            type:
+              tx.type === "income"
+                ? "income"
+                : "expense",
 
-  date: tx.date || "",
+            frequency:
+              (tx.frequency || "irregular")
+                .toLowerCase()
+                .trim(),
 
-  endDate: tx.endDate || null,
+            date:
+              tx.date || "",
 
-  category: tx.category || ""
+            endDate:
+              tx.endDate || null,
 
-}));
-        // 🔑 CRITICAL FIX: update the live array
-        /* next two lines commented out */
-        /*followimg two lines added*/
-       /* transactions.length = 0; */
-       /* transactions.push(...imported); */
-    
-        // Save transactions
-        transactions = imported;
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+            category:
+              tx.category || "",
 
- 
+            savingsPotId:
+              tx.savingsPotId || null
 
-// Rebuild categories from transactions
-categories = [
-  ...new Set(
-    transactions
-      .map(tx => tx.category)
-      .filter(Boolean)
-  )
-];
+          }));
 
-// Save categories
-localStorage.setItem("categories", JSON.stringify(categories));
+        // =========================
+        // SAVE TRANSACTIONS
+        // =========================
 
-// Refresh UI
-updateCategoryDropdown();
-updateEditCategoryDropdown();
-renderTransactionTable();
-renderProjectionTable();
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(transactions)
+        );
 
-alert("Transactions imported successfully");
-      } catch {
+        // =========================
+        // RESTORE SAVINGS POTS
+        // =========================
+
+        if (
+          importedSavingsPots.length > 0
+        ) {
+
+          savingsPots =
+            importedSavingsPots;
+
+          localStorage.setItem(
+            SAVINGS_POTS_KEY,
+            JSON.stringify(savingsPots)
+          );
+        }
+
+        // =========================
+        // RESTORE SAVINGS DATE
+        // =========================
+
+        if (importedSavingsStartDate) {
+
+          localStorage.setItem(
+            SAVINGS_START_DATE_KEY,
+            importedSavingsStartDate
+          );
+
+        }
+
+        // =========================
+        // REBUILD CATEGORIES
+        // =========================
+
+        categories = [
+
+          ...new Set(
+
+            transactions
+              .map(tx => tx.category)
+              .filter(Boolean)
+
+          )
+
+        ];
+
+        localStorage.setItem(
+          "categories",
+          JSON.stringify(categories)
+        );
+
+        // =========================
+        // REFRESH UI
+        // =========================
+
+        updateCategoryDropdown();
+
+        updateEditCategoryDropdown();
+
+        renderTransactionTable();
+
+        renderProjectionTable();
+
+        alert(
+          "Transactions imported successfully"
+        );
+
+      } catch (err) {
+
+        console.error(err);
+
         alert("Invalid JSON file");
+
       }
+
     };
 
     reader.readAsText(file);
+
   });
 /* ================================================*/
   document.getElementById("upcoming-diary-btn").addEventListener("click", () => {
