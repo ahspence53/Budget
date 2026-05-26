@@ -87,7 +87,8 @@ const editCategoryInput = document.getElementById("edit-category-name");
 const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
-
+const SAVINGS_START_DATE_KEY =
+  "savingsTrackingStartDate";
 
   const CACHE_VERSION = "v1.8.0";
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
