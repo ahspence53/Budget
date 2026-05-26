@@ -2996,8 +2996,24 @@ document.getElementById("export-transactions").onclick = () => {
   const transactions =
     JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
+  const savingsPots =
+    JSON.parse(localStorage.getItem(SAVINGS_POTS_KEY)) || [];
+
+  const savingsStartDate =
+    localStorage.getItem(SAVINGS_START_DATE_KEY);
+
+  const backupData = {
+
+    transactions,
+
+    savingsPots,
+
+    savingsStartDate
+
+  };
+
   const blob = new Blob(
-    [JSON.stringify(transactions, null, 2)],
+    [JSON.stringify(backupData, null, 2)],
     { type: "application/json" }
   );
 
