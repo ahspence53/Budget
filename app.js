@@ -1408,47 +1408,51 @@ function saveTransactions() {
 
   if (!pot) return 0;
 
-  let balance = pot.openingBalance || 0;
+  let contributions = 0;
 
-  const trackingDate =
-    new Date(savingsStartDate);
+  const today = new Date();
+  today.setHours(12,0,0,0);
 
-  trackingDate.setHours(12,0,0,0);
+  transactions.forEach(tx => {
 
-  // same projection window as main app
-  const end = new Date();
-  end.setMonth(end.getMonth() + 24);
+    if (tx.savingsPotId !== potId) return;
 
-  // loop day-by-day exactly like projection table
-  for (
-    let d = new Date(trackingDate);
-    d <= end;
-    d.setDate(d.getDate() + 1)
-  ) {
+    // only count occurrences UP TO TODAY
+    for (
+      let d = new Date(tx.date);
+      d <= today;
+      d.setDate(
+        d.getDate() +
+        (tx.frequency === "4-weekly" ? 28 : 31)
+      )
+    ) {
 
-    const iso = toISO(d);
+      const iso = toISO(d);
 
-    transactions.forEach(tx => {
-
-      // wrong pot
-      if (tx.savingsPotId !== potId) return;
-
-      // does this recurring transaction occur today?
-      if (!occursOn(tx, iso)) return;
+      if (!occursOn(tx, iso)) continue;
 
       if (tx.type === "expense") {
-        balance += Number(tx.amount);
+        contributions += Number(tx.amount);
       }
 
       if (tx.type === "income") {
-        balance -= Number(tx.amount);
+        contributions -= Number(tx.amount);
       }
 
-    });
-  }
+      // monthly advance
+      if (tx.frequency === "monthly") {
+        d.setMonth(d.getMonth());
+      }
+    }
 
-  return Math.round(balance * 100) / 100;
+  });
+
+  return (
+    (pot.openingBalance || 0) +
+    contributions
+  );
 }
+  
 addTxButton.onclick = () => {
 
   const tx = {
