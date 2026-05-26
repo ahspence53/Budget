@@ -23,25 +23,20 @@ let categories = JSON.parse(localStorage.getItem("categories")) || [];
 window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
 
 const SAVINGS_POTS_KEY = "savingsPots";
-const SAVINGS_START_DATE_KEY =
-  "savingsStartDate";
+
 
 let savingsPots =
   JSON.parse(localStorage.getItem(SAVINGS_POTS_KEY)) || [];
 let savingsStartDate =
   localStorage.getItem(SAVINGS_START_DATE_KEY);
 
-  if (!localStorage.getItem(SAVINGS_START_DATE_KEY)) {
-  localStorage.setItem(
-    SAVINGS_START_DATE_KEY,
-    new Date().toISOString()
-  );
-}
+  let savingsStartDate =
+  localStorage.getItem(SAVINGS_START_DATE_KEY);
 
 if (!savingsStartDate) {
 
   savingsStartDate =
-    new Date().toISOString().split("T")[0];
+    new Date().toISOString();
 
   localStorage.setItem(
     SAVINGS_START_DATE_KEY,
