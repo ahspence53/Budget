@@ -2458,7 +2458,9 @@ if (!csvInput.files.length) return alert("Choose CSV");
 
       localStorage.setItem("categories", JSON.stringify(categories));
       localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+// 🔥 Rebuild savings pots
 
+buildSavingsPotsFromTransactions();
       updateCategoryDropdown();
       updateEditCategoryDropdown();
       renderTransactionTable();
