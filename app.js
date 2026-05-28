@@ -3250,6 +3250,7 @@ document
         updateCategoryDropdown();
 
         updateEditCategoryDropdown();
+        buildSavingsPotsFromTransactions();
 
         renderTransactionTable();
 
