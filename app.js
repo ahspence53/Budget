@@ -1756,6 +1756,7 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
           document.getElementById(`ie-category-${index}`).value;
 
         saveTransactions();
+        buildSavingsPotsFromTransactions();
         inlineEditIndex = null;
         renderTransactionTable();
         renderProjectionTable();
