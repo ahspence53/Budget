@@ -1805,9 +1805,13 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
   `Delete "${tx.description}" on ${getDisplayedTransactionDate(tx)} for £${tx.amount.toFixed(2)}?`
 )) return;
         transactions.splice(index, 1);
-        saveTransactions();
-        renderTransactionTable();
-        renderProjectionTable();
+
+saveTransactions();
+
+buildSavingsPotsFromTransactions();
+
+renderTransactionTable();
+renderProjectionTable();
       };
     }
 
