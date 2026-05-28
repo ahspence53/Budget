@@ -579,17 +579,22 @@ document.addEventListener("click", (e) => {
 
 });
 
-  document
-  .getElementById("close-savings-summary")
-  .onclick = () => {
+  const closeSavingsBtn =
+  document.getElementById("close-savings-summary");
+
+if (closeSavingsBtn) {
+
+  closeSavingsBtn.onclick = () => {
 
     document
       .getElementById("savings-summary-popup")
       .classList.add("hidden");
 
     document.body.classList.remove("modal-open");
-};
-  
+
+  };
+
+}
   /* ====TOAST======*/
   function showToast(message, type = "success", duration = 2000) {
   const toast = document.getElementById("toast");
