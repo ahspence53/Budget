@@ -36,13 +36,21 @@ let savingsStartDate =
   
 if (!savingsStartDate) {
 
-  savingsStartDate =
-    new Date().toISOString();
-
-  localStorage.setItem(
-    SAVINGS_START_DATE_KEY,
-    savingsStartDate
+  const userDate = prompt(
+    "Enter savings tracking start date (YYYY-MM-DD)",
+    new Date().toISOString().slice(0,10)
   );
+
+  if (userDate) {
+
+    savingsStartDate = userDate;
+
+    localStorage.setItem(
+      SAVINGS_START_DATE_KEY,
+      savingsStartDate
+    );
+
+  }
 }
   
 let startDate = localStorage.getItem("startDate") || "";
