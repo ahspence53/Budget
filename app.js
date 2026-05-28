@@ -37,7 +37,7 @@ let savingsStartDate =
 if (!savingsStartDate) {
 
   savingsStartDate =
-    new Date().toISOString().slice(0,10);
+    new Date().toISOString();
 
   localStorage.setItem(
     SAVINGS_START_DATE_KEY,
@@ -579,22 +579,17 @@ document.addEventListener("click", (e) => {
 
 });
 
-  const closeSavingsBtn =
-  document.getElementById("close-savings-summary");
-
-if (closeSavingsBtn) {
-
-  closeSavingsBtn.onclick = () => {
+  document
+  .getElementById("close-savings-summary")
+  .onclick = () => {
 
     document
       .getElementById("savings-summary-popup")
       .classList.add("hidden");
 
     document.body.classList.remove("modal-open");
-
-  };
-
-}
+};
+  
   /* ====TOAST======*/
   function showToast(message, type = "success", duration = 2000) {
   const toast = document.getElementById("toast");
@@ -1000,16 +995,11 @@ function getTransactionsSortedByDate() {
 }
 
 /* ----------Diary button ----------------------- */
-const diaryBtn =
-  document.getElementById("diary-popup-btn");
+const diaryBtn = document.getElementById("diary-popup-btn");
 
-if (diaryBtn) {
-
-  diaryBtn.onclick = () => {
-    openDiaryForDate();
-  };
-
-}
+diaryBtn.onclick = () => {
+  openDiaryForDate();
+};
 
 
 
@@ -1070,7 +1060,7 @@ if (diaryBtn) {
   updateEditCategoryDropdown();
   renderTransactionTable();
   renderProjectionTable();
-   buildSavingsPotsFromTransactions(); 
+    
 
   alert(`Category "${oldName}" renamed to "${newName}"`);
 };
@@ -1345,86 +1335,72 @@ helpModal.addEventListener("click", e => {
 
 
 /* ================= TRANSACTIONS ================= */
-function saveSavingsPots() {
+function saveTransactions() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+}
 
+
+  function saveOpeningBalances() {
+
+  const inputs = document.querySelectorAll(
+    ".opening-balance-input"
+  );
+
+  inputs.forEach(input => {
+
+    const potId = input.dataset.potId;
+
+    const pot = savingsPots.find(
+      p => p.id === potId
+    );
+
+    if (!pot) return;
+
+    pot.openingBalance =
+      parseFloat(input.value) || 0;
+
+  });
+
+  saveSavingsPots();
+
+  renderSavingsSummary();
+}
+  function saveSavingsPots() {
   localStorage.setItem(
     SAVINGS_POTS_KEY,
     JSON.stringify(savingsPots)
   );
-
 }
 
-// =====================================
-// BUILD SAVINGS POTS FROM TRANSACTIONS
-// =====================================
+  if (savingsPots.length === 0) {
 
-function buildSavingsPotsFromTransactions() {
-
-  // Preserve existing opening balances
-  const existingBalances = {};
-
-  savingsPots.forEach(pot => {
-
-    existingBalances[pot.id] =
-      pot.openingBalance || 0;
-
-  });
-
-  // Find all savings transactions
-  const savingsTransactions =
-    transactions.filter(tx => {
-
-      return (
-        tx.category &&
-        tx.category.toLowerCase() === "savings"
-      );
-
-    });
-
-  // Remove duplicates by description
-  const uniqueDescriptions = [
-
-    ...new Set(
-
-      savingsTransactions.map(tx =>
-        tx.description.trim()
-      )
-
-    )
-
+  savingsPots = [
+    {
+      id: "carLease",
+      name: "Savings New Car Lease",
+      openingBalance: 0
+    },
+    {
+      id: "funeral",
+      name: "Savings Funeral",
+      openingBalance: 0
+    },
+    {
+      id: "christmas",
+      name: "Savings Christmas",
+      openingBalance: 0
+    },
+    {
+      id: "carBudget",
+      name: "Savings Car Budget",
+      openingBalance: 0
+    }
   ];
 
-  // Build savings pots dynamically
-  savingsPots = uniqueDescriptions.map(name => {
-
-    // Create ID
-    const id = name
-
-      .replace(/^savings\s*/i, "")
-      .replace(/\s+/g, "")
-      .replace(/[^a-zA-Z0-9]/g, "")
-      .trim();
-
-    return {
-
-      id,
-
-      name,
-
-      openingBalance:
-        existingBalances[id] || 0
-
-    };
-
-  });
-
-  // Save
   saveSavingsPots();
-
-  // Refresh dropdown
-  populateSavingsPotDropdown();
-
+    
 }
+  populateSavingsPotDropdown();
 
   function calculateSavingsPotBalance(potId) {
 
@@ -1538,11 +1514,8 @@ addTxButton.onclick = () => {
   }
 
   saveTransactions();
-
-buildSavingsPotsFromTransactions();
-
-renderTransactionTable();
-renderProjectionTable();
+  renderTransactionTable();
+  renderProjectionTable();
   
 
   txDesc.value = txAmount.value = txDate.value = "";
@@ -1766,7 +1739,6 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
           document.getElementById(`ie-category-${index}`).value;
 
         saveTransactions();
-        buildSavingsPotsFromTransactions();
         inlineEditIndex = null;
         renderTransactionTable();
         renderProjectionTable();
@@ -1816,13 +1788,9 @@ if (tx.frequency === "Targeted") tr.classList.add("freq-targeted");
   `Delete "${tx.description}" on ${getDisplayedTransactionDate(tx)} for £${tx.amount.toFixed(2)}?`
 )) return;
         transactions.splice(index, 1);
-
-saveTransactions();
-
-buildSavingsPotsFromTransactions();
-
-renderTransactionTable();
-renderProjectionTable();
+        saveTransactions();
+        renderTransactionTable();
+        renderProjectionTable();
       };
     }
 
@@ -2469,9 +2437,7 @@ if (!csvInput.files.length) return alert("Choose CSV");
 
       localStorage.setItem("categories", JSON.stringify(categories));
       localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
-// 🔥 Rebuild savings pots
 
-buildSavingsPotsFromTransactions();
       updateCategoryDropdown();
       updateEditCategoryDropdown();
       renderTransactionTable();
@@ -3261,7 +3227,6 @@ document
         updateCategoryDropdown();
 
         updateEditCategoryDropdown();
-        buildSavingsPotsFromTransactions();
 
         renderTransactionTable();
 
