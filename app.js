@@ -1528,8 +1528,11 @@ addTxButton.onclick = () => {
   }
 
   saveTransactions();
-  renderTransactionTable();
-  renderProjectionTable();
+
+buildSavingsPotsFromTransactions();
+
+renderTransactionTable();
+renderProjectionTable();
   
 
   txDesc.value = txAmount.value = txDate.value = "";
