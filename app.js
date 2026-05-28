@@ -1394,6 +1394,11 @@ function saveTransactions() {
       id: "carBudget",
       name: "Savings Car Budget",
       openingBalance: 0
+    },
+    {
+      id: "monzoInvestment
+      name: "Savings Monzo Investment",
+      openingBalance: 0
     }
   ];
 
