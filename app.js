@@ -1386,6 +1386,14 @@ function saveTransactions() {
       openingBalance: 0
     },
     {
+      id: "1pChallenge",
+      name: "Savings 1p Challenge",
+      openingBalance: 0
+    },
+      id: "MonzoInvestment",
+      name: "Savings Monzo Invertmwnt",
+      openingBalance: 0
+    },
       id: "christmas",
       name: "Savings Christmas",
       openingBalance: 0
@@ -1395,7 +1403,7 @@ function saveTransactions() {
       name: "Savings Car Budget",
       openingBalance: 0
     }
-  ];
+ ];
 
   saveSavingsPots();
     
