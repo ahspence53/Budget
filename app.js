@@ -1060,7 +1060,7 @@ diaryBtn.onclick = () => {
   updateEditCategoryDropdown();
   renderTransactionTable();
   renderProjectionTable();
-    
+   buildSavingsPotsFromTransactions(); 
 
   alert(`Category "${oldName}" renamed to "${newName}"`);
 };
