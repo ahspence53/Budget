@@ -1396,7 +1396,7 @@ function saveTransactions() {
       openingBalance: 0
     },
     {
-      id: "monzoInvestment
+      id: "monzoInvestment",
       name: "Savings Monzo Investment",
       openingBalance: 0
     }
