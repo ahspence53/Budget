@@ -995,11 +995,16 @@ function getTransactionsSortedByDate() {
 }
 
 /* ----------Diary button ----------------------- */
-const diaryBtn = document.getElementById("diary-popup-btn");
+const diaryBtn =
+  document.getElementById("diary-popup-btn");
 
-diaryBtn.onclick = () => {
-  openDiaryForDate();
-};
+if (diaryBtn) {
+
+  diaryBtn.onclick = () => {
+    openDiaryForDate();
+  };
+
+}
 
 
 
