@@ -1396,11 +1396,6 @@ function saveTransactions() {
       openingBalance: 0
     },
     {
-      id: "monzoInvestment",
-      name: "Savings Monzo Investment",
-      openingBalance: 0
-    },
-    {
       id: "monzo1p",
       name: "Savings Monzo 1p Challenge",
       openingBalance: 0
