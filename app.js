@@ -1411,7 +1411,7 @@ async function loadSavingsPots() {
 }
 
 /* Call the function to load your data when the script runs */
-loadSavingsPots();
+/*loadSavingsPots();*/
 
 /*  savingsPots = [
     {
