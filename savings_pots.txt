@@ -1,6 +1,0 @@
-﻿id,name
-carLease,Savings New Car Lease
-funeral,Savings Funeral
-christmas,Savings Christmas
-carBudget,Savings Car Budget
-monzo1p,Savings Monzo 1p Challenge
