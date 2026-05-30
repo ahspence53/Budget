@@ -1372,43 +1372,30 @@ function saveTransactions() {
   );
 }
 
-  // Initialize an empty array that will hold your pots
-let AsavingsPots = [];
+  if (savingsPots.length === 0) {
 
-async function loadSavingsPots() {
-  try {
-    // 1. Fetch the CSV file (adjust path if it's in a subfolder, e.g., 'data/pots.csv')
-    const response = await fetch('pots.csv');
-    const csvText = await response.text();
-    
-    // 2. Split the file into rows and filter out any empty lines
-    const rows = csvText.split('\n').map(row => row.trim()).filter(row => row.length > 0);
-    
-    // 3. Remove the header row (id,name)
-    const dataRows = rows.slice(1);
-    
-    // 4. Map the rows into your required object structure
-    AsavingsPots = dataRows.map(row => {
-      const [id, name] = row.split(',');
-      return {
-        id: id,
-        name: name,
-        openingBalance: 0 // Defaulted to 0 as per your template
-      };
-    });
-    
-    console.log("Savings pots loaded successfully:", AsavingsPots);
-    
-    
-
-  } catch (error) {
-    console.error("Error loading the CSV file:", error);
-  }
-}
-
-// Call the function to load your data when the script runs
-loadSavingsPots();
-
+  savingsPots = [
+    {
+      id: "carLease",
+      name: "Savings New Car Lease",
+      openingBalance: 0
+    },
+    {
+      id: "funeral",
+      name: "Savings Funeral",
+      openingBalance: 0
+    },
+    {
+      id: "christmas",
+      name: "Savings Christmas",
+      openingBalance: 0
+    },
+    {
+      id: "carBudget",
+      name: "Savings Car Budget",
+      openingBalance: 0
+    }
+  ];
 
   saveSavingsPots();
     
