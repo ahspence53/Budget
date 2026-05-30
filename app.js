@@ -1373,7 +1373,7 @@ function saveTransactions() {
 }
 
   // Initialize an empty array that will hold your pots
-let savingsPots = [];
+let AsavingsPots = [];
 
 async function loadSavingsPots() {
   try {
@@ -1388,7 +1388,7 @@ async function loadSavingsPots() {
     const dataRows = rows.slice(1);
     
     // 4. Map the rows into your required object structure
-    savingsPots = dataRows.map(row => {
+    AsavingsPots = dataRows.map(row => {
       const [id, name] = row.split(',');
       return {
         id: id,
@@ -1397,7 +1397,7 @@ async function loadSavingsPots() {
       };
     });
     
-    console.log("Savings pots loaded successfully:", savingsPots);
+    console.log("Savings pots loaded successfully:", AsavingsPots);
     
     
 
