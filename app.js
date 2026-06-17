@@ -535,7 +535,8 @@ tbody.appendChild(netRow);
 /* ================= CODE TO CALCULATE MAXIMUM SAVING WITHIN A BUFFER ======== */
 function calculateMaxSaving(startDate, buffer = 20) {
   let low = 0;
-  let high = openingBalance || 2000;
+ /* let high = openingBalance || 2000;*/
+  let high = 5000;
 
   let best = 0;
   let bestLowest = 0;
