@@ -2107,6 +2107,10 @@ if (current.getDate() !== targetDay) return;
         tr.classList.add("highlight-savings");
       }
 
+      if (tx.description.toLowerCase().includes("car")) {
+        tr.classList.add("highlight-car");
+      }
+
       if (
         iso === lowestUpcomingIso &&
         index === todaysTx.length - 1
