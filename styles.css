@@ -519,6 +519,12 @@ tr.freq-4weekly {
   /* Optional: light green tint to make it pop */
 }
 
+.highlight-car {
+  font-weight: bold;
+  background-color: #ffffff;
+  color: #2E8B57;
+}
+
 /* This will apply to your 'Diary' button AND your 'Back' button */
 #diary-popup-btn, #back-btn {
   padding: 10px 20px;
