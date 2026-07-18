@@ -23,13 +23,18 @@ let categories = JSON.parse(localStorage.getItem("categories")) || [];
 window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
 
 const SAVINGS_POTS_KEY = "savingsPots";
-  const SAVINGS_START_DATE_KEY =
-  "savingsTrackingStartDate";
+const SAVINGS_START_DATE_KEY = "savingsTrackingStartDate";
 
-
+const DEFAULT_SAVINGS_POTS = [
+    { id: "carLease",  name: "Savings New Car Lease" },
+    { id: "funeral",   name: "Savings Funeral" },
+    { id: "carBudget", name: "Savings Car Budget" },
+    { id: "monzo1p",   name: "Savings Monzo 1p Challenge" }
+];
 
 let savingsPots =
-  JSON.parse(localStorage.getItem(SAVINGS_POTS_KEY)) || [];
+    JSON.parse(localStorage.getItem(SAVINGS_POTS_KEY)) || [];
+  
 let savingsStartDate =
   localStorage.getItem(SAVINGS_START_DATE_KEY);
 
