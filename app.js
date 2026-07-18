@@ -46,6 +46,11 @@ const DEFAULT_SAVINGS_POTS = [
         name: "Savings Monzo 1p Challenge",
         openingBalance: 0
     }
+      {
+        id: "Walking",
+        name: "Walking equipment",
+        openingBalance: 0
+    }
 ];
 
 let savingsPots =
