@@ -21,8 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
 const STORAGE_KEY = "budget";
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
 window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; 
-
-const SAVINGS_POTS_KEY = "savingsPots";
+  
+const DEFAULT_SAVINGS_POTS = [
+    { id: "carLease", name: "Savings New Car Lease" },
+    { id: "funeral", name: "Savings Funeral" },
+    { id: "carBudget", name: "Savings Car Budget" },
+    { id: "monzo1p", name: "Savings Monzo 1p Challenge" }
+];
+  
+/*const SAVINGS_POTS_KEY = "savingsPots";*/
   const SAVINGS_START_DATE_KEY =
   "savingsTrackingStartDate";
 
