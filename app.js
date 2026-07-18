@@ -26,10 +26,26 @@ const SAVINGS_POTS_KEY = "savingsPots";
 const SAVINGS_START_DATE_KEY = "savingsTrackingStartDate";
 
 const DEFAULT_SAVINGS_POTS = [
-    { id: "carLease",  name: "Savings New Car Lease" },
-    { id: "funeral",   name: "Savings Funeral" },
-    { id: "carBudget", name: "Savings Car Budget" },
-    { id: "monzo1p",   name: "Savings Monzo 1p Challenge" }
+    {
+        id: "carLease",
+        name: "Savings New Car Lease",
+        openingBalance: 0
+    },
+    {
+        id: "funeral",
+        name: "Savings Funeral",
+        openingBalance: 0
+    },
+    {
+        id: "carBudget",
+        name: "Savings Car Budget",
+        openingBalance: 0
+    },
+    {
+        id: "monzo1p",
+        name: "Savings Monzo 1p Challenge",
+        openingBalance: 0
+    }
 ];
 
 let savingsPots =
