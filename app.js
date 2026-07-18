@@ -24,7 +24,11 @@ window.transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
 const SAVINGS_POTS_KEY = "savingsPots";
 const SAVINGS_START_DATE_KEY = "savingsTrackingStartDate";
-
+// =====================================================
+// Default Savings Pots
+// Add any new savings pots here.
+// Existing users will automatically receive new pots.
+// ====================================================
 const DEFAULT_SAVINGS_POTS = [
     {
         id: "carLease",
