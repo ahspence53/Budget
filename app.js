@@ -1380,32 +1380,30 @@ function saveTransactions() {
 
   if (savingsPots.length === 0) {
 
-  savingsPots = [
-    {
-      id: "carLease",
-      name: "Savings New Car Lease",
-      openingBalance: 0
-    },
-    {
-      id: "funeral",
-      name: "Savings Funeral",
-      openingBalance: 0
-    },
-    {
-      id: "christmas",
-      name: "Savings Christmas",
-      openingBalance: 0
-    },
-    {
-      id: "carBudget",
-      name: "Savings Car Budget",
-      openingBalance: 0
-    }
-  ];
+    savingsPots = DEFAULT_SAVINGS_POTS.map(pot => ({
+        ...pot,
+        openingBalance: 0
+    }));
 
-  saveSavingsPots();
-    
+    saveSavingsPots();
 }
+
+// Add any new default pots to existing users
+DEFAULT_SAVINGS_POTS.forEach(defaultPot => {
+
+    if (!savingsPots.some(p => p.id === defaultPot.id)) {
+
+        savingsPots.push({
+            ...defaultPot,
+            openingBalance: 0
+        });
+
+    }
+
+});
+
+saveSavingsPots();
+  
   populateSavingsPotDropdown();
 
   function calculateSavingsPotBalance(potId) {
