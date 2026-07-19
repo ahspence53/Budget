@@ -54,7 +54,13 @@ const DEFAULT_SAVINGS_POTS = [
         id: "Walking",
         name: "Walking equipment",
         openingBalance: 0
+    },
+        {
+        id: "Carpet",
+        name: "Hall Carpet",
+        openingBalance: 0
     }
+
 ];
 
 let savingsPots =
@@ -121,7 +127,7 @@ const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 
-  const CACHE_VERSION = "v2.2.0";
+  const CACHE_VERSION = "v2.2.1";
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
 const APP_VERSION = `budget-app-${CACHE_VERSION}`;
 
