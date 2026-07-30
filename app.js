@@ -127,7 +127,7 @@ const renameCategoryButton = document.getElementById("rename-category");
 const MAX_PAST_NUDGE_DAYS = 7;
 const txEndDate = document.getElementById("tx-end-date");
 
-  const CACHE_VERSION = "v2.2.1";
+  const CACHE_VERSION = "v2.2.2";
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
 const APP_VERSION = `budget-app-${CACHE_VERSION}`;
 
