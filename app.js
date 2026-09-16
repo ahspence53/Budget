@@ -44,6 +44,11 @@ const DEFAULT_SAVINGS_POTS = [
         id: "carBudget",
         name: "Savings Car Budget",
         openingBalance: 0
+    },
+  {
+        id: "general",
+        name: "Savings General",
+        openingBalance: 0
     }
 
 ];
