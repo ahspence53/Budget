@@ -44,21 +44,6 @@ const DEFAULT_SAVINGS_POTS = [
         id: "carBudget",
         name: "Savings Car Budget",
         openingBalance: 0
-    },
-    {
-        id: "monzo1p",
-        name: "Savings Monzo 1p Challenge",
-        openingBalance: 0
-    },
-      {
-        id: "Walking",
-        name: "Walking equipment",
-        openingBalance: 0
-    },
-        {
-        id: "Carpet",
-        name: "Hall Carpet",
-        openingBalance: 0
     }
 
 ];
