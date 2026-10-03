@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v2.3.0";
+const CACHE_VERSION = "v3.0.0";
 const CACHE_NAME = `budget-app-${CACHE_VERSION}`;
 
 
